@@ -1,0 +1,1 @@
+print("tu zaraz coś będzie")
