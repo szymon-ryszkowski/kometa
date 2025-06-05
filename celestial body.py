@@ -15,7 +15,7 @@ i argument perycentrum wzrasta zgodnie z kierunkiem ruchu ciała.
 
 Anomalia prawdziwa theta = 0 dla przejścia przez perycentrum, narasta wraz z ruchem ciała.
 
-Program oblicza współrzędne x, y, z oraz składowe v_x, v_Y, v_z
+Program oblicza współrzędne x, y, z oraz składowe v_x, v_Y, v_z w momencie stworzenia obiektu
 
 do konwersji współrzędnych potrzebny jest jeszcze czas t[s] w momencie początka symulacji(UWAGA, nie jest
 on używany do obliczania czegokolwiek bezpośrednio, podobnie t_0. Jest to informacja dla programu, że gdy
@@ -30,6 +30,8 @@ Pomocniczo wykorzystuję sferyczny układ współrzędnych. Kąt phi jest u mnie
 theta = 0 jest dla kierunku dodatnich X-ów. 
 
 dodatkowo obliczany jest moment pędu L
+
+
 '''
 
 
