@@ -2,7 +2,7 @@ from math import *
 '''
 oto klasa która będzie reprezentować Ziemię i kometę
 Deklaruje je się tak jak poniżej:
-Ziemia = celestial_body(a_z, e_z, i_z, t_0_z, arg_of_per_z, long_of_asc_z, r_z, t_z, 1.9891*10**30, 6.6743*10**-11)
+Ziemia = celestial_body(a_z, e_z, i_z, t_0_z, arg_of_per_z, long_of_asc_z, r_z, t, 1.9891*10**30, 6.6743*10**-11)
 Gdzie:
 a - półoś wielka[m]
 e - mimośród[bez jednostek]
