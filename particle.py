@@ -3,8 +3,6 @@
 import numpy as np
 from math import *
 
-from statsmodels.tsa.forecasting import theta
-
 particles = np.zeros((0, 7))
 
 def generate_velocity(v):
