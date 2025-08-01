@@ -3,7 +3,7 @@
 import numpy as np
 from math import *
 import config as conf
-from config import scale
+from config import scale, absolute_ratio_H_2O
 
 particles = np.zeros((0, 7))
 queue_H_20 = 0
