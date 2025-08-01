@@ -2,7 +2,7 @@
 
 import numpy as np
 from math import *
-
+import config as conf
 particles = np.zeros((0, 7))
 
 def generate_velocity(v):
@@ -25,3 +25,6 @@ def create_particle(v, x, y, z):
     particle[5] = velocity[1] # v_y
     particle[6] = velocity[2] # v_z
     return particle
+
+def calculate_sim_ratio(absolute_ratio, scale, r, n):
+    return absolute_ratio*(r/conf.AU)**n
