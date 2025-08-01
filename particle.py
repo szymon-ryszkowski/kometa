@@ -3,7 +3,10 @@
 import numpy as np
 from math import *
 import config as conf
+from config import scale
+
 particles = np.zeros((0, 7))
+queue_H_20 = 0
 
 def generate_velocity(v):
     velocity = [0, 0, 0]
@@ -28,3 +31,10 @@ def create_particle(v, x, y, z):
 
 def calculate_sim_ratio(absolute_ratio, scale, r, n):
     return absolute_ratio*(r/conf.AU)**n
+
+def add_particles(v, x, y, z):
+    global queue_H_2O
+    n = queue_H_20 % scale
+    queue -= n*scale
+    for i in range(n):
+        create_particle(v, x, y, z)
