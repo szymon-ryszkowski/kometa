@@ -94,10 +94,12 @@ class celestial_body:
         #predkość tangencjalna
         #rozbicie wzdłuż równoleżnika i południka
         sin_beta = 0
-        if sin(angle_1) != 0:
+        if sin(angle_1) != 0 and self.i != 0:
             sin_beta = sin_horizontal_pom / sin(angle_1)
-        else:
+        elif self.i != 0:
             sin_beta = sin(self.i)
+        else:
+            sin_beta = 1
         v_latitude = v_tan*sin_beta
         cos_beta = sqrt(1 - sin_beta**2)
         if(cos_horizontal_pom < 0):

@@ -4,12 +4,11 @@ import celestial_body as cb
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-kometa = cb.celestial_body(2*config.AU, 0.2, 0, 0, 90, 90, 2*config.AU, -1, config.M, config.G)
+kometa = cb.celestial_body(2*config.AU, 0.2, 0, 0, 0, 10, 2*config.AU, -1, config.M, config.G)
 #zapis trajektorii komety
 x_traj = []
 y_traj = []
 z_traj = []
-
 for i in range(config.n_steps):
     x_traj.append(kometa.x)
     y_traj.append(kometa.y)
@@ -26,7 +25,6 @@ for i in range(config.n_steps):
     acceleration_x = -kometa.x*config.G*config.M/(kometa.x**2 + kometa.y**2 + kometa.z**2)**1.5
     acceleration_y = -kometa.y*config.G*config.M/(kometa.x**2 + kometa.y**2 + kometa.z**2)**1.5
     acceleration_z = -kometa.z*config.G*config.M/(kometa.x**2 + kometa.y**2 + kometa.z**2)**1.5
-    print(acceleration_x, acceleration_y, acceleration_z)
     kometa.v_x += acceleration_x*config.dt
     kometa.v_y += acceleration_y*config.dt
     kometa.v_z += acceleration_z*config.dt
