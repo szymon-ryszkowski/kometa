@@ -6,7 +6,7 @@ import config as conf
 from config import scale, absolute_ratio_H_2O
 
 particles = np.zeros((0, 7))
-queue_H_20 = 0
+queue_H_2O = 0
 
 def generate_velocity(v):
     velocity = [0, 0, 0]
@@ -29,12 +29,12 @@ def create_particle(v, x, y, z):
     particle[6] = velocity[2] # v_z
     return particle
 
-def calculate_sim_ratio(absolute_ratio, scale, r, n):
+def calculate_sim_ratio(absolute_ratio, r, n):
     return absolute_ratio*(r/conf.AU)**n
 
 def add_particles(v, x, y, z):
     global queue_H_2O
-    n = queue_H_20 % scale
-    queue -= n*scale
+    n = int(queue_H_2O % scale)
+    queue_H_2O -= n*scale
     for i in range(n):
         create_particle(v, x, y, z)

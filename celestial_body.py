@@ -65,7 +65,6 @@ class celestial_body:
         else:
             theta = 2*pi - acos(cos_theta)
         angle_1 = self.arg_of_per+theta
-        print(angle_1)
         sin_vertical = sin(self.i) * sin(angle_1)
         cos_vertical = sqrt(1 - (sin(self.i) * sin(angle_1))**2)
         if(self.i > pi/2):
