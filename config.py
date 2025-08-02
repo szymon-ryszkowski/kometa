@@ -49,7 +49,7 @@ AU = 1.496*10**11
 
 absolute_ratio_H_2O = 10**6 # stała mówiąca raz na ile powstaje H2O na komecie w odlełości 1AU
 
-scale = 1.1*10**12 # ile cząstek w rzeczywistości oznacza jedna cząstka u nas
+scale = 1*10**12 # ile cząstek w rzeczywistości oznacza jedna cząstka u nas
 
 #stała symulacji
 
