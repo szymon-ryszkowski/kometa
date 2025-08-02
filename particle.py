@@ -33,8 +33,9 @@ def calculate_sim_ratio(absolute_ratio, r, n):
     return absolute_ratio*(r/conf.AU)**n
 
 def add_particles(v, x, y, z):
+    global particles
     global queue_H_2O
     n = int((queue_H_2O - queue_H_2O % scale)/scale)
     queue_H_2O -= n*scale
     for i in range(n):
-        create_particle(v, x, y, z)
+        particles = np.vstack([particles, create_particle(v, x, y, z)])
