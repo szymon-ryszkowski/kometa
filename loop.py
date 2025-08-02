@@ -9,7 +9,7 @@ kometa = cb.celestial_body(2*config.AU, 0.2, 0, 0, 90, 90, 2*config.AU, -1, conf
 x_traj = []
 y_traj = []
 z_traj = []
-print(kometa.z)
+
 for i in range(config.n_steps):
     x_traj.append(kometa.x)
     y_traj.append(kometa.y)
