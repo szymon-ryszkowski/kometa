@@ -4,7 +4,7 @@ import celestial_body as cb
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-kometa = cb.celestial_body(2*config.AU, 0.2, 0, 0, 0, 10, 2*config.AU, -1, config.M, config.G)
+kometa = cb.celestial_body(2*config.AU, 0.2, 90, 0, 0, 0, 2*config.AU, -1, config.M, config.G)
 #zapis trajektorii komety
 x_traj = []
 y_traj = []

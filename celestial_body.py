@@ -70,6 +70,8 @@ class celestial_body:
         if(self.i > pi/2):
             cos_vertical *= -1
         cos_horizontal_pom = cos(angle_1)/cos_vertical
+        if self.i == pi/2 or self.i == 3*pi/2:
+            cos_horizontal_pom = 1
         sin_horizontal_pom = sqrt(1 - cos_horizontal_pom**2)
         if angle_1 > pi:
             sin_horizontal_pom *= -1
