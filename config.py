@@ -55,4 +55,4 @@ scale = 10**6 # ile cząstek w rzeczywistości oznacza jedna cząstka u nas
 
 dt = 10**5 # ile s odpowiada jeden krok
 
-n_steps = 10**4 # ile kroków ma się wykonać
+n_steps = 10**3 # ile kroków ma się wykonać

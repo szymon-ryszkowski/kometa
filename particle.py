@@ -19,14 +19,14 @@ def generate_velocity(v):
     return velocity
 def create_particle(v, x, y, z):
     velocity = generate_velocity(v)
-    particle = np.zeros(1, 7)
-    particle[0] = "H_2O"
-    particle[1] = x # x
-    particle[2] = y # y
-    particle[3] = z # z
-    particle[4] = velocity[0] # v_x
-    particle[5] = velocity[1] # v_y
-    particle[6] = velocity[2] # v_z
+    particle = np.zeros((1, 7))
+    particle[0][0] = 1
+    particle[0][1] = x # x
+    particle[0][2] = y # y
+    particle[0][3] = z # z
+    particle[0][4] = velocity[0] # v_x
+    particle[0][5] = velocity[1] # v_y
+    particle[0][6] = velocity[2] # v_z
     return particle
 
 def calculate_sim_ratio(absolute_ratio, r, n):
@@ -34,7 +34,7 @@ def calculate_sim_ratio(absolute_ratio, r, n):
 
 def add_particles(v, x, y, z):
     global queue_H_2O
-    n = int(queue_H_2O % scale)
+    n = int((queue_H_2O - queue_H_2O % scale)/scale)
     queue_H_2O -= n*scale
     for i in range(n):
         create_particle(v, x, y, z)

@@ -9,3 +9,4 @@ for i in range(config.n_steps):
     pt.queue_H_2O += ratio*config.dt
     pt.add_particles(4, kometa.x, kometa.y, kometa.z)
 print(pt.queue_H_2O)
+print(400000000000.0 % 10**6)
