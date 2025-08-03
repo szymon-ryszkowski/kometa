@@ -2,13 +2,18 @@ import config
 import particle as pt
 import celestial_body as cb
 import matplotlib.pyplot as plt
+
+from math import *
 from mpl_toolkits.mplot3d import Axes3D
 
-kometa = cb.celestial_body(2*config.AU, 0.2, 90, 0, 0, 0, 2*config.AU, -1, config.M, config.G)
+kometa = cb.celestial_body(2*config.AU, 0.2, 4, 0, 36, 72, 2.1*config.AU, -1, config.M, config.G)
 #zapis trajektorii komety
 x_traj = []
 y_traj = []
 z_traj = []
+
+#distances = []
+
 for i in range(config.n_steps):
     x_traj.append(kometa.x)
     y_traj.append(kometa.y)
@@ -28,7 +33,13 @@ for i in range(config.n_steps):
     kometa.v_x += acceleration_x*config.dt
     kometa.v_y += acceleration_y*config.dt
     kometa.v_z += acceleration_z*config.dt
+
+    #distance = sqrt(kometa.x ** 2 + kometa.y ** 2 + kometa.z ** 2)/config.AU
+    #distances.append(distance)
+
 #wizualizacja 3d
+#print(f'Minimalna odległość komety: {min(distances):.2e} m')
+#print(f'Maksymalna odległość komety: {max(distances):.2e} m')
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 ax.plot(x_traj, y_traj, z_traj, label='Trajektoria komety')

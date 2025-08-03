@@ -15,7 +15,7 @@ i argument perycentrum wzrasta zgodnie z kierunkiem ruchu ciała.
 
 Anomalia prawdziwa theta = 0 dla przejścia przez perycentrum, narasta wraz z ruchem ciała.
 
-Program oblicza współrzędne x, y, z oraz składowe v_x, v_Y, v_z w momencie stworzenia obiektu
+Program oblicza współrzędne x, y, z oraz składowe v_X, v_Y, v_z w momencie stworzenia obiektu
 
 do konwersji współrzędnych potrzebny jest jeszcze czas t[s] w momencie początka symulacji(UWAGA, nie jest
 on używany do obliczania czegokolwiek bezpośrednio, podobnie t_0. Jest to informacja dla programu, że gdy
@@ -81,7 +81,7 @@ class celestial_body:
         #położenie
         self.x = self.r*cos_vertical * cos_horizontal
         self.y = self.r*cos_vertical * sin_horizontal
-        self.z = sin(self.i) * sin(angle_1) * self.r
+        self.z = sin_vertical * self.r
 
         #prędkosci
         v = sqrt(self.G * self.M * (2 / self.r - 1 / self.a))
@@ -91,8 +91,8 @@ class celestial_body:
             v_rad *= -1
         #prędkość radialna
         self.v_z += v_rad*sin_vertical
-        self.v_x -= v_rad*cos_vertical*cos_horizontal
-        self.v_y -= v_rad*cos_vertical*sin_horizontal
+        self.v_x += v_rad*cos_vertical*cos_horizontal
+        self.v_y += v_rad*cos_vertical*sin_horizontal
         #predkość tangencjalna
         #rozbicie wzdłuż równoleżnika i południka
         sin_beta = 0
