@@ -21,7 +21,7 @@ for i in range(config.n_steps):
     #utwórz cząstki
     ratio = pt.calculate_sim_ratio(config.absolute_ratio_H_2O, kometa.r, 2)
     pt.queue_H_2O += ratio*config.dt
-    pt.add_particles(4000, kometa.x, kometa.y, kometa.z, kometa.v_x, kometa.v_y, kometa.v_z)
+    pt.add_particles(1000, kometa.x, kometa.y, kometa.z, kometa.v_x, kometa.v_y, kometa.v_z)
 
     #przesun komete i zmien predkosc
     kometa.x += kometa.v_x*config.dt
