@@ -46,7 +46,7 @@ for i in range(config.n_steps):
 #wizualizacja 3d
 #print(f'Minimalna odległość komety: {min(distances):.2e} m')
 #print(f'Maksymalna odległość komety: {max(distances):.2e} m')
-print(pt.particles.shape)
+#print(pt.particles.shape)
 #print(pt.particles[:, 4], pt.particles[:, 5], pt.particles[:, 6])
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
