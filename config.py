@@ -47,12 +47,12 @@ AU = 1.496*10**11
 
 # Stałe do powstawania cząstek
 
-absolute_ratio_H_2O = 10**9 # stała mówiąca raz na ile powstaje H2O na komecie w odlełości 1AU
+absolute_ratio_H_2O = 10**7 # stała mówiąca raz na ile powstaje H2O na komecie w odlełości 1AU
 
 scale = 1*10**12 # ile cząstek w rzeczywistości oznacza jedna cząstka u nas
 
 #stała symulacji
 
-dt = 10**2 # ile s odpowiada jeden krok
+dt = 10**4 # ile s odpowiada jeden krok
 
 n_steps = 10**4 # ile kroków ma się wykonać

@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from math import *
 from mpl_toolkits.mplot3d import Axes3D
 
-kometa = cb.celestial_body(2*config.AU, 0.2, 0, 0, 36, 72, 2.1*config.AU, -1, config.M, config.G)
+kometa = cb.celestial_body(4*config.AU, 0.5, 0, 0, 0, 0, 2*config.AU, 1, config.M, config.G)
 #zapis trajektorii komety
 x_traj = []
 y_traj = []
@@ -52,7 +52,7 @@ for i in range(config.n_steps):
 #wizualizacja 3d
 #print(f'Minimalna odległość komety: {min(distances):.2e} m')
 #print(f'Maksymalna odległość komety: {max(distances):.2e} m')
-#print(pt.particles.shape)
+print(pt.particles.shape)
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 ax.scatter(pt.particles[:, 1], pt.particles[:, 2], pt.particles[:, 3], color='red', s=1, label='Cząstki')
