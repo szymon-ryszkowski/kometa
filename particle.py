@@ -10,9 +10,10 @@ queue_H_2O = 0
 
 def generate_velocity(v):
     velocity = [0, 0, 0]
-    angle = np.random.rand() * 2*pi #longnitude
-    cos_theta = np.random.rand() * 2 - 1 # cos(latitude)
-    velocity[2] = v*sqrt(1 - cos_theta**2) # składowa z
+    angle = np.random.uniform(0, 1) * 2*pi #longnitude
+    sin_theta = np.random.uniform(0, 1) * 2 - 1 # cos(latitude)
+    cos_theta = sqrt(1 - sin_theta**2)
+    velocity[2] = v*sin_theta # składowa z
     velocity[1] = v*cos_theta*sin(angle) # składowa y
     velocity[0] = v*cos_theta*cos(angle) #składowa x
     return velocity

@@ -53,6 +53,6 @@ scale = 1*10**12 # ile cząstek w rzeczywistości oznacza jedna cząstka u nas
 
 #stała symulacji
 
-dt = 10**1 # ile s odpowiada jeden krok
+dt = 10**2 # ile s odpowiada jeden krok
 
 n_steps = 10**4 # ile kroków ma się wykonać
