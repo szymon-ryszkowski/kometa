@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from math import *
 from mpl_toolkits.mplot3d import Axes3D
 
-kometa = cb.celestial_body(4*config.AU, 0.5, 0, 0, 0, 0, 2*config.AU, 1, config.M, config.G)
+kometa = cb.celestial_body(config.a_k*config.AU, config.e_k, config.i_k, config.t_0_k, config.arg_of_per_k, config.long_of_asc_z_k, config.r_m_k*config.AU, config.t_m, config.M, config.G)
 #zapis trajektorii komety
 x_traj = []
 y_traj = []
@@ -42,9 +42,9 @@ for i in range(config.n_steps):
     pt.particles[:, 2] += pt.particles[:, 5] * config.dt
     pt.particles[:, 3] += pt.particles[:, 6] * config.dt
     #zmien prędkosc
-    acceleration_x = -pt.particles[:, 1]*config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5
-    acceleration_y = -pt.particles[:, 2]*config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5
-    acceleration_z = -pt.particles[:, 3]*config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5
+    acceleration_x = -pt.particles[:, 1]*config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*(1 - pt.particles[:, 7])
+    acceleration_y = -pt.particles[:, 2]*config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*(1 - pt.particles[:, 7])
+    acceleration_z = -pt.particles[:, 3]*config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*(1 - pt.particles[:, 7])
 
     pt.particles[:, 4] += acceleration_x*config.dt
     pt.particles[:, 5] += acceleration_y*config.dt

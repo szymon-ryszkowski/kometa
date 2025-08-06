@@ -2,10 +2,10 @@
 
 import numpy as np
 from math import *
-import config as conf
+import config as config
 from config import scale, absolute_ratio_H_2O
 
-particles = np.zeros((0, 7))
+particles = np.zeros((0, 8))
 queue_H_2O = 0
 
 def generate_velocity(v):
@@ -19,18 +19,19 @@ def generate_velocity(v):
     return velocity
 def create_particle(v, x, y, z, v_x, v_y, v_z):
     velocity = generate_velocity(v)
-    particle = np.zeros((1, 7))
-    particle[0][0] = 1
+    particle = np.zeros((1, 8))
+    particle[0][0] = 0
     particle[0][1] = x # x
     particle[0][2] = y # y
     particle[0][3] = z # z
     particle[0][4] = velocity[0] + v_x# v_x
     particle[0][5] = velocity[1] + v_y# v_y
     particle[0][6] = velocity[2] + v_z# v_z
+    particle[0][7] = config.mu[0]
     return particle
 create_particle(4, 1, 1, 1, 4, 4, 4)
 def calculate_sim_ratio(absolute_ratio, r, n):
-    return absolute_ratio*(r/conf.AU)**n
+    return absolute_ratio*(r/config.AU)**n
 
 def add_particles(v, x, y, z, v_x, v_y, v_z):
     global particles
