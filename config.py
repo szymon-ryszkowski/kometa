@@ -47,7 +47,7 @@ AU = 1.496*10**11
 
 I_s = 1361 # Stała Słoneczna
 
-mu = [0.6]
+mu = [0.3]
 
 # Stałe do powstawania cząstek
 
@@ -59,4 +59,4 @@ scale = 1*10**12 # ile cząstek w rzeczywistości oznacza jedna cząstka u nas
 
 dt = 10**4 # ile s odpowiada jeden krok
 
-n_steps = 10**3 # ile kroków ma się wykonać
+n_steps = 10**4 # ile kroków ma się wykonać
