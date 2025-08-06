@@ -34,7 +34,7 @@ z_traj = []
 #distances = []
 
 for i in range(config.n_steps):
-    '''if i % 3 == 0:
+    if i % 3 == 0:
         traj_line.set_data(x_traj, y_traj)
         traj_line.set_3d_properties(z_traj)
         if pt.particles.shape[0] > 0:
@@ -43,12 +43,12 @@ for i in range(config.n_steps):
         plt.pause(0.01)
         ax.set_xlim([kometa.x - 3e8, kometa.x + 3e8])
         ax.set_ylim([kometa.y - 3e8, kometa.y + 3e8])
-        ax.set_zlim([kometa.z - 3e8, kometa.z + 3e8])'''
+        ax.set_zlim([kometa.z - 3e8, kometa.z + 3e8])
     x_traj.append(kometa.x)
     y_traj.append(kometa.y)
     z_traj.append(kometa.z)
     #utwórz cząstki
-    ratio = pt.calculate_sim_ratio(config.absolute_ratio_H_2O, kometa.r, 3)
+    ratio = pt.calculate_sim_ratio(config.absolute_ratio_H_2O, sqrt(kometa.x**2 + kometa.y**2 + kometa.z**2), 3)
     pt.queue_H_2O += ratio*config.dt
     pt.add_particles(100, kometa.x, kometa.y, kometa.z, kometa.v_x, kometa.v_y, kometa.v_z)
     #przesun komete i zmien predkosc
@@ -61,7 +61,7 @@ for i in range(config.n_steps):
     kometa.v_x += acceleration_x*config.dt
     kometa.v_y += acceleration_y*config.dt
     kometa.v_z += acceleration_z*config.dt
-
+    print(ratio)
     #distance = sqrt(kometa.x ** 2 + kometa.y ** 2 + kometa.z ** 2)/config.AU
     #distances.append(distance)
 
