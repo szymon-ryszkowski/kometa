@@ -5,7 +5,7 @@ name_k = "" # nazwa obiektu
 
 a_k = 2# półoś wielka obiektu [AU]
 
-e_k = 0.2# mimośród oribty
+e_k = 0.7# mimośród oribty
 
 i_k = 0# inklinacja orbity [stopnie]
 
@@ -15,7 +15,7 @@ arg_of_per_k = 0#argument perycentrum[stopnie]
 
 long_of_asc_z_k =  0# długość węzła wstępującego[stopnie]
 
-r_m_k = 2# odległość od Słońca na początku symulacji [AU]
+r_m_k = 3.3# odległość od Słońca na początku symulacji [AU]
 
 t_k = -1# czas w momencie początku symulacji [s]
 
@@ -47,13 +47,13 @@ AU = 1.496*10**11
 
 I_s = 1361 # Stała Słoneczna
 
-mu = [0.3]
+mu = [0.0001] # sotsunek siły ciśnienia promieniowania do siły grawitacji
 
 # Stałe do powstawania cząstek
 
 absolute_ratio_H_2O = 10**7 # stała mówiąca raz na ile powstaje H2O na komecie w odlełości 1AU
 
-scale = 1*10**12 # ile cząstek w rzeczywistości oznacza jedna cząstka u nas
+scale = 1*10**13 # ile cząstek w rzeczywistości oznacza jedna cząstka u nas
 
 #stała symulacji
 
