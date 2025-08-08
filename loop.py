@@ -104,5 +104,4 @@ def show_final():
     plt.show()
 
 #show_final()
-for i in range(0, pt.particles.shape[0]):
-    print(pt.particles[i, 0])
+print(pt.particles.shape)

@@ -55,7 +55,7 @@ AU = 1.496*10**11
 
 I_s = 1361 # Stała Słoneczna
 
-mu = [0, 0.2] # sotsunek siły ciśnienia promieniowania do siły grawitacji
+mu = [0, 1] # sotsunek siły ciśnienia promieniowania do siły grawitacji
 
 # Stałe do powstawania cząstek
 
@@ -71,4 +71,4 @@ n_steps = 5*10**4 # ile kroków ma się wykonać
 
 #rate-rozpadu[TEST]
 
-dissection_rate = 10**-7
+dissection_rate = 10**-8
