@@ -17,6 +17,7 @@ def generate_velocity(v):
     velocity[1] = v*cos_theta*sin(angle) # składowa y
     velocity[0] = v*cos_theta*cos(angle) #składowa x
     return velocity
+#dodanie wiersza do czastek
 def create_particle(v, x, y, z, v_x, v_y, v_z):
     velocity = generate_velocity(v)
     particle = np.zeros((1, 8))
@@ -30,9 +31,12 @@ def create_particle(v, x, y, z, v_x, v_y, v_z):
     particle[0][7] = config.mu[0]
     return particle
 create_particle(4, 1, 1, 1, 4, 4, 4)
+
+#przeliczanie rozpadania sie czastek
 def calculate_sim_ratio(absolute_ratio, r, n):
     return absolute_ratio*(r/config.AU)**n
 
+#dodanie czastek na podstawie kolejki
 def add_particles(v, x, y, z, v_x, v_y, v_z):
     global particles
     global queue_H_2O
@@ -40,3 +44,10 @@ def add_particles(v, x, y, z, v_x, v_y, v_z):
     queue_H_2O -= n*scale
     for i in range(n):
         particles = np.vstack([particles, create_particle(v, x, y, z, v_x, v_y, v_z)])
+
+def dissect(dissection_rate, dt):
+    global particles
+    chance = 1 - np.exp(-dissection_rate * dt)
+    mask = np.random.rand(particles.shape[0]) < chance
+    particles[mask, 0] = 1
+    particles[mask, 7] = np.array(config.mu)[particles[mask, 0].astype(int)]
