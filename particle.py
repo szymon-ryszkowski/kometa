@@ -3,8 +3,8 @@
 import numpy as np
 from math import *
 import config as config
-from config import scale, absolute_ratio_H_2O
 
+#tablica particles i kolejka do generowania H2O
 particles = np.zeros((0, 8))
 queue_H_2O = 0
 
@@ -21,15 +21,16 @@ def generate_velocity(v):
 def create_particle(v, x, y, z, v_x, v_y, v_z):
     velocity = generate_velocity(v)
     particle = np.zeros((1, 8))
-    particle[0][0] = 0
+    particle[0][0] = 0 # typ według config.py
     particle[0][1] = x # x
     particle[0][2] = y # y
     particle[0][3] = z # z
     particle[0][4] = velocity[0] + v_x# v_x
     particle[0][5] = velocity[1] + v_y# v_y
     particle[0][6] = velocity[2] + v_z# v_z
-    particle[0][7] = config.mu[0]
+    particle[0][7] = config.mu[0] # mu
     return particle
+#dodanie 1 cząstki
 create_particle(4, 1, 1, 1, 4, 4, 4)
 
 #przeliczanie rozpadania sie czastek
@@ -40,11 +41,11 @@ def calculate_sim_ratio(absolute_ratio, r, n):
 def add_particles(v, x, y, z, v_x, v_y, v_z):
     global particles
     global queue_H_2O
-    n = int((queue_H_2O - queue_H_2O % scale)/scale)
-    queue_H_2O -= n*scale
+    n = int((queue_H_2O - queue_H_2O % config.scale)/config.scale)
+    queue_H_2O -= n*config.scale
     for i in range(n):
         particles = np.vstack([particles, create_particle(v, x, y, z, v_x, v_y, v_z)])
-
+#rozpadanie(przemiana jak na razie) cząstek
 def dissect(dissection_rate, dt):
     global particles
     chance = 1 - np.exp(-dissection_rate * dt)

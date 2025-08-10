@@ -7,7 +7,7 @@ from math import *
 from mpl_toolkits.mplot3d import Axes3D
 kometa = cb.celestial_body(config.a_k*config.AU, config.e_k, config.i_k, config.t_0_k, config.arg_of_per_k, config.long_of_asc_z_k, config.r_m_k*config.AU, config.t_m, config.M, config.G)
 
-#animacja 3d
+#animacja 3d przygotowanie wykresu (czerwone cząstki - H2O, turkusowe - typu 1)
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
@@ -25,15 +25,18 @@ ax.legend()
 plt.ion()  # Włącza interaktywne rysowanie
 plt.show()
 
+
+#deklaracja komety
 kometa = cb.celestial_body(config.a_k*config.AU, config.e_k, config.i_k, config.t_0_k, config.arg_of_per_k, config.long_of_asc_z_k, config.r_m_k*config.AU, config.t_m, config.M, config.G)
 #zapis trajektorii komety
 x_traj = []
 y_traj = []
 z_traj = []
-
+#zapis odległości do Słońca komety(do sprawdzania poprawności celestial_body.pu i loop.py)
 distances = []
 
 for i in range(config.n_steps):
+    # animacja 3d
     if i % 100 == 0:
         traj_line.set_data(x_traj, y_traj)
         traj_line.set_3d_properties(z_traj)
@@ -48,6 +51,7 @@ for i in range(config.n_steps):
         ax.set_xlim([kometa.x - 5e11, kometa.x + 5e11])
         ax.set_ylim([kometa.y - 5e11, kometa.y + 5e11])
         ax.set_zlim([kometa.z - 5e11, kometa.z + 5e11])
+    #dodaj trajektorie do wyswietlenia
     x_traj.append(kometa.x)
     y_traj.append(kometa.y)
     z_traj.append(kometa.z)
@@ -55,10 +59,11 @@ for i in range(config.n_steps):
     ratio = pt.calculate_sim_ratio(config.absolute_ratio_H_2O, sqrt(kometa.x**2 + kometa.y**2 + kometa.z**2), -3)
     pt.queue_H_2O += ratio*config.dt
     pt.add_particles(1000, kometa.x, kometa.y, kometa.z, kometa.v_x, kometa.v_y, kometa.v_z)
-    #przesun komete i zmien predkosc
+    #przesun komete
     kometa.x += kometa.v_x*config.dt
     kometa.y += kometa.v_y*config.dt
     kometa.z += kometa.v_z*config.dt
+    #zmien predkosc
     acceleration_x = -kometa.x*config.G*config.M/(kometa.x**2 + kometa.y**2 + kometa.z**2)**1.5
     acceleration_y = -kometa.y*config.G*config.M/(kometa.x**2 + kometa.y**2 + kometa.z**2)**1.5
     acceleration_z = -kometa.z*config.G*config.M/(kometa.x**2 + kometa.y**2 + kometa.z**2)**1.5
@@ -66,8 +71,10 @@ for i in range(config.n_steps):
     kometa.v_y += acceleration_y*config.dt
     kometa.v_z += acceleration_z*config.dt
 
+    #rozpadnij cząstki
     pt.dissect(config.dissection_rate, config.dt)
 
+    #policz minimalną i maksymalną odległość do komety(do sprawdzania poprawności celestial_body.pu i loop.py)
     distance = sqrt(kometa.x ** 2 + kometa.y ** 2 + kometa.z ** 2)/config.AU
     distances.append(distance)
 
@@ -83,10 +90,12 @@ for i in range(config.n_steps):
     pt.particles[:, 4] += acceleration_x*config.dt
     pt.particles[:, 5] += acceleration_y*config.dt
     pt.particles[:, 6] += acceleration_z*config.dt
-    #animacja 3d
-#wizualizacja 3d
+
+
+
 print(f'Minimalna odległość komety: {min(distances):.2e} m')
 print(f'Maksymalna odległość komety: {max(distances):.2e} m')
+#wizualizacja 3d końcowego stanu
 def show_final():
     print(pt.particles.shape)
     global x_traj, y_traj, z_traj
@@ -104,4 +113,4 @@ def show_final():
     plt.show()
 
 #show_final()
-print(pt.particles.shape)
+#print(pt.particles.shape)

@@ -57,7 +57,7 @@ class celestial_body:
         self.convert_cartesian_coordinates()
 
     def convert_cartesian_coordinates(self):
-        #pomocnicze kąty
+        #pomocnicze kąty i funkcje trygonometryczne
         cos_theta = ((self.a*(1 - self.e**2)/self.r) - 1)/self.e
         theta = 0
         if(self.t > self.t_0):

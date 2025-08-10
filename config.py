@@ -71,4 +71,4 @@ n_steps = 5*10**4 # ile kroków ma się wykonać
 
 #rate-rozpadu[TEST]
 
-dissection_rate = 10**-8
+dissection_rate = 10**-8 # rate rozpadu(na razie przemiany czastek)[TEST]
