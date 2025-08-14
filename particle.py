@@ -17,6 +17,8 @@ def generate_velocity(v):
     velocity[1] = v*cos_theta*sin(angle) # składowa y
     velocity[0] = v*cos_theta*cos(angle) #składowa x
     return velocity
+
+
 #dodanie wiersza do czastek
 def create_particle(v, x, y, z, v_x, v_y, v_z):
     velocity = generate_velocity(v)
@@ -45,6 +47,8 @@ def add_particles(v, x, y, z, v_x, v_y, v_z):
     queue_H_2O -= n*config.scale
     for i in range(n):
         particles = np.vstack([particles, create_particle(v, x, y, z, v_x, v_y, v_z)])
+
+
 #rozpadanie(przemiana jak na razie) cząstek
 def dissect(dissection_rate, dt):
     global particles
@@ -52,3 +56,10 @@ def dissect(dissection_rate, dt):
     mask = np.random.rand(particles.shape[0]) < chance
     particles[mask, 0] = 1
     particles[mask, 7] = np.array(config.mu)[particles[mask, 0].astype(int)]
+
+
+
+def count_particles():
+    global particles
+    mask = particles[:,0]==0
+    print("ilość cząsteczek H_20",len(particles[mask]))

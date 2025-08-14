@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from math import *
 from mpl_toolkits.mplot3d import Axes3D
+#deklaracja komety
 kometa = cb.celestial_body(config.a_k*config.AU, config.e_k, config.i_k, config.t_0_k, config.arg_of_per_k, config.long_of_asc_z_k, config.r_m_k*config.AU, config.t_m, config.M, config.G)
 
 #animacja 3d przygotowanie wykresu (czerwone cząstki - H2O, turkusowe - typu 1)
@@ -26,8 +27,8 @@ plt.ion()  # Włącza interaktywne rysowanie
 plt.show()
 
 
-#deklaracja komety
-kometa = cb.celestial_body(config.a_k*config.AU, config.e_k, config.i_k, config.t_0_k, config.arg_of_per_k, config.long_of_asc_z_k, config.r_m_k*config.AU, config.t_m, config.M, config.G)
+
+
 #zapis trajektorii komety
 x_traj = []
 y_traj = []
@@ -36,6 +37,7 @@ z_traj = []
 distances = []
 
 for i in range(config.n_steps):
+    pt.count_particles()
     # animacja 3d
     if i % 100 == 0:
         traj_line.set_data(x_traj, y_traj)
@@ -111,6 +113,7 @@ def show_final():
     ax.set_title('Trajektoria komety w 3D')
     ax.legend()
     plt.show()
+
 
 #show_final()
 #print(pt.particles.shape)
