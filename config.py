@@ -59,7 +59,7 @@ AU = 1.496*10**11
 
 I_s = 1361 # Stała Słoneczna
 
-mu = [0, 1] # sotsunek siły ciśnienia promieniowania do siły grawitacji
+mu = [0, 1, 0] # sotsunek siły ciśnienia promieniowania do siły grawitacji
 
 # Stałe do powstawania cząstek
 

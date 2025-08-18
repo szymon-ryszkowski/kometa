@@ -50,14 +50,24 @@ def add_particles(v, x, y, z, v_x, v_y, v_z):
 
 
 #rozpadanie(przemiana jak na razie) cząstek
-def dissect(dissection_rate, dt):
+def dissect(distance, dt):
     global particles
-    chance = 1 - np.exp(-dissection_rate * dt)
-    mask = np.random.rand(particles.shape[0]) < chance
-    particles[mask, 0] = 1
-    particles[mask, 7] = np.array(config.mu)[particles[mask, 0].astype(int)]
+
+    mask_h = particles[:, 0] == 1
+    chance = 1 - np.exp(-7.26e-8 * dt)
+    mask = np.random.rand(particles[mask_h].shape[0]) > chance
+    particles = np.vstack([particles[~mask_h], particles[mask_h][mask]])
+
+    mask_h2o = particles[:, 0] == 0
+    chance = 1 - np.exp(-1.03e-5 * dt)
+    mask = np.random.rand(particles[mask_h2o].shape[0]) < chance
+    particles[mask_h2o][mask, 0] = 2
+    nowe_particles = particles[mask_h2o][mask]
+    nowe_particles[:, 0] = 1
+    particles = np.vstack([particles, nowe_particles])
 
 
+    particles[:, 7] = np.array(config.mu)[particles[:, 0].astype(int)]
 
 def count_particles():
     global particles
