@@ -79,6 +79,7 @@ dissection_rate = 10**-8 # rate rozpadu(na razie przemiany czastek)[TEST]
 
 data_startowa =  datetime(1947, 2, 14)
 
+
 dzien_krok = (60*60*24)/dt #ile kroków w dniu
-dzien = data_startowa + timedelta(days = sun._data["dany krok"%(dzien_krok)])
+#ile_dni = data_startowa + timedelta(days = sun._data["dany krok"%(dzien_krok)])
 
