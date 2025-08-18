@@ -4,13 +4,14 @@ import celestial_body as cb
 import matplotlib.pyplot as plt
 import numpy as np
 import Sun
-from datetime import datetime
+from datetime import date
+from datetime import timedelta
 from math import *
 from mpl_toolkits.mplot3d import Axes3D
 #deklaracja komety
 kometa = cb.celestial_body(config.a_k*config.AU, config.e_k, config.i_k, config.t_0_k, config.arg_of_per_k, config.long_of_asc_z_k, config.r_m_k*config.AU, config.t_m, config.M, config.G)
 
-dany_dzien = datetime(int(input()),int(input()),int(input()))
+dany_dzien = date(int(input()),int(input()),int(input()))
 
 #animacja 3d przygotowanie wykresu (czerwone cząstki - H2O, turkusowe - typu 1)
 fig = plt.figure()
@@ -40,13 +41,15 @@ z_traj = []
 #zapis odległości do Słońca komety(do sprawdzania poprawności celestial_body.pu i loop.py)
 distances = []
 liczba_krokow = 0
+ile_dni = dany_dzien - config.data_startowa
+ile_dni = int(ile_dni.days)
 
 for i in range(config.n_steps):
     liczba_krokow +=1
-    ile_dni = dany_dzien - config.data_startowa
-    print(ile_dni)
-    pt.count_particles()
-    #aktywnosc = Sun.sun_aktywnosc()
+    aktualna_data = dany_dzien + timedelta(days = liczba_krokow / config.dzien_krok)
+    print(aktualna_data)
+    print(int(liczba_krokow / config.dzien_krok))
+    aktywnosc = Sun.sun_aktywnosc(int(ile_dni + (liczba_krokow / config.dzien_krok)))
     # animacja 3d
     if i % 100 == 0:
         traj_line.set_data(x_traj, y_traj)
