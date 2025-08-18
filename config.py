@@ -1,4 +1,8 @@
 from math import *
+from datetime import datetime
+from datetime import timedelta
+import Sun as sun
+
 
 # konwencja numeracji cząstek
 # 0 - H2O
@@ -72,3 +76,9 @@ n_steps = 5*10**4 # ile kroków ma się wykonać
 #rate-rozpadu[TEST]
 
 dissection_rate = 10**-8 # rate rozpadu(na razie przemiany czastek)[TEST]
+
+data_startowa =  datetime(1947, 2, 14)
+
+dzien_krok = (60*60*24)/dt #ile kroków w dniu
+dzien = data_startowa + timedelta(days = sun._data["dany krok"%(dzien_krok)])
+

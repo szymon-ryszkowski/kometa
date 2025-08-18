@@ -3,6 +3,7 @@ import particle as pt
 import celestial_body as cb
 import matplotlib.pyplot as plt
 import numpy as np
+import Sun
 from math import *
 from mpl_toolkits.mplot3d import Axes3D
 #deklaracja komety
@@ -38,6 +39,7 @@ distances = []
 
 for i in range(config.n_steps):
     pt.count_particles()
+    aktywnosc = Sun.sun_aktywnosc()
     # animacja 3d
     if i % 100 == 0:
         traj_line.set_data(x_traj, y_traj)
