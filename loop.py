@@ -11,7 +11,28 @@ from mpl_toolkits.mplot3d import Axes3D
 #deklaracja komety
 kometa = cb.celestial_body(config.a_k*config.AU, config.e_k, config.i_k, config.t_0_k, config.arg_of_per_k, config.long_of_asc_z_k, config.r_m_k*config.AU, config.t_m, config.M, config.G)
 
-dany_dzien = date(int(input()),int(input()),int(input()))
+print("podaj rok w zakresie od 1948 do 2024- ")
+rok=int(input())
+while rok<1948 or rok>2024 and rok == int(rok):
+    print("podano nieprawidłową datę")
+    rok = int(input())
+print("podaj miesiąc - ")
+miesiac=int(input())
+while miesiac<1 or miesiac>12 and miesiac == int(miesiac):
+    print("podano nieprawidłową datę")
+    miesiac = int(input())
+
+print("podaj dzien - ")
+dzien=int(input())
+while dzien < 1 or dzien > 31 or (miesiac == 2 and dzien > 29) or (rok%4 != 0 and miesiac==2 and dzien>28) or ((miesiac == 4 or miesiac ==6 or miesiac ==9 or miesiac ==11) and dzien>30) and dzien==int(dzien):
+    print("podano nieprawidłową datę")
+    dzien = int(input())
+
+dany_dzien = date(rok,miesiac,dzien)
+
+
+
+
 
 #animacja 3d przygotowanie wykresu (czerwone cząstki - H2O, turkusowe - typu 1)
 fig = plt.figure()
@@ -50,6 +71,7 @@ for i in range(config.n_steps):
     print(aktualna_data)
     pt.count_particles()
     aktywnosc = Sun.sun_aktywnosc(int(ile_dni + (liczba_krokow / config.dzien_krok)))
+    pt.count_particles()
     # animacja 3d
     if i % 100 == 0:
         traj_line.set_data(x_traj, y_traj)
