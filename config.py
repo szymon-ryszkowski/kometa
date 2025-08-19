@@ -8,7 +8,7 @@ from datetime import date
 
 # dane komety
 name_k = ""  # nazwa obiektu
-a_k = 2  # półoś wielka obiektu [AU]
+a_k = 4  # półoś wielka obiektu [AU]
 e_k = 0.7  # mimośród oribty
 i_k = 0  # inklinacja orbity [stopnie]
 t_0_k = 0  # czas przejścia przez perycentrum [s]
@@ -39,7 +39,7 @@ absolute_ratio_H_2O = 1*10**28  # stała mówiąca raz na ile powstaje H2O na ko
 scale = 1*10**32  # ile cząstek w rzeczywistości oznacza jedna cząstka u nas
 
 #stała symulacji
-dt = 3*10**3 # ile s odpowiada jeden krok
+dt = 3*10**4 # ile s odpowiada jeden krok
 n_steps = 5*10**4 # ile kroków ma się wykonać
 
 # daty
@@ -58,3 +58,6 @@ min_H = 7.26E-08
 max_H = 1.72E-07
 min_OH = 1.20E-05
 max_OH = 1.37E-05
+# rozpad wody do tlenu i dwóch wodorów
+min_H20_O_H_H = 7.54E-07
+max_H20_O_H_H = 1.91E-06
