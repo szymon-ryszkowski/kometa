@@ -58,9 +58,10 @@ def define_activity(y,P,Q):
     return P + delta * y
 
 #rozpadanie(przemiana jak na razie) cząstek
-def dissect(aktywnosc,distance, dt):
+def dissect(aktywnosc, odlegosc, dt):
     global particles
-    au2 = (distance/config.AU)**-2
+    au2 = (odlegosc/config.AU)**-2
+
 # rozpad wodoru na protony i elektrony
     mask_h = particles[:, 0] == 1
     #chance = 1 - np.exp(-define_activity(aktywnosc, config.max_H ,config.min_H) * dt * au2)
@@ -73,16 +74,28 @@ def dissect(aktywnosc,distance, dt):
     mask = np.random.rand(particles[mask_oh].shape[0]) <= chance
     particles[mask_oh][mask, 0] = 1
 
+    # rozpad wody na O, H i H
+    mask_h2o = particles[:, 0] == 0
+    chance = define_activity(aktywnosc, config.min_H20_O_H_H, config.max_H20_O_H_H) * dt * au2
+    print(au2)
+
+    mask = np.random.rand(particles[mask_h2o].shape[0]) < chance
+    nowe_particles = particles[mask_h2o][mask]
+    duplikaty = np.repeat(nowe_particles, 2, axis=0)
+    duplikaty[::2, 0] = 1
+    duplikaty[1::2, 0] = 1
+    particles = np.concatenate([particles[~mask_h2o], particles[mask_h2o][~mask], duplikaty], axis=0)
 # rozpad wody na OH i H
     mask_h2o = particles[:, 0] == 0
-    chance = 1 - np.exp(-define_activity(aktywnosc, config.max_OH_H ,config.min_OH_H) * dt * au2)
+    chance = np.exp(define_activity(aktywnosc, config.min_OH_H ,config.max_OH_H) * dt * au2)
     mask = np.random.rand(particles[mask_h2o].shape[0]) < chance
-    print(mask)
     nowe_particles = particles[mask_h2o][mask]
     duplikaty = np.repeat(nowe_particles, 2, axis=0)
     duplikaty[::2, 0] = 1
     duplikaty[1::2, 0] = 2
     particles = np.concatenate([particles[~mask_h2o], particles[mask_h2o][~mask], duplikaty], axis=0)
+
+
 
     particles[:, 7] = np.array(config.mu)[particles[:, 0].astype(int)]
 
