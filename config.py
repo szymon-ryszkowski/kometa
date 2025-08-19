@@ -39,11 +39,18 @@ absolute_ratio_H_2O = 1*10**28 # stała mówiąca raz na ile powstaje H2O na kom
 scale = 1*10**33 # ile cząstek w rzeczywistości oznacza jedna cząstka u nas
 
 #stała symulacji
-
 dt = 3*10**3 # ile s odpowiada jeden krok
-
 n_steps = 5*10**4 # ile kroków ma się wykonać
 
 #daty
 data_startowa =  date(1947, 2, 14) #pierwsza data w danych słońca
 dzien_krok = (60*60*24)/dt #ile kroków w dniu
+
+
+#dane rozpadu
+min_OH_H = 1.03E-05
+max_OH_H = 1.76E-05
+min_H = 7.26E-08
+max_H = 1.72E-07
+min_OH = 1.20E-05
+max_OH = 1.37E-05

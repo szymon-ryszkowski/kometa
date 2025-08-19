@@ -117,7 +117,7 @@ for i in range(config.n_steps):
     kometa.v_z += acceleration_z*config.dt
 
     #rozpadnij cząstki
-    pt.dissect(1, config.dt)
+    pt.dissect(aktywnosc,1, config.dt)
 
     #policz minimalną i maksymalną odległość do komety(do sprawdzania poprawności celestial_body.pu i loop.py)
     distance = sqrt(kometa.x ** 2 + kometa.y ** 2 + kometa.z ** 2)/config.AU

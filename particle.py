@@ -47,25 +47,28 @@ def add_particles(v, x, y, z, v_x, v_y, v_z):
     for i in range(n):
         particles = np.vstack([particles, create_particle(v, x, y, z, v_x, v_y, v_z)])
 
+def define_activity(y,P,Q):
+    delta = Q - P
+    return P + delta * y
 
 #rozpadanie(przemiana jak na razie) cząstek
-def dissect(distance, dt):
+def dissect(aktywnosc,distance, dt):
     global particles
 #rozpad wodoru na protony i elektrony
     mask_h = particles[:, 0] == 1
-    #chance = 7.26e-8 * dt
+    #chance = 1 - np.exp(-define_activity(aktywnosc, config.max_H ,config.min_H) * dt)
     #mask = np.random.rand(particles[mask_h].shape[0]) > chance
     #particles = np.vstack([particles[~mask_h], particles[mask_h][mask]])
 
     # rozpad OH do wodoru
     mask_oh = particles[:, 0] == 2
-    chance = 1.2e-5 * dt
+    chance = 1 - np.exp(-define_activity(aktywnosc, config.max_OH ,config.min_OH) * dt)
     mask = np.random.rand(particles[mask_oh].shape[0]) <= chance
     particles[mask_oh][mask, 0] = 1
 
 #rozpad wody na OH i H
     mask_h2o = particles[:, 0] == 0
-    chance = 1 - np.exp(-1.03e-5 * dt)
+    chance = 1 - np.exp(-define_activity(aktywnosc, config.max_OH_H ,config.min_OH_H) * dt)
     mask = np.random.rand(particles[mask_h2o].shape[0]) < chance
     print(mask)
     nowe_particles = particles[mask_h2o][mask]
