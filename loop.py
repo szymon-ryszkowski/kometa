@@ -48,7 +48,7 @@ for i in range(config.n_steps):
     liczba_krokow +=1
     aktualna_data = dany_dzien + timedelta(days = liczba_krokow / config.dzien_krok)
     print(aktualna_data)
-    print(int(liczba_krokow / config.dzien_krok))
+    pt.count_particles()
     aktywnosc = Sun.sun_aktywnosc(int(ile_dni + (liczba_krokow / config.dzien_krok)))
     # animacja 3d
     if i % 100 == 0:
@@ -65,7 +65,7 @@ for i in range(config.n_steps):
                     4: "orange",
                     5: "purple"
                 }
-                # przypisanie kolorów
+              # przypisanie kolorów
                 colors = np.array([color_map[t] for t in pt.particles[:, 0]])
                 sc._offsets3d = (pt.particles[:, 1], pt.particles[:, 2], pt.particles[:, 3])
                 sc.set_color(colors)

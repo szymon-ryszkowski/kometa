@@ -32,8 +32,7 @@ def create_particle(v, x, y, z, v_x, v_y, v_z):
     particle[0][6] = velocity[2] + v_z# v_z
     particle[0][7] = config.mu[0] # mu
     return particle
-#dodanie 1 cząstki
-create_particle(4, 1, 1, 1, 4, 4, 4)
+
 
 #przeliczanie rozpadania sie czastek
 def calculate_sim_ratio(absolute_ratio, r, n):
@@ -54,26 +53,33 @@ def dissect(distance, dt):
     global particles
 #rozpad wodoru na protony i elektrony
     mask_h = particles[:, 0] == 1
-    chance = 1 - np.exp(-7.26e-8 * dt)
-    mask = np.random.rand(particles[mask_h].shape[0]) > chance
-    particles = np.vstack([particles[~mask_h], particles[mask_h][mask]])
+    #chance = 7.26e-8 * dt
+    #mask = np.random.rand(particles[mask_h].shape[0]) > chance
+    #particles = np.vstack([particles[~mask_h], particles[mask_h][mask]])
+
+    # rozpad OH do wodoru
+    mask_oh = particles[:, 0] == 2
+    chance = 1.2e-5 * dt
+    mask = np.random.rand(particles[mask_oh].shape[0]) <= chance
+    particles[mask_oh][mask, 0] = 1
+
 #rozpad wody na OH i H
     mask_h2o = particles[:, 0] == 0
     chance = 1 - np.exp(-1.03e-5 * dt)
     mask = np.random.rand(particles[mask_h2o].shape[0]) < chance
-    particles[mask_h2o][mask, 0] = 2
+    print(mask)
     nowe_particles = particles[mask_h2o][mask]
-    nowe_particles[:, 0] = 1
-    particles = np.vstack([particles, nowe_particles])
-#rozpad OH do wodoru
-    mask_oh = particles[:, 0] == 2
-    chance = 1 - np.exp(-1.20e-5 * dt)
-    mask = np.random.rand(particles[mask_oh].shape[0]) <chance
-    particles[mask_oh][mask, 2] == 1
+    duplikaty = np.repeat(nowe_particles, 2, axis=0)
+    duplikaty[::2,0]=1
+    duplikaty[1::2, 0] = 2
+    particles = np.concatenate([particles[~mask_h2o], particles[mask_h2o][~mask], duplikaty], axis=0)
+
 
     particles[:, 7] = np.array(config.mu)[particles[:, 0].astype(int)]
 
 def count_particles():
     global particles
-    mask = particles[:,0]==0
-    print("ilość cząsteczek H_20",len(particles[mask]))
+    mask_h20 = particles[:,0] == 0
+    mask_h = particles[:,0] == 1
+    mask_oh = particles [:, 0] == 2
+    print("n H_20: ",len(particles[mask_h20]), ", n H: ", len(particles[mask_h]), ", n OH: ", len(particles[mask_oh]))
