@@ -79,7 +79,16 @@ for i in range(config.n_steps):
         if pt.particles.shape[0] > 0:
             sc._offsets3d = (pt.particles[:, 1], pt.particles[:, 2], pt.particles[:, 3])
             if pt.particles.shape[0] > 0:
-                colors = np.where(pt.particles[:, 0] == 1, 'aqua', 'red')
+                # mapa typów do kolorów
+                color_map = {
+                    1: "aqua",
+                    0: "red",
+                    2: "green",
+                    4: "orange",
+                    5: "purple"
+                }
+                # przypisanie kolorów
+                colors = np.array([color_map[t] for t in pt.particles[:, 0]])
                 sc._offsets3d = (pt.particles[:, 1], pt.particles[:, 2], pt.particles[:, 3])
                 sc.set_color(colors)
         plt.draw()
@@ -108,7 +117,7 @@ for i in range(config.n_steps):
     kometa.v_z += acceleration_z*config.dt
 
     #rozpadnij cząstki
-    pt.dissect(config.dissection_rate, config.dt)
+    pt.dissect(1, config.dt)
 
     #policz minimalną i maksymalną odległość do komety(do sprawdzania poprawności celestial_body.pu i loop.py)
     distance = sqrt(kometa.x ** 2 + kometa.y ** 2 + kometa.z ** 2)/config.AU
