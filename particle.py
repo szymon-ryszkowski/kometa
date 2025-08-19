@@ -1,4 +1,5 @@
 # plik odpowiadający za cząsteczki
+import random
 
 import numpy as np
 from math import *
@@ -22,12 +23,14 @@ def generate_velocity(v):
 
 # dodanie wiersza do czastek
 def create_particle(v, x, y, z, v_x, v_y, v_z):
+    n = random.random()
     velocity = generate_velocity(v)
     particle = np.zeros((1, 8))
     particle[0][0] = 0  # typ według config.py
-    particle[0][1] = x  # x
-    particle[0][2] = y  # y
-    particle[0][3] = z  # z
+    particle[0][1] = x + velocity[0]*n*config.dt  # x, przesuwa o losowy czas, żeby pokazywało generację cząstek w
+    # czasie, a nie skokami
+    particle[0][2] = y + velocity[1]*n*config.dt  # y
+    particle[0][3] = z + velocity[2]*n*config.dt # z
     particle[0][4] = velocity[0] + v_x  # v_x
     particle[0][5] = velocity[1] + v_y  # v_y
     particle[0][6] = velocity[2] + v_z  # v_z
