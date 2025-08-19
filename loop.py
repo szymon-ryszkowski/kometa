@@ -24,7 +24,7 @@ while miesiac<1 or miesiac>12 and miesiac == int(miesiac):
 
 print("podaj dzien - ")
 dzien=int(input())
-while dzien<1 or dzien>31 or (miesiac==2 and dzien>29) or (rok%4!=0 and miesiac==2 and dzien>28) or ((miesiac == 4 or miesiac ==6 or miesiac ==9 or miesiac ==11) and dzien>30) and dzien==int(dzien):
+while dzien < 1 or dzien > 31 or (miesiac == 2 and dzien > 29) or (rok%4 != 0 and miesiac==2 and dzien>28) or ((miesiac == 4 or miesiac ==6 or miesiac ==9 or miesiac ==11) and dzien>30) and dzien==int(dzien):
     print("podano nieprawidłową datę")
     dzien = int(input())
 
