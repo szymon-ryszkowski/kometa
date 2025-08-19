@@ -112,12 +112,12 @@ for i in range(config.n_steps):
     kometa.v_y += acceleration_y*config.dt
     kometa.v_z += acceleration_z*config.dt
 
-    # policz minimalną i maksymalną odległość do komety(do sprawdzania poprawności celestial_body.pu i loop.py)
+    #rozpadnij cząstki
+    pt.dissect(aktywnosc,1, config.dt)
+
+    #policz minimalną i maksymalną odległość do komety(do sprawdzania poprawności celestial_body.pu i loop.py)
     distance = sqrt(kometa.x ** 2 + kometa.y ** 2 + kometa.z ** 2)/config.AU
     distances.append(distance)
-
-    # rozpadnij cząstki
-    pt.dissect(1, config.dt)
 
     # przesun czastke
     pt.particles[:, 1] += pt.particles[:, 4] * config.dt
@@ -131,6 +131,8 @@ for i in range(config.n_steps):
     pt.particles[:, 4] += acceleration_x*config.dt
     pt.particles[:, 5] += acceleration_y*config.dt
     pt.particles[:, 6] += acceleration_z*config.dt
+
+
 
 print(f'Minimalna odległość komety: {min(distances):.2e} m')
 print(f'Maksymalna odległość komety: {max(distances):.2e} m')
