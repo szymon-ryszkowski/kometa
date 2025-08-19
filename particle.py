@@ -52,12 +52,12 @@ def add_particles(v, x, y, z, v_x, v_y, v_z):
 #rozpadanie(przemiana jak na razie) cząstek
 def dissect(distance, dt):
     global particles
-
+#rozpad wodoru na protony i elektrony
     mask_h = particles[:, 0] == 1
     chance = 1 - np.exp(-7.26e-8 * dt)
     mask = np.random.rand(particles[mask_h].shape[0]) > chance
     particles = np.vstack([particles[~mask_h], particles[mask_h][mask]])
-
+#rozpad wody na OH i H
     mask_h2o = particles[:, 0] == 0
     chance = 1 - np.exp(-1.03e-5 * dt)
     mask = np.random.rand(particles[mask_h2o].shape[0]) < chance
@@ -65,7 +65,11 @@ def dissect(distance, dt):
     nowe_particles = particles[mask_h2o][mask]
     nowe_particles[:, 0] = 1
     particles = np.vstack([particles, nowe_particles])
-
+#rozpad OH do wodoru
+    mask_oh = particles[:, 0] == 2
+    chance = 1 - np.exp(-1.20e-5 * dt)
+    mask = np.random.rand(particles[mask_oh].shape[0]) <chance
+    particles[mask_oh][mask, 2] == 1
 
     particles[:, 7] = np.array(config.mu)[particles[:, 0].astype(int)]
 
