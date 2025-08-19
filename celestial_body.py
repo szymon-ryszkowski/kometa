@@ -19,12 +19,14 @@ Program oblicza współrzędne x, y, z oraz składowe v_X, v_Y, v_z w momencie s
 
 do konwersji współrzędnych potrzebny jest jeszcze czas t[s] w momencie początka symulacji(UWAGA, nie jest
 on używany do obliczania czegokolwiek bezpośrednio, podobnie t_0. Jest to informacja dla programu, że gdy
- t < t_0 to ciało się zbliża do Słońca, a gdy t > t_0, to ciało się oddala) oraz początkowa odległość od Słońca r[m]. Potrzebna
+ t < t_0 to ciało się zbliża do Słońca, a gdy t > t_0, to ciało się oddala) oraz początkowa odległość od Słońca r[m]. 
+ Potrzebna
  jest także masa ciała centralnego M i stała grawitacji G. 
 
-Wykorzytuję układ współrzędnych kartezjańskich, gdzie oś x leci w kierunku punktu barana, z jest prostopadłe do ekliptyki, a y
-jest prostopadłe do x i z i jednocześnie ukłąd pozostaje prawoskrętny(tzn. od osi x do osi y obracamy się przeciwnie do wskazówek zegara)
-. Innymi słowy jest to najprostrzy szkolny układ współrzędnych. Słońce jest w punkcie (0, 0, 0)
+Wykorzytuję układ współrzędnych kartezjańskich, gdzie oś x leci w kierunku punktu barana, z jest prostopadłe do 
+ekliptyki, a y
+jest prostopadłe do x i z i jednocześnie ukłąd pozostaje prawoskrętny(tzn. od osi x do osi y obracamy się przeciwnie do
+ wskazówek zegara). Innymi słowy jest to najprostrzy szkolny układ współrzędnych. Słońce jest w punkcie (0, 0, 0)
 
 Pomocniczo wykorzystuję sferyczny układ współrzędnych. Kąt phi jest u mnie w zakresie -90 <= phi <= 90
 theta = 0 jest dla kierunku dodatnich X-ów. 
@@ -35,7 +37,7 @@ dodatkowo obliczany jest moment pędu L
 '''
 
 
-class celestial_body:
+class Celestial_Body:
     def __init__(self, a, e, i, t_0, arg_of_per, long_of_asc, r, t, M, G):
         self.a = a
         self.e = e
@@ -57,17 +59,16 @@ class celestial_body:
         self.convert_cartesian_coordinates()
 
     def convert_cartesian_coordinates(self):
-        #pomocnicze kąty i funkcje trygonometryczne
+        # pomocnicze kąty i funkcje trygonometryczne
         cos_theta = ((self.a*(1 - self.e**2)/self.r) - 1)/self.e
-        theta = 0
-        if(self.t > self.t_0):
+        if self.t > self.t_0:
             theta = acos(cos_theta)
         else:
             theta = 2*pi - acos(cos_theta)
         angle_1 = self.arg_of_per+theta
         sin_vertical = sin(self.i) * sin(angle_1)
         cos_vertical = sqrt(1 - (sin(self.i) * sin(angle_1))**2)
-        if(self.i > pi/2):
+        if self.i > pi/2:
             cos_vertical *= -1
         cos_horizontal_pom = cos(angle_1)/cos_vertical
         if self.i == pi/2 or self.i == 3*pi/2:
@@ -78,24 +79,23 @@ class celestial_body:
         cos_horizontal = cos_horizontal_pom * cos(self.long_of_asc) - sin_horizontal_pom*sin(self.long_of_asc)
         sin_horizontal = sin_horizontal_pom*cos(self.long_of_asc) + cos_horizontal_pom*sin(self.long_of_asc)
 
-        #położenie
+        # położenie
         self.x = self.r*cos_vertical * cos_horizontal
         self.y = self.r*cos_vertical * sin_horizontal
         self.z = sin_vertical * self.r
 
-        #prędkosci
+        # prędkosci
         v = sqrt(self.G * self.M * (2 / self.r - 1 / self.a))
         v_tan = self.L / self.r
         v_rad = sqrt(v**2 - v_tan**2)
         if self.t > self.t_0:
             v_rad *= -1
-        #prędkość radialna
+        # prędkość radialna
         self.v_z += v_rad*sin_vertical
         self.v_x += v_rad*cos_vertical*cos_horizontal
         self.v_y += v_rad*cos_vertical*sin_horizontal
-        #predkość tangencjalna
-        #rozbicie wzdłuż równoleżnika i południka
-        sin_beta = 0
+        # predkość tangencjalna
+        # rozbicie wzdłuż równoleżnika i południka
         if sin(angle_1) != 0 and self.i != 0:
             sin_beta = sin_horizontal_pom / sin(angle_1)
         elif self.i != 0:
@@ -104,18 +104,18 @@ class celestial_body:
             sin_beta = 1
         v_latitude = v_tan*sin_beta
         cos_beta = sqrt(1 - sin_beta**2)
-        if(cos_horizontal_pom < 0):
+        if cos_horizontal_pom < 0:
             cos_beta *= -1
         v_longitude = v_tan*cos_beta
-        #prędkość wzdłuż południków
+        # prędkość wzdłuż południków
         self.v_z += v_longitude*cos_vertical
         self.v_x -= v_longitude*sin_vertical*cos_horizontal
         self.v_y -= v_longitude*sin_vertical*sin_horizontal
-        #prędkość wzdłuż równoleżników
+        # prędkość wzdłuż równoleżników
         self.v_x -= v_latitude*sin_horizontal
         self.v_y += v_latitude*cos_horizontal
 
-#Ziemia = celestial_body(1.496*10**11, 0.0167, 45, -1, 90, 90, 1.496*10**11, 0, 1.9891*10**30, 6.6743*10**-11)
-#print(Ziemia.x, Ziemia.y, Ziemia.z)
-#print(Ziemia.v_x, Ziemia.v_y, Ziemia.v_z)
-#ziemial
+# Ziemia = celestial_body(1.496*10**11, 0.0167, 45, -1, 90, 90, 1.496*10**11, 0, 1.9891*10**30, 6.6743*10**-11)
+# print(Ziemia.x, Ziemia.y, Ziemia.z)
+# print(Ziemia.v_x, Ziemia.v_y, Ziemia.v_z)
+# ziemial
