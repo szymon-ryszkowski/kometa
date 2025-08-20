@@ -92,6 +92,7 @@ for i in range(config.n_steps):
         ax.set_xlim([kometa.x - 5e11, kometa.x + 5e11])
         ax.set_ylim([kometa.y - 5e11, kometa.y + 5e11])
         ax.set_zlim([kometa.z - 5e11, kometa.z + 5e11])
+        ax.text2D(0.05, 0.95, aktualna_data, transform=ax.transAxes)
     # dodaj trajektorie do wyswietlenia
     x_traj.append(kometa.x)
     y_traj.append(kometa.y)
@@ -138,6 +139,7 @@ for i in range(config.n_steps):
 def show_final():
     print(pt.particles.shape)
     global x_traj, y_traj, z_traj
+    data = aktualna_data.strftime('%m %d %Y')
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     colors = np.where(pt.particles[:, 0] == 1, 'green', 'red')
