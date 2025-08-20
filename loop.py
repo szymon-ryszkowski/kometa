@@ -12,6 +12,11 @@ from mpl_toolkits.mplot3d import Axes3D
 kometa = (
     cb.Celestial_Body(config.a_k*config.AU, config.e_k, config.i_k, config.t_0_k, config.arg_of_per_k,
                       config.long_of_asc_z_k, config.r_m_k*config.AU, config.t_m, config.M, config.G))
+ziemia = (
+    cb.Celestial_Body(config.a_m*config.AU, config.e_m, config.i_m, config.t_0_m, config.arg_of_per_m,
+                      config.long_of_asc_z_m, config.r_m_m*config.AU, config.t_m, config.M, config.G))
+
+
 print("podaj rok w zakresie od 1948 do 2024- ")
 rok = int(input())
 while rok < 1948 or rok > 2024 and rok == int(rok):
@@ -38,10 +43,12 @@ fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
 ax.scatter(0, 0, 0, color='yellow', s=100, label='Słońce')  # Pozycja Słońca w środku
+ax.scatter(0, 0, 0, color='darkblue', s=50, label='Ziemia')
+traj_Ziemia, = ax.plot([], [],[], color='blue', linewidth=.5)
 sc = ax.scatter([], [], [], color='aqua', s=1, label='Cząstki H')
 sc = ax.scatter([], [], [], color='red', s=1, label='Cząstki H20')
 sc = ax.scatter([], [], [], color='green', s=1, label='Cząstki OH')
-traj_line, = ax.plot([], [], [], color='blue', label='Trajektoria komety')
+traj_line, = ax.plot([], [], [], color='grey', label='Trajektoria komety')
 
 ax.set_xlim([kometa.x - 3e9, kometa.x + 3e9])
 ax.set_ylim([kometa.y - 3e9, kometa.y + 3e9])
@@ -58,18 +65,25 @@ plt.show()
 x_traj = []
 y_traj = []
 z_traj = []
+
+x_traj_z = []
+y_traj_z = []
+z_traj_z = []
+
 # zapis odległości do Słońca komety(do sprawdzania poprawności celestial_body.pu i loop.py)
 distances = []
+distances_Z = []
+
 ile_dni = dany_dzien - config.data_startowa
 ile_dni = int(ile_dni.days)
 
 time_text = ax.text2D(.1, .9, dany_dzien,transform=ax.transAxes)
+
 def show_final ():
     liczba_krokow = 0
     for i in range(config.n_steps):
         liczba_krokow += 1
         aktualna_data = dany_dzien + timedelta(days=liczba_krokow / config.dzien_krok)
-        print(aktualna_data)
         pt.count_particles()
         aktywnosc = Sun.sun_aktywnosc(int(ile_dni + (liczba_krokow / config.dzien_krok)))
         pt.count_particles()
@@ -78,6 +92,9 @@ def show_final ():
             time_text.set_text(aktualna_data)
             traj_line.set_data(x_traj, y_traj)
             traj_line.set_3d_properties(z_traj)
+            traj_Ziemia.set_data(x_traj_z, y_traj_z)
+            traj_Ziemia.set_3d_properties(z_traj_z)
+
             if pt.particles.shape[0] > 0:
                 sc._offsets3d = (pt.particles[:, 1], pt.particles[:, 2], pt.particles[:, 3])
                 if pt.particles.shape[0] > 0:
@@ -96,10 +113,16 @@ def show_final ():
             ax.set_xlim([kometa.x - 5e11, kometa.x + 5e11])
             ax.set_ylim([kometa.y - 5e11, kometa.y + 5e11])
             ax.set_zlim([kometa.z - 5e11, kometa.z + 5e11])
+
         # dodaj trajektorie do wyswietlenia
         x_traj.append(kometa.x)
         y_traj.append(kometa.y)
         z_traj.append(kometa.z)
+
+        x_traj_z.append(ziemia.x)
+        y_traj_z.append(ziemia.y)
+        z_traj_z.append(ziemia.z)
+
         # utwórz cząstki
         ratio = pt.calculate_sim_ratio(config.absolute_ratio_H_2O, sqrt(kometa.x**2 + kometa.y**2 + kometa.z**2), -3)
         pt.queue_H_2O += ratio*config.dt
@@ -108,6 +131,10 @@ def show_final ():
         kometa.x += kometa.v_x*config.dt
         kometa.y += kometa.v_y*config.dt
         kometa.z += kometa.v_z*config.dt
+
+        ziemia.x += ziemia.v_x * config.dt
+        ziemia.y += ziemia.v_y * config.dt
+        ziemia.z += ziemia.v_z * config.dt
         # zmien predkosc
         acceleration_x = -kometa.x*config.G*config.M/(kometa.x**2 + kometa.y**2 + kometa.z**2)**1.5
         acceleration_y = -kometa.y*config.G*config.M/(kometa.x**2 + kometa.y**2 + kometa.z**2)**1.5
@@ -115,6 +142,13 @@ def show_final ():
         kometa.v_x += acceleration_x*config.dt
         kometa.v_y += acceleration_y*config.dt
         kometa.v_z += acceleration_z*config.dt
+
+        acceleration_x = -ziemia.x * config.G * config.M / (ziemia.x ** 2 + ziemia.y ** 2 + ziemia.z ** 2) ** 1.5
+        acceleration_y = -ziemia.y * config.G * config.M / (ziemia.x ** 2 + ziemia.y ** 2 + ziemia.z ** 2) ** 1.5
+        acceleration_z = -ziemia.z * config.G * config.M / (ziemia.x ** 2 + ziemia.y ** 2 + ziemia.z ** 2) ** 1.5
+        ziemia.v_x += acceleration_x * config.dt
+        ziemia.v_y += acceleration_y * config.dt
+        ziemia.v_z += acceleration_z * config.dt
 
         #policz minimalną i maksymalną odległość do komety(do sprawdzania poprawności celestial_body.pu i loop.py)
         distance = sqrt(kometa.x ** 2 + kometa.y ** 2 + kometa.z ** 2)

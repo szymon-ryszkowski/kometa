@@ -18,7 +18,7 @@ r_m_k = 3.3  # odległość od Słońca na początku symulacji [AU]
 t_k = -1  # czas w momencie początku symulacji [s]
 
 # dane Ziemi
-a_m = 1.496*10**11  # półoś wielka obiektu [m]
+a_m = 1 # półoś wielka obiektu [m]
 e_m = 0.01671  # mimośród oribty
 i_m = 23.44  # inklinacja orbity [stopnie]
 t_0_m = 1  # czas przejścia przez perycentrum [s]
