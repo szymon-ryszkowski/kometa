@@ -61,6 +61,8 @@ liczba_krokow = 0
 ile_dni = dany_dzien - config.data_startowa
 ile_dni = int(ile_dni.days)
 
+time_text = ax.text2D(.1, .9, dany_dzien,transform=ax.transAxes)
+
 for i in range(config.n_steps):
     liczba_krokow += 1
     aktualna_data = dany_dzien + timedelta(days=liczba_krokow / config.dzien_krok)
@@ -70,6 +72,7 @@ for i in range(config.n_steps):
     pt.count_particles()
     # animacja 3d
     if i % 100 == 0:
+        time_text.set_text(aktualna_data)
         traj_line.set_data(x_traj, y_traj)
         traj_line.set_3d_properties(z_traj)
         if pt.particles.shape[0] > 0:
@@ -80,8 +83,6 @@ for i in range(config.n_steps):
                     1: "aqua",
                     0: "red",
                     2: "green",
-                    4: "orange",
-                    5: "purple"
                 }
                 # przypisanie kolorów
                 colors = np.array([color_map[t] for t in pt.particles[:, 0]])
@@ -92,7 +93,6 @@ for i in range(config.n_steps):
         ax.set_xlim([kometa.x - 5e11, kometa.x + 5e11])
         ax.set_ylim([kometa.y - 5e11, kometa.y + 5e11])
         ax.set_zlim([kometa.z - 5e11, kometa.z + 5e11])
-        ax.text2D(0.05, 0.95, aktualna_data, transform=ax.transAxes)
     # dodaj trajektorie do wyswietlenia
     x_traj.append(kometa.x)
     y_traj.append(kometa.y)
@@ -143,7 +143,6 @@ print(f'Maksymalna odległość komety: {max(distances/config.AU):.2e} m')
 def show_final():
     print(pt.particles.shape)
     global x_traj, y_traj, z_traj
-    data = aktualna_data.strftime('%m %d %Y')
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     colors = np.where(pt.particles[:, 0] == 1, 'green', 'red')
