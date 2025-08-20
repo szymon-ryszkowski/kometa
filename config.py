@@ -46,11 +46,6 @@ n_steps = 5*10**4 # ile kroków ma się wykonać
 data_startowa = date(1947, 2, 14)  # pierwsza data w danych słońca
 dzien_krok = (60*60*24)/dt  # ile kroków w dniu
 
-#daty
-data_startowa =  date(1947, 2, 14) #pierwsza data w danych słońca
-dzien_krok = (60*60*24)/dt #ile kroków w dniu
-
-
 #dane rozpadu
 min_OH_H = 1.03E-05
 max_OH_H = 1.76E-05
@@ -61,3 +56,8 @@ max_OH = 1.37E-05
 # rozpad wody do tlenu i dwóch wodorów
 min_H20_O_H_H = 7.54E-07
 max_H20_O_H_H = 1.91E-06
+
+#kolory cząstek
+#0 = red
+#1 = aqua
+#2 = green
