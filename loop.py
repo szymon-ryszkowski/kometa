@@ -133,10 +133,6 @@ for i in range(config.n_steps):
     pt.particles[:, 5] += acceleration_y*config.dt
     pt.particles[:, 6] += acceleration_z*config.dt
 
-
-
-print(f'Minimalna odległość komety: {min(distances/config.AU):.2e} m')
-print(f'Maksymalna odległość komety: {max(distances/config.AU):.2e} m')
 # wizualizacja 3d końcowego stanu
 
 
