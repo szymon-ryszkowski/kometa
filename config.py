@@ -39,7 +39,7 @@ absolute_ratio_H_2O = 1*10**28  # stała mówiąca raz na ile powstaje H2O na ko
 scale = 1*10**31  # ile cząstek w rzeczywistości oznacza jedna cząstka u nas
 
 #stała symulacji
-dt = 3*10**2 # ile s odpowiada jeden krok
+dt = 3*10**3 # ile s odpowiada jeden krok
 n_steps = 5*10**4 # ile kroków ma się wykonać
 
 # daty
