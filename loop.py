@@ -43,7 +43,6 @@ fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
 ax.scatter(0, 0, 0, color='yellow', s=100, label='Słońce')  # Pozycja Słońca w środku
-ax.scatter(0, 0, 0, color='darkblue', s=50, label='Ziemia')
 traj_Ziemia, = ax.plot([], [],[], color='blue', linewidth=.5)
 sc = ax.scatter([], [], [], color='aqua', s=1, label='Cząstki H')
 sc = ax.scatter([], [], [], color='red', s=1, label='Cząstki H20')
@@ -72,12 +71,13 @@ z_traj_z = []
 
 # zapis odległości do Słońca komety(do sprawdzania poprawności celestial_body.pu i loop.py)
 distances = []
-distances_Z = []
 
 ile_dni = dany_dzien - config.data_startowa
 ile_dni = int(ile_dni.days)
 
 time_text = ax.text2D(.1, .9, dany_dzien,transform=ax.transAxes)
+
+Ziemia_o = ax.scatter(ziemia.x, ziemia.y, ziemia.z, color='darkblue', s=50, label='Ziemia')
 
 def show_final ():
     liczba_krokow = 0
@@ -94,8 +94,8 @@ def show_final ():
             traj_line.set_3d_properties(z_traj)
             traj_Ziemia.set_data(x_traj_z, y_traj_z)
             traj_Ziemia.set_3d_properties(z_traj_z)
-
             if pt.particles.shape[0] > 0:
+                Ziemia_o.offsets3d = (ziemia.x, ziemia.y, ziemia.z)
                 sc._offsets3d = (pt.particles[:, 1], pt.particles[:, 2], pt.particles[:, 3])
                 if pt.particles.shape[0] > 0:
                     # mapa typów do kolorów
@@ -127,14 +127,21 @@ def show_final ():
         ratio = pt.calculate_sim_ratio(config.absolute_ratio_H_2O, sqrt(kometa.x**2 + kometa.y**2 + kometa.z**2), -3)
         pt.queue_H_2O += ratio*config.dt
         pt.add_particles(1000, kometa.x, kometa.y, kometa.z, kometa.v_x, kometa.v_y, kometa.v_z)
-        # przesun komete
-        kometa.x += kometa.v_x*config.dt
-        kometa.y += kometa.v_y*config.dt
-        kometa.z += kometa.v_z*config.dt
+
+        # przesun komete i Ziemie
+        kometa.x += kometa.v_x * config.dt
+        kometa.y += kometa.v_y * config.dt
+        kometa.z += kometa.v_z * config.dt
 
         ziemia.x += ziemia.v_x * config.dt
         ziemia.y += ziemia.v_y * config.dt
         ziemia.z += ziemia.v_z * config.dt
+
+        #odległość Ziemi od komety
+        distane_zk = sqrt((kometa.x-ziemia.x)**2+(kometa.y-ziemia.y)**2+(kometa.z-ziemia.z)**2)
+        print("odległość",distane_zk)
+        wektor_zk = [kometa.x - ziemia.x, kometa.y - ziemia.y, kometa.z - ziemia.z]
+
         # zmien predkosc
         acceleration_x = -kometa.x*config.G*config.M/(kometa.x**2 + kometa.y**2 + kometa.z**2)**1.5
         acceleration_y = -kometa.y*config.G*config.M/(kometa.x**2 + kometa.y**2 + kometa.z**2)**1.5

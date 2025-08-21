@@ -51,6 +51,7 @@ t_m = 0  # czas w momencie początku symulacji [s]
 
 # Stałe
 M = 1.9891 * 10 ** 30  # Masa Słońca
+M_z = 5,9722 * 10 ** 24 # Masa Ziemi
 G = 6.67 * 10 ** -11  # Stała Grawitacyjna
 AU = 1.496*10**11
 I_s = 1361  # Stała Słoneczna
