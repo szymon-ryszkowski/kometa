@@ -58,7 +58,7 @@ class Celestial_Body:
         self.G = G
         self.L = sqrt(self.G*self.M * self.a * (1 - self.e**2))
         self.r = 0
-        self.r_p = r_p # prędkość do orbity parabolicznej
+        self.r_p = r_p * config.AU # prędkość do orbity parabolicznej
         self.convert_cartesian_coordinates()
 
 
