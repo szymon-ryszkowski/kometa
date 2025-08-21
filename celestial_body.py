@@ -39,7 +39,7 @@ dodatkowo obliczany jest moment pędu L
 
 
 class Celestial_Body:
-    def __init__(self, a, e, i, t_0, arg_of_per, long_of_asc, theta, t, M, G):
+    def __init__(self, a, e, i, t_0, arg_of_per, long_of_asc, theta, t, M, G,r_p):
         self.a = a
         self.e = e
         self.i = radians(i)
@@ -57,13 +57,18 @@ class Celestial_Body:
         self.M = M
         self.G = G
         self.L = sqrt(self.G*self.M * self.a * (1 - self.e**2))
-        self.convert_cartesian_coordinates()
         self.r = 0
+        self.r_p = r_p * config.AU # prędkość do orbity parabolicznej
+        self.convert_cartesian_coordinates()
+
 
     def convert_cartesian_coordinates(self):
         # pomocnicze kąty i funkcje trygonometryczne
         cos_theta = cos(self.theta)
-        self.r = (self.a * (1 - self.e** 2)) / (1 + self.e * cos_theta)
+        if self.e==1:
+            self.r = self.r_p
+        else:
+            self.r = (self.a * (1 - self.e ** 2)) / (1 + self.e * cos_theta)
         angle_1 = self.arg_of_per+self.theta
         sin_vertical = sin(self.i) * sin(angle_1)
         cos_vertical = sqrt(1 - (sin(self.i) * sin(angle_1))**2)
@@ -84,7 +89,10 @@ class Celestial_Body:
         self.z = sin_vertical * self.r
 
         # prędkosci
-        v = sqrt(self.G * self.M * (2 / self.r - 1 / self.a))
+        if (self.e >= 0 and self.e <1) or self.e > 1:
+            v = sqrt(self.G * self.M * (2 / self.r - 1 / self.a))
+        elif self.e == 1:
+            v = sqrt(2*1.33e20 /(self.r * config.AU))
         v_tan = self.L / self.r
         v_rad = sqrt(v**2 - v_tan**2)
         if self.t > self.t_0:
