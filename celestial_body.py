@@ -63,7 +63,7 @@ class Celestial_Body:
     def convert_cartesian_coordinates(self):
         # pomocnicze kąty i funkcje trygonometryczne
         cos_theta = cos(self.theta)
-        self.r = (config.a_k * (1 - config.e_k ** 2)) / (1 + config.e_k * cos_theta) * config.AU
+        self.r = (self.a * (1 - self.e** 2)) / (1 + self.e * cos_theta)
         angle_1 = self.arg_of_per+self.theta
         sin_vertical = sin(self.i) * sin(angle_1)
         cos_vertical = sqrt(1 - (sin(self.i) * sin(angle_1))**2)

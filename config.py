@@ -7,26 +7,25 @@ from datetime import date
 # 2 - OH
 
 # dane komety
-theta = 1.5
+theta = 1
 name_k = ""  # nazwa obiektu
-a_k = 3 # półoś wielka obiektu [AU]
+a_k = 3# półoś wielka obiektu [AU]
 e_k = 0.7  # mimośród oribty
 i_k = 0  # inklinacja orbity [stopnie]
 t_0_k = 0  # czas przejścia przez perycentrum [s]
 arg_of_per_k = 0  # argument perycentrum[stopnie]
 long_of_asc_z_k = 0  # długość węzła wstępującego[stopnie]
-r_m_k = 3.3  # odległość od Słońca na początku symulacji [AU]
+
 t_k = -1  # czas w momencie początku symulacji [s]
 
 # dane Ziemi
-a_m = 1 # półoś wielka obiektu [m]
+a_m = 1 # półoś wielka obiektu [AU]
 e_m = 0.01671  # mimośród oribty
-i_m = 23.44  # inklinacja orbity [stopnie]
-t_0_m = 1  # czas przejścia przez perycentrum [s]
-arg_of_per_m = 1  # argument perycentrum[stopnie]
-long_of_asc_z_m = 1  # długość węzła wstępującego[stopnie]
-r_m_m = 1  # odległość od Słońca na początku symulacji [m]
-t_m = 1  # czas w momencie początku symulacji [s]
+i_m = 0 # inklinacja orbity [stopnie]
+t_0_m = 0  # czas przejścia przez perycentrum [s]
+arg_of_per_m = 0  # argument perycentrum[stopnie]
+long_of_asc_z_m = 0  # długość węzła wstępującego[stopnie]
+t_m = 0  # czas w momencie początku symulacji [s]
 
 # Stałe
 M = 1.9891 * 10 ** 30  # Masa Słońca
