@@ -7,6 +7,7 @@ import Sun
 from datetime import date
 from datetime import timedelta
 from math import *
+import mpl_toolkits.mplot3d.axes3d as p3
 from mpl_toolkits.mplot3d import Axes3D
 # deklaracja komety
 kometa = (
@@ -43,6 +44,7 @@ fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
 ax.scatter(0, 0, 0, color='yellow', s=100, label='Słońce')  # Pozycja Słońca w środku
+Ziemia_o = ax.scatter(ziemia.x, ziemia.y, ziemia.z, color='darkblue', s=10, label='Ziemia')
 traj_Ziemia, = ax.plot([], [],[], color='blue', linewidth=.5)
 sc = ax.scatter([], [], [], color='aqua', s=1, label='Cząstki H')
 sc = ax.scatter([], [], [], color='red', s=1, label='Cząstki H20')
@@ -77,8 +79,6 @@ ile_dni = int(ile_dni.days)
 
 time_text = ax.text2D(.1, .9, dany_dzien,transform=ax.transAxes)
 
-Ziemia_o = ax.scatter(ziemia.x, ziemia.y, ziemia.z, color='darkblue', s=50, label='Ziemia')
-
 def show_final ():
     liczba_krokow = 0
     for i in range(config.n_steps):
@@ -94,8 +94,8 @@ def show_final ():
             traj_line.set_3d_properties(z_traj)
             traj_Ziemia.set_data(x_traj_z, y_traj_z)
             traj_Ziemia.set_3d_properties(z_traj_z)
+            #Ziemia_o._offsets3d = (ziemia.x, ziemia.y, ziemia.z)
             if pt.particles.shape[0] > 0:
-                Ziemia_o.offsets3d = (ziemia.x, ziemia.y, ziemia.z)
                 sc._offsets3d = (pt.particles[:, 1], pt.particles[:, 2], pt.particles[:, 3])
                 if pt.particles.shape[0] > 0:
                     # mapa typów do kolorów
@@ -143,19 +143,27 @@ def show_final ():
         wektor_zk = [kometa.x - ziemia.x, kometa.y - ziemia.y, kometa.z - ziemia.z]
 
         # zmien predkosc
-        acceleration_x = -kometa.x*config.G*config.M/(kometa.x**2 + kometa.y**2 + kometa.z**2)**1.5
-        acceleration_y = -kometa.y*config.G*config.M/(kometa.x**2 + kometa.y**2 + kometa.z**2)**1.5
-        acceleration_z = -kometa.z*config.G*config.M/(kometa.x**2 + kometa.y**2 + kometa.z**2)**1.5
-        kometa.v_x += acceleration_x*config.dt
-        kometa.v_y += acceleration_y*config.dt
-        kometa.v_z += acceleration_z*config.dt
+        acceleration_x = - kometa.x * config.G * config.M / (kometa.x ** 2 + kometa.y ** 2 + kometa.z ** 2) ** 1.5
+        acceleration_y = - kometa.y * config.G * config.M / (kometa.x ** 2 + kometa.y ** 2 + kometa.z ** 2) ** 1.5
+        acceleration_z = - kometa.z * config.G * config.M / (kometa.x ** 2 + kometa.y ** 2 + kometa.z ** 2) ** 1.5
 
-        acceleration_x = -ziemia.x * config.G * config.M / (ziemia.x ** 2 + ziemia.y ** 2 + ziemia.z ** 2) ** 1.5
-        acceleration_y = -ziemia.y * config.G * config.M / (ziemia.x ** 2 + ziemia.y ** 2 + ziemia.z ** 2) ** 1.5
-        acceleration_z = -ziemia.z * config.G * config.M / (ziemia.x ** 2 + ziemia.y ** 2 + ziemia.z ** 2) ** 1.5
-        ziemia.v_x += acceleration_x * config.dt
-        ziemia.v_y += acceleration_y * config.dt
-        ziemia.v_z += acceleration_z * config.dt
+        acceleration_x += wektor_zk[0] * config.G * config.M_z / (
+                    wektor_zk[0] ** 2 + wektor_zk[1] ** 2 + wektor_zk[2] ** 2) ** 1.5
+        acceleration_y += wektor_zk[1] * config.G * config.M_z / (
+                    wektor_zk[0] ** 2 + wektor_zk[1] ** 2 + wektor_zk[2] ** 2) ** 1.5
+        acceleration_z += wektor_zk[2] * config.G * config.M_z / (
+                    wektor_zk[0] ** 2 + wektor_zk[1] ** 2 + wektor_zk[2] ** 2) ** 1.5
+
+        kometa.v_x += acceleration_x * config.dt
+        kometa.v_y += acceleration_y * config.dt
+        kometa.v_z += acceleration_z * config.dt
+
+        acceleration_x_z = -ziemia.x * config.G * config.M / (ziemia.x ** 2 + ziemia.y ** 2 + ziemia.z ** 2) ** 1.5
+        acceleration_y_z = -ziemia.y * config.G * config.M / (ziemia.x ** 2 + ziemia.y ** 2 + ziemia.z ** 2) ** 1.5
+        acceleration_z_z = -ziemia.z * config.G * config.M / (ziemia.x ** 2 + ziemia.y ** 2 + ziemia.z ** 2) ** 1.5
+        ziemia.v_x += acceleration_x_z * config.dt
+        ziemia.v_y += acceleration_y_z * config.dt
+        ziemia.v_z += acceleration_z_z * config.dt
 
         #policz minimalną i maksymalną odległość do komety(do sprawdzania poprawności celestial_body.pu i loop.py)
         distance = sqrt(kometa.x ** 2 + kometa.y ** 2 + kometa.z ** 2)

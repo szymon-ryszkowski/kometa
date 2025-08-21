@@ -115,6 +115,6 @@ class Celestial_Body:
         self.v_y += v_latitude*cos_horizontal
 
 #Ziemia = Celestial_Body(1.496*10**11, 0.0167, 45, -1, 90, 90, 1.496*10**11, 0, 1.9891*10**30, 6.6743*10**-11)
-# print(Ziemia.x, Ziemia.y, Ziemia.z)
-# print(Ziemia.v_x, Ziemia.v_y, Ziemia.v_z)
-# ziemial
+#print(Ziemia.x, Ziemia.y, Ziemia.z)
+#print(Ziemia.v_x, Ziemia.v_y, Ziemia.v_z)
+
