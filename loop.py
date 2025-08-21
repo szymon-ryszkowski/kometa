@@ -11,10 +11,10 @@ from mpl_toolkits.mplot3d import Axes3D
 # deklaracja komety
 kometa = (
     cb.Celestial_Body(config.a_k*config.AU, config.e_k, config.i_k, config.t_0_k, config.arg_of_per_k,
-                      config.long_of_asc_z_k, config.theta, config.t_m, config.M, config.G))
+                      config.long_of_asc_z_k, config.theta, config.t_m, config.M, config.G,config.r_p))
 ziemia = (
     cb.Celestial_Body(config.a_m*config.AU, config.e_m, config.i_m, config.t_0_m, config.arg_of_per_m,
-                     config.long_of_asc_z_m, 1, config.t_m, config.M, config.G))
+                     config.long_of_asc_z_m, 1, config.t_m, config.M, config.G,0))
 
 
 print("podaj rok w zakresie od 1948 do 2024- ")

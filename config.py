@@ -7,14 +7,36 @@ from datetime import date
 # 2 - OH
 
 # dane komety
+# inputy zakomentowane są do czasu prezentacji posterów, na jej czas zakomentować dane i odkomentować inputy
+
 theta = 1
 name_k = ""  # nazwa obiektu
+# print("podaj półoś wielką obiektu, powinna być w przedziale (0.1, 5) ")
+# a_k = input()
+# while a_k < 0.1 or a_k > 5 :
+#     print("podano nieprawidłową wielkość, powinna być w przedziale (0.1, 5)")
+#     a_k= input()
 a_k = 3# półoś wielka obiektu [AU]
-e_k = 0.7  # mimośród oribty
+# print("podaj ekscentryczność(mimośród) orbity, pamiętaj, że orbita o:
+# e = 0 jest kołowa
+# 0 < e > 1 jest eliptyczna
+# e = 1 jest paraboliczna
+# e > 1 jest hiperboliczna ")
+# e_k = input()
+# while e_k < 0
+#     print("podano niepoprawną(mniejszą od zera) ekscentryczność, proszę poprawić: ")
+#     e_k = input()
+#if e_k == 1:
+#   print(Proszę podać odległość komety od Słońca w peryhelium: )
+#   r_p = input()
+r_p = 1
+e_k =  1# mimośród oribty
 i_k = 0  # inklinacja orbity [stopnie]
 t_0_k = 0  # czas przejścia przez perycentrum [s]
 arg_of_per_k = 0  # argument perycentrum[stopnie]
 long_of_asc_z_k = 0  # długość węzła wstępującego[stopnie]
+# mechanizm zamiany danych dla wartości e
+
 
 t_k = -1  # czas w momencie początku symulacji [s]
 
