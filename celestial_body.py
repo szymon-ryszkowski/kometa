@@ -1,4 +1,5 @@
 from math import *
+import config as config
 '''
 oto klasa która będzie reprezentować Ziemię i kometę
 Deklaruje je się tak jak poniżej:
@@ -38,14 +39,14 @@ dodatkowo obliczany jest moment pędu L
 
 
 class Celestial_Body:
-    def __init__(self, a, e, i, t_0, arg_of_per, long_of_asc, r, t, M, G):
+    def __init__(self, a, e, i, t_0, arg_of_per, long_of_asc, theta, t, M, G):
         self.a = a
         self.e = e
         self.i = radians(i)
         self.t_0 = t_0
         self.arg_of_per = radians(arg_of_per)
         self.long_of_asc = radians(long_of_asc)
-        self.r = r
+        self.theta = theta
         self.t = t
         self.x = 0
         self.y = 0
@@ -57,15 +58,13 @@ class Celestial_Body:
         self.G = G
         self.L = sqrt(self.G*self.M * self.a * (1 - self.e**2))
         self.convert_cartesian_coordinates()
+        self.r = 0
 
     def convert_cartesian_coordinates(self):
         # pomocnicze kąty i funkcje trygonometryczne
-        cos_theta = ((self.a*(1 - self.e**2)/self.r) - 1)/self.e
-        if self.t > self.t_0:
-            theta = acos(cos_theta)
-        else:
-            theta = 2*pi - acos(cos_theta)
-        angle_1 = self.arg_of_per+theta
+        cos_theta = cos(self.theta)
+        self.r = (config.a_k * (1 - config.e_k ** 2)) / (1 + config.e_k * cos_theta) * config.AU
+        angle_1 = self.arg_of_per+self.theta
         sin_vertical = sin(self.i) * sin(angle_1)
         cos_vertical = sqrt(1 - (sin(self.i) * sin(angle_1))**2)
         if self.i > pi/2:

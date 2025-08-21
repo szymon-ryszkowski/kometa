@@ -11,7 +11,7 @@ from mpl_toolkits.mplot3d import Axes3D
 # deklaracja komety
 kometa = (
     cb.Celestial_Body(config.a_k*config.AU, config.e_k, config.i_k, config.t_0_k, config.arg_of_per_k,
-                      config.long_of_asc_z_k, config.r_m_k*config.AU, config.t_m, config.M, config.G))
+                      config.long_of_asc_z_k, config.theta, config.t_m, config.M, config.G))
 print("podaj rok w zakresie od 1948 do 2024- ")
 rok = int(input())
 while rok < 1948 or rok > 2024 and rok == int(rok):
