@@ -96,8 +96,8 @@ while True:
     break
 
 dany_dzien = date(rok, miesiac, dzien)
-
-
+print("wybierz rodzaj wykresu: ")
+typ_wykresu = int(input())
 # animacja 3d przygotowanie wykresu (czerwone cząstki - H2O, turkusowe - typu 1)
 fig = plt.figure(figsize=(14.4, 8.1), dpi=100)
 ax = fig.add_subplot(111, projection='3d')
@@ -212,8 +212,10 @@ def show_final ():
         pt.count_particles()
         aktywnosc = Sun.sun_aktywnosc(int(ile_dni + (liczba_krokow / config.dzien_krok)))
         pt.count_particles()
+        distance = sqrt(kometa.x ** 2 + kometa.y ** 2 + kometa.z ** 2)
+        distances.append(distance)
         # animacja 3d
-        if i % 50 == 0:
+        if i % 50 == 0 and typ_wykresu==1:
             time_text.set_text(aktualna_data)
 
             traj_line.set_data(x_traj, y_traj)
@@ -257,13 +259,12 @@ def show_final ():
                         # jeśli nic nie jest w granicach, czyścimy
                         sc._offsets3d = ([], [], [])
             # policz minimalną i maksymalną odległość do komety(do sprawdzania poprawności celestial_body.pu i loop.py)
-            distance = sqrt(kometa.x ** 2 + kometa.y ** 2 + kometa.z ** 2)
-            distances.append(distance)
             plt.draw()
             plt.pause(0.01)
             ax.set_xlim([0.5*kometa.x - distance, 0.5*kometa.x + distance])
             ax.set_ylim([0.5*kometa.y - distance, 0.5*kometa.y + distance])
             ax.set_zlim([0.5*kometa.z - distance, 0.5*kometa.z + distance])
+
 
         # dodaj trajektorie do wyswietlenia
         x_traj.append(kometa.x)
