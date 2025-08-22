@@ -45,6 +45,7 @@ dany_dzien = date(rok, miesiac, dzien)
 fig = plt.figure(figsize=(19.2, 10.80), dpi=100)
 ax = fig.add_subplot(111, projection='3d')
 
+#elementy wykresu
 ax.scatter(0, 0, 0, color='yellow', s=100, label='Słońce')  # Pozycja Słońca w środku
 Ziemia_o = ax.scatter(ziemia.x, ziemia.y, ziemia.z, color='darkblue', s=10, label='Ziemia')
 traj_Ziemia, = ax.plot([], [],[], color='blue', linewidth=.5)
@@ -58,6 +59,8 @@ ax.set_xlabel('X [AU]')
 ax.set_ylabel('Y [AU]')
 ax.set_zlabel('Z [AU]')
 ax.set_title('Trajektoria komety w 3D')
+
+#elementy legendy, potrzebne do skalowania
 legend_elements = [
     Line2D([0], [0], marker='o', color='w', label='Słońce',
            markerfacecolor='yellow', markersize=15),
@@ -73,7 +76,7 @@ legend_elements = [
            markerfacecolor='magenta', markersize=6)
 ]
 
-# Legendę można dalej pozycjonować i skalować tak jak zwykle
+# Legenda - skalowanie
 ax.legend(handles=legend_elements, loc='lower right', bbox_to_anchor=(1.25, 0), fontsize=12, title='Legenda')
 plt.tight_layout()
 plt.subplots_adjust(right=0.8)
