@@ -35,7 +35,7 @@ i_k = 0  # inklinacja orbity [stopnie]
 t_0_k = 0  # czas przejścia przez perycentrum [s]
 arg_of_per_k = 0  # argument perycentrum[stopnie]
 long_of_asc_z_k = 0  # długość węzła wstępującego[stopnie]
-theta = 3.14
+theta = 5.6
 if e_k>=1:
     theta = 3.5
 

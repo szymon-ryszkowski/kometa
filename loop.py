@@ -52,9 +52,6 @@ sc = ax.scatter([], [], [], color=config.color_map[2], s=1, label='Cząstki OH')
 traj_line, = ax.plot([], [], [], color='grey')
 Kometa = ax.scatter(kometa.x, kometa.y, kometa.z, color='grey', s=5, label='Kometa')
 
-#ax.set_xlim([kometa.x - 3e15, kometa.x + 3e15])
-#ax.set_ylim([kometa.y - 3e15, kometa.y + 3e15])
-#ax.set_zlim([kometa.z - 3e15, kometa.z + 3e15])
 ax.set_xlabel('X [AU]')
 ax.set_ylabel('Y [AU]')
 ax.set_zlabel('Z [AU]')
@@ -105,19 +102,32 @@ def show_final ():
                 sc._offsets3d = (pt.particles[:, 1], pt.particles[:, 2], pt.particles[:, 3])
                 if pt.particles.shape[0] > 0:
                     # mapa typów do kolorów
-
+                    mask = (
+                            (pt.particles[:, 1] >= ax.get_xlim()[0]) & (pt.particles[:, 1] <= ax.get_xlim()[1]) &
+                            (pt.particles[:, 2] >= ax.get_ylim()[0]) & (pt.particles[:, 2] <= ax.get_ylim()[1]) &
+                            (pt.particles[:, 3] >= ax.get_zlim()[0]) & (pt.particles[:, 3] <= ax.get_zlim()[1])
+                    )
+                    widoczne_particles = pt.particles[mask]
                     # przypisanie kolorów
-                    colors = np.array([config.color_map[t] for t in pt.particles[:, 0]])
-                    sc._offsets3d = (pt.particles[:, 1], pt.particles[:, 2], pt.particles[:, 3])
-                    sc.set_color(colors)
+                    if widoczne_particles.shape[0] > 0:
+                        sc._offsets3d = (
+                            widoczne_particles[:, 1],  # X
+                            widoczne_particles[:, 2],  # Y
+                            widoczne_particles[:, 3]  # Z
+                        )
+                        colors = np.array([config.color_map[t] for t in widoczne_particles[:, 0]])
+                        sc.set_color(colors)
+                    else:
+                        # jeśli nic nie jest w granicach, czyścimy
+                        sc._offsets3d = ([], [], [])
             # policz minimalną i maksymalną odległość do komety(do sprawdzania poprawności celestial_body.pu i loop.py)
             distance = sqrt(kometa.x ** 2 + kometa.y ** 2 + kometa.z ** 2)
             distances.append(distance)
             plt.draw()
             plt.pause(0.01)
-            ax.set_xlim([0.2*kometa.x - 0.85*distance, 0.2*kometa.x + 0.85*distance])
-            ax.set_ylim([0.2*kometa.y - 0.85*distance, 0.2*kometa.y + 0.85*distance])
-            ax.set_zlim([0.2*kometa.z - 0.85*distance, 0.2*kometa.z + 0.85*distance])
+            ax.set_xlim([0.5*kometa.x - distance, 0.2*kometa.x + distance])
+            ax.set_ylim([0.5*kometa.y - distance, 0.2*kometa.y + distance])
+            ax.set_zlim([0.5*kometa.z - distance, 0.2*kometa.z + distance])
 
         # dodaj trajektorie do wyswietlenia
         x_traj.append(kometa.x)
@@ -179,9 +189,10 @@ def show_final ():
         pt.particles[:, 2] += pt.particles[:, 5] * config.dt
         pt.particles[:, 3] += pt.particles[:, 6] * config.dt
         # zmien prędkosc
-        acceleration_x = -pt.particles[:, 1]*config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*(1 - pt.particles[:, 7])
-        acceleration_y = -pt.particles[:, 2]*config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*(1 - pt.particles[:, 7])
-        acceleration_z = -pt.particles[:, 3]*config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*(1 - pt.particles[:, 7])
+        mu = pt.particles[:, 7] *(0.89+0.54*aktywnosc)  #ciśnienie promieniowania
+        acceleration_x = -pt.particles[:, 1]*config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*(1 - mu)
+        acceleration_y = -pt.particles[:, 2]*config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*(1 - mu)
+        acceleration_z = -pt.particles[:, 3]*config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*(1 - mu)
 
         pt.particles[:, 4] += acceleration_x*config.dt
         pt.particles[:, 5] += acceleration_y*config.dt
