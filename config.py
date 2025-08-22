@@ -90,6 +90,6 @@ max_H20_O_H_H = 1.91E-06
 #kolory cząstek
 color_map = {
     1: (0, 1, 1, 0.5),  # aqua z opacity 0.3
-    0: (1, 0, 0, 1.0),  # czerwony, pełna intensywność
-    2: (0.5, 0, 0, 1.0),  # zielony, pełna intensywność
+    0: (1, 0.64, 0),  # pomarańczowy
+    2: (0.5, 0, 0, 1.0),  # ciemnoczerwony
 }

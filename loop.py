@@ -116,7 +116,7 @@ def show_final ():
                             widoczne_particles[:, 2],  # Y
                             widoczne_particles[:, 3]  # Z
                         )
-                        colors = np.array([config.color_map[t] for t in widoczne_particles[:, 0]])
+                        colors = [config.color_map[t] for t in widoczne_particles[:, 0]]
                         sc.set_color(colors)
                     else:
                         # jeśli nic nie jest w granicach, czyścimy
@@ -126,9 +126,9 @@ def show_final ():
             distances.append(distance)
             plt.draw()
             plt.pause(0.01)
-            ax.set_xlim([0.5*kometa.x - distance, 0.2*kometa.x + distance])
-            ax.set_ylim([0.5*kometa.y - distance, 0.2*kometa.y + distance])
-            ax.set_zlim([0.5*kometa.z - distance, 0.2*kometa.z + distance])
+            ax.set_xlim([0.5*kometa.x - distance, 0.5*kometa.x + distance])
+            ax.set_ylim([0.5*kometa.y - distance, 0.5*kometa.y + distance])
+            ax.set_zlim([0.5*kometa.z - distance, 0.5*kometa.z + distance])
 
         # dodaj trajektorie do wyswietlenia
         x_traj.append(kometa.x)
