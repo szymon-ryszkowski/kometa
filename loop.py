@@ -38,22 +38,62 @@ jowisz = (
 
 
 print("podaj rok w zakresie od 1948 do 2024- ")
-rok = int(input())
-while rok < 1948 or rok > 2024 and rok == int(rok):
-    print("podano nieprawidłową datę")
-    rok = int(input())
-print("podaj miesiąc - ")
-miesiac = int(input())
-while miesiac < 1 or miesiac > 12 and miesiac == int(miesiac):
-    print("podano nieprawidłową datę")
-    miesiac = int(input())
 
-print("podaj dzien - ")
-dzien = int(input())
-while (dzien < 1 or dzien > 31 or (miesiac == 2 and dzien > 29) or (rok % 4 != 0 and miesiac == 2 and dzien > 28) or
-       ((miesiac == 4 or miesiac == 6 or miesiac == 9 or miesiac == 11) and dzien > 30) and dzien == int(dzien)):
-    print("podano nieprawidłową datę")
-    dzien = int(input())
+while True:
+    rok_str = input()
+    # sprawdzenie, czy wpisano cokolwiek i czy to liczba
+    if not rok_str.isdigit():
+        print("podano nieprawidłową datę")
+        continue
+    rok = int(rok_str)
+    # sprawdzenie zakresu
+    if 1948 <= rok <= 2024:
+        break
+    else:
+        print("podano nieprawidłową datę")
+
+print("podaj miesiąc - ")
+while True:
+    miesiac_str = input()
+    # sprawdzenie, czy wpisano cokolwiek i czy to liczba
+    if not miesiac_str.isdigit():
+        print("podano nieprawidłową datę")
+        continue
+    miesiac = int(miesiac_str)
+    # sprawdzenie zakresu
+    if 1 <= miesiac <=12:
+        break
+    else:
+        print("podano nieprawidłową datę")
+
+print("Podaj dzień: ")
+
+while True:
+    dzien_str = input()  # pobieramy jako string
+
+    if not dzien_str.isdigit():  # sprawdzenie czy nie pusty i same cyfry
+        print("podano nieprawidłową datę")
+        continue
+
+    dzien = int(dzien_str)
+
+    # sprawdzenie poprawności dnia w zależności od miesiąca i roku
+    if dzien < 1:
+        print("podano nieprawidłową datę")
+        continue
+
+    if miesiac == 2:
+        if (rok % 4 == 0 and dzien > 29) or (rok % 4 != 0 and dzien > 28):
+            print("podano nieprawidłową datę")
+            continue
+    elif miesiac in [4, 6, 9, 11] and dzien > 30:
+        print("podano nieprawidłową datę")
+        continue
+    elif dzien > 31:
+        print("podano nieprawidłową datę")
+        continue
+
+    break
 
 dany_dzien = date(rok, miesiac, dzien)
 
@@ -316,7 +356,7 @@ def show_final ():
         wenus.v_y += acceleration_y_w * config.dt
         wenus.v_z += acceleration_z_w * config.dt
 
-        update_labels()
+
         acceleration_x_ma = -mars.x * config.G * config.M / (mars.x ** 2 + mars.y ** 2 + mars.z ** 2) ** 1.5
         acceleration_y_ma = -mars.y * config.G * config.M / (mars.x ** 2 + mars.y ** 2 + mars.z ** 2) ** 1.5
         acceleration_z_ma = -mars.z * config.G * config.M / (mars.x ** 2 + mars.y ** 2 + mars.z ** 2) ** 1.5
@@ -334,6 +374,8 @@ def show_final ():
         #rozpadnij cząstki
         pt.dissect(aktywnosc, distance, config.dt)
 
+        #zaktualizuj podpisy
+        update_labels()
         # przesun czastke
         pt.particles[:, 1] += pt.particles[:, 4] * config.dt
         pt.particles[:, 2] += pt.particles[:, 5] * config.dt
@@ -343,13 +385,16 @@ def show_final ():
         acceleration_x = -pt.particles[:, 1]*config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*(1 - mu)
         acceleration_y = -pt.particles[:, 2]*config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*(1 - mu)
         acceleration_z = -pt.particles[:, 3]*config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*(1 - mu)
-        print(acceleration_y)
             #cząsteczki - Ziemia
         wektor_z_cz = [pt.particles[:,1] - ziemia.x, pt.particles[:,2] - ziemia.y, pt.particles[:,3] - ziemia.z] # wektor ziemia cząstka
-        acceleration_x += -wektor_z_cz[0] *config.G*config.M_z/(wektor_z_cz[0]**2 + wektor_z_cz[1]**2 + wektor_z_cz[2])**1.5
-        acceleration_y += -wektor_z_cz[1] *config.G*config.M_z/(wektor_z_cz[0]**2 + wektor_z_cz[1]**2 + wektor_z_cz[2])**1.5
-        acceleration_z += -wektor_z_cz[2] *config.G*config.M_z/(wektor_z_cz[0]**2 + wektor_z_cz[1]**2 + wektor_z_cz[2])**1.5
-        print(acceleration_y)
+        acceleration_x += -wektor_z_cz[0] *config.G*config.M_z/np.maximum(wektor_z_cz[0]**2 + wektor_z_cz[1]**2 + wektor_z_cz[2], 100)**1.5
+        acceleration_y += -wektor_z_cz[1] *config.G*config.M_z/np.maximum(wektor_z_cz[0]**2 + wektor_z_cz[1]**2 + wektor_z_cz[2], 100)**1.5
+        acceleration_z += -wektor_z_cz[2] *config.G*config.M_z/np.maximum(wektor_z_cz[0]**2 + wektor_z_cz[1]**2 + wektor_z_cz[2], 100)**1.5
+            #cząsteczki - Jowisz
+        wektor_j_cz = [pt.particles[:,1] - jowisz.x, pt.particles[:,2] - jowisz.y, pt.particles[:,3] - jowisz.z]
+        acceleration_x += -wektor_j_cz[0] *config.G*config.M_j/np.maximum(wektor_j_cz[0]**2 + wektor_j_cz[1]**2 + wektor_j_cz[2], 100)**1.5
+        acceleration_y += -wektor_j_cz[1] *config.G*config.M_j/np.maximum(wektor_j_cz[0]**2 + wektor_j_cz[1]**2 + wektor_j_cz[2], 100)**1.5
+        acceleration_z += -wektor_j_cz[2] *config.G*config.M_j/np.maximum(wektor_j_cz[0]**2 + wektor_j_cz[1]**2 + wektor_j_cz[2], 100)**1.5
 
         pt.particles[:, 4] += acceleration_x*config.dt
         pt.particles[:, 5] += acceleration_y*config.dt
