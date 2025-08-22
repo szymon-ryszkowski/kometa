@@ -8,6 +8,9 @@ import config as config
 # tablica particles i kolejka do generowania H2O
 particles = np.zeros((0, 8))
 queue_H_2O = 0
+ilosc_H20 = 0
+ilosc_H = 0
+ilosc_OH = 0
 
 
 def generate_velocity(v):
