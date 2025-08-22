@@ -51,12 +51,12 @@ sc = ax.scatter([], [], [], color='red', s=1, label='Cząstki H20')
 sc = ax.scatter([], [], [], color='green', s=1, label='Cząstki OH')
 traj_line, = ax.plot([], [], [], color='grey', label='Trajektoria komety')
 
-ax.set_xlim([kometa.x - 3e9, kometa.x + 3e9])
-ax.set_ylim([kometa.y - 3e9, kometa.y + 3e9])
-ax.set_zlim([kometa.z - 3e9, kometa.z + 3e9])
-ax.set_xlabel('X [m]')
-ax.set_ylabel('Y [m]')
-ax.set_zlabel('Z [m]')
+#ax.set_xlim([kometa.x - 3e15, kometa.x + 3e15])
+#ax.set_ylim([kometa.y - 3e15, kometa.y + 3e15])
+#ax.set_zlim([kometa.z - 3e15, kometa.z + 3e15])
+ax.set_xlabel('X [AU]')
+ax.set_ylabel('Y [AU]')
+ax.set_zlabel('Z [AU]')
 ax.set_title('Trajektoria komety w 3D')
 ax.legend(prop={'size': 8})
 plt.ion()  # Włącza interaktywne rysowanie
@@ -108,11 +108,14 @@ def show_final ():
                     colors = np.array([color_map[t] for t in pt.particles[:, 0]])
                     sc._offsets3d = (pt.particles[:, 1], pt.particles[:, 2], pt.particles[:, 3])
                     sc.set_color(colors)
+            # policz minimalną i maksymalną odległość do komety(do sprawdzania poprawności celestial_body.pu i loop.py)
+            distance = sqrt(kometa.x ** 2 + kometa.y ** 2 + kometa.z ** 2)
+            distances.append(distance)
             plt.draw()
             plt.pause(0.01)
-            ax.set_xlim([kometa.x - 5e11, kometa.x + 5e11])
-            ax.set_ylim([kometa.y - 5e11, kometa.y + 5e11])
-            ax.set_zlim([kometa.z - 5e11, kometa.z + 5e11])
+            ax.set_xlim([kometa.x - 1.15*distance, kometa.x + 1.15*distance])
+            ax.set_ylim([kometa.y - 1.15*distance, kometa.y + 1.15*distance])
+            ax.set_zlim([kometa.z - 1.15*distance, kometa.z + 1.15*distance])
 
         # dodaj trajektorie do wyswietlenia
         x_traj.append(kometa.x)
@@ -165,9 +168,7 @@ def show_final ():
         ziemia.v_y += acceleration_y_z * config.dt
         ziemia.v_z += acceleration_z_z * config.dt
 
-        #policz minimalną i maksymalną odległość do komety(do sprawdzania poprawności celestial_body.pu i loop.py)
-        distance = sqrt(kometa.x ** 2 + kometa.y ** 2 + kometa.z ** 2)
-        distances.append(distance)
+
 
         #rozpadnij cząstki
         pt.dissect(aktywnosc, distance, config.dt)
