@@ -65,10 +65,10 @@ ax = fig.add_subplot(111, projection='3d')
 #elementy wykresu
 ax.scatter(0, 0, 0, color='yellow', s=100, label='Słońce')  # Pozycja Słońca w środku
 Ziemia_o = ax.scatter(ziemia.x, ziemia.y, ziemia.z, color='darkblue', s=10, label='Ziemia')
-Merkury_o = ax.scatter(merkury.x, merkury.y, merkury.z, color='darkgrey', s=3, label='Merkury')
-Wenus_o = ax.scatter(wenus.x, wenus.y, wenus.z, color='orange', s=10, label='Wenus')
-Mars_o = ax.scatter(mars.x, mars.y, mars.z, color='red', s=7, label='Mars')
-Jowisz_o = ax.scatter(jowisz.x, jowisz.y, jowisz.z, color='black', s=20, label='Jowisz')
+Merkury_o = ax.scatter(merkury.x, merkury.y, merkury.z, color='grey', s=3, label='Merkury')
+Wenus_o = ax.scatter(wenus.x, wenus.y, wenus.z, color='grey', s=10, label='Wenus')
+Mars_o = ax.scatter(mars.x, mars.y, mars.z, color='grey', s=7, label='Mars')
+Jowisz_o = ax.scatter(jowisz.x, jowisz.y, jowisz.z, color='grey', s=20, label='Jowisz')
 traj_Ziemia, = ax.plot([], [],[], color='blue', linewidth=.5)
 traj_Merkury, = ax.plot([], [],[], color='grey', linewidth=.5)
 traj_Wenus, = ax.plot([], [],[], color='grey', linewidth=.5)
@@ -104,7 +104,11 @@ plt.subplots_adjust(right=0.8)
 plt.ion()  # Włącza interaktywne rysowanie
 plt.show()
 sun_label    = ax.text2D(0, 0, "Słońce", color="orange")
-earth_label  = ax.text2D(0, 0, "Ziemia", color="blue")
+earth_label  = ax.text2D(0, 0, "Ziemia",fontsize=7, color="blue")
+merkury_label  = ax.text2D(0, 0, "Merkury",fontsize=7, color="darkgrey")
+wenus_label  = ax.text2D(0, 0, "Wenus",fontsize=7, color="darkgrey")
+mars_label  = ax.text2D(0, 0, "Mars",fontsize=7, color="darkgrey")
+jowisz_label  = ax.text2D(0, 0, "Jowisz",fontsize=7, color="darkgrey")
 
 def update_labels():
     # projekcja 3D -> 2D dla Słońca
@@ -113,6 +117,18 @@ def update_labels():
     # projekcja 3D -> 2D dla Ziemi
     x2, y2, _ = proj3d.proj_transform(ziemia.x, ziemia.y, ziemia.z, ax.get_proj())
     earth_label.set_position((x2 + 0.001, y2 + 0.002))
+    # projekcja 3D -> 2D dla Merkurego
+    x2, y2, _ = proj3d.proj_transform(merkury.x, merkury.y, merkury.z, ax.get_proj())
+    merkury_label.set_position((x2 + 0.001, y2 + 0.002))
+    # projekcja 3D -> 2D dla Wenus
+    x2, y2, _ = proj3d.proj_transform(wenus.x, wenus.y, wenus.z, ax.get_proj())
+    wenus_label.set_position((x2 + 0.001, y2 + 0.002))
+    # projekcja 3D -> 2D dla Marsa
+    x2, y2, _ = proj3d.proj_transform(mars.x, mars.y, mars.z, ax.get_proj())
+    mars_label.set_position((x2 + 0.001, y2 + 0.002))
+    # projekcja 3D -> 2D dla Jowisza
+    x2, y2, _ = proj3d.proj_transform(jowisz.x, jowisz.y, jowisz.z, ax.get_proj())
+    jowisz_label.set_position((x2 + 0.001, y2 + 0.002))
 
 
 # zapis trajektorii komety
@@ -316,7 +332,6 @@ def show_final ():
         wenus.v_y += acceleration_y_w * config.dt
         wenus.v_z += acceleration_z_w * config.dt
 
-        update_labels()
         acceleration_x_ma = -mars.x * config.G * config.M / (mars.x ** 2 + mars.y ** 2 + mars.z ** 2) ** 1.5
         acceleration_y_ma = -mars.y * config.G * config.M / (mars.x ** 2 + mars.y ** 2 + mars.z ** 2) ** 1.5
         acceleration_z_ma = -mars.z * config.G * config.M / (mars.x ** 2 + mars.y ** 2 + mars.z ** 2) ** 1.5
@@ -330,6 +345,8 @@ def show_final ():
         jowisz.v_x += acceleration_x_j * config.dt
         jowisz.v_y += acceleration_y_j * config.dt
         jowisz.v_z += acceleration_z_j * config.dt
+
+        update_labels()
 
         #rozpadnij cząstki
         pt.dissect(aktywnosc, distance, config.dt)
