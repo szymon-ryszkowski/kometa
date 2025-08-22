@@ -1,5 +1,6 @@
 from math import *
 from datetime import date
+import numpy as np
 from mpl_toolkits.mplot3d import proj3d
 # konwencja numeracji cząstek
 # 0 - H2O
@@ -33,9 +34,9 @@ r_p = 1
 e_k =  0.7# mimośród oribty
 i_k = 0  # inklinacja orbity [stopnie]
 t_0_k = 0  # czas przejścia przez perycentrum [s]
-arg_of_per_k = 0  # argument perycentrum[stopnie]
+arg_of_per_k = 0 # argument perycentrum[stopnie]
 long_of_asc_z_k = 0  # długość węzła wstępującego[stopnie]
-theta = 5.6
+theta = np.pi * 1.5
 if e_k>=1:
     theta = 3.5
 
@@ -45,7 +46,7 @@ if e_k >1:
 
 
 
-t_k = -1  # czas w momencie początku symulacji [s]
+t_k = 1  # czas w momencie początku symulacji [s]
 
 # dane Ziemi
 a_m = 1 # półoś wielka obiektu [AU]
