@@ -46,11 +46,12 @@ ax = fig.add_subplot(111, projection='3d')
 ax.scatter(0, 0, 0, color='yellow', s=100, label='Słońce')  # Pozycja Słońca w środku
 Ziemia_o = ax.scatter(ziemia.x, ziemia.y, ziemia.z, color='darkblue', s=10, label='Ziemia')
 traj_Ziemia, = ax.plot([], [],[], color='blue', linewidth=.5)
+Kometa = ax.scatter(kometa.x, kometa.y, kometa.z, color='grey', s=5, label='Kometa')
 sc = ax.scatter([], [], [], color=config.color_map[1], s=1, label='Cząstki H')
 sc = ax.scatter([], [], [], color=config.color_map[0], s=1, label='Cząstki H20')
 sc = ax.scatter([], [], [], color=config.color_map[2], s=1, label='Cząstki OH')
 traj_line, = ax.plot([], [], [], color='grey')
-Kometa = ax.scatter(kometa.x, kometa.y, kometa.z, color='grey', s=5, label='Kometa')
+
 
 ax.set_xlabel('X [AU]')
 ax.set_ylabel('Y [AU]')
