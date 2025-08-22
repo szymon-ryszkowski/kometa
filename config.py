@@ -1,6 +1,6 @@
 from math import *
 from datetime import date
-
+from mpl_toolkits.mplot3d import proj3d
 # konwencja numeracji cząstek
 # 0 - H2O
 # 1 - H
@@ -133,3 +133,6 @@ color_map = {
     0: (1, 0.64, 0),  # pomarańczowy
     2: (0.5, 0, 0, 1.0),  # ciemnoczerwony
 }
+
+
+

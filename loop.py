@@ -8,6 +8,7 @@ from datetime import date
 from datetime import timedelta
 from math import *
 from matplotlib.lines import Line2D
+from mpl_toolkits.mplot3d import proj3d
 from mpl_toolkits.mplot3d import Axes3D
 import mpl_toolkits.mplot3d.axes3d as p3
 from mpl_toolkits.mplot3d import Axes3D
@@ -86,12 +87,6 @@ ax.set_title('Trajektoria komety w 3D')
 
 #elementy legendy, potrzebne do skalowania
 legend_elements = [
-    Line2D([0], [0], marker='o', color='w', label='Słońce',
-           markerfacecolor='yellow', markersize=15),
-    Line2D([0], [0], marker='o', color='w', label='Ziemia',
-           markerfacecolor='darkblue', markersize=10),
-    Line2D([0], [0], marker='o', color='w', label='Merkury',
-           markerfacecolor='darkgrey', markersize=7),
     Line2D([0], [0], marker='o', color='w', label='Kometa',
            markerfacecolor='red', markersize=8),
     Line2D([0], [0], marker='o', color='w', label='Cząstki H',
@@ -108,6 +103,17 @@ plt.tight_layout()
 plt.subplots_adjust(right=0.8)
 plt.ion()  # Włącza interaktywne rysowanie
 plt.show()
+sun_label    = ax.text2D(0, 0, "Słońce", color="orange")
+earth_label  = ax.text2D(0, 0, "Ziemia", color="blue")
+
+def update_labels():
+    # projekcja 3D -> 2D dla Słońca
+    x2, y2, _ = proj3d.proj_transform(0, 0, 0, ax.get_proj())
+    sun_label.set_position((x2 + 0.001, y2 + 0.002))
+    # projekcja 3D -> 2D dla Ziemi
+    x2, y2, _ = proj3d.proj_transform(ziemia.x, ziemia.y, ziemia.z, ax.get_proj())
+    earth_label.set_position((x2 + 0.001, y2 + 0.002))
+
 
 # zapis trajektorii komety
 x_traj = []
@@ -310,6 +316,7 @@ def show_final ():
         wenus.v_y += acceleration_y_w * config.dt
         wenus.v_z += acceleration_z_w * config.dt
 
+        update_labels()
         acceleration_x_ma = -mars.x * config.G * config.M / (mars.x ** 2 + mars.y ** 2 + mars.z ** 2) ** 1.5
         acceleration_y_ma = -mars.y * config.G * config.M / (mars.x ** 2 + mars.y ** 2 + mars.z ** 2) ** 1.5
         acceleration_z_ma = -mars.z * config.G * config.M / (mars.x ** 2 + mars.y ** 2 + mars.z ** 2) ** 1.5
