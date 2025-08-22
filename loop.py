@@ -42,7 +42,7 @@ dany_dzien = date(rok, miesiac, dzien)
 
 
 # animacja 3d przygotowanie wykresu (czerwone cząstki - H2O, turkusowe - typu 1)
-fig = plt.figure(figsize=(19.2, 10.80), dpi=100)
+fig = plt.figure(figsize=(14.4, 8.1), dpi=100)
 ax = fig.add_subplot(111, projection='3d')
 
 #elementy wykresu
@@ -69,11 +69,11 @@ legend_elements = [
     Line2D([0], [0], marker='o', color='w', label='Kometa',
            markerfacecolor='red', markersize=8),
     Line2D([0], [0], marker='o', color='w', label='Cząstki H',
-           markerfacecolor='green', markersize=6),
+           markerfacecolor=config.color_map[1], markersize=6),
     Line2D([0], [0], marker='o', color='w', label='Cząstki H2O',
-           markerfacecolor='cyan', markersize=6),
+           markerfacecolor=config.color_map[0], markersize=6),
     Line2D([0], [0], marker='o', color='w', label='Cząstki OH',
-           markerfacecolor='magenta', markersize=6)
+           markerfacecolor=config.color_map[2], markersize=6)
 ]
 
 # Legenda - skalowanie
@@ -217,13 +217,13 @@ def show_final ():
         acceleration_x = -pt.particles[:, 1]*config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*(1 - mu)
         acceleration_y = -pt.particles[:, 2]*config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*(1 - mu)
         acceleration_z = -pt.particles[:, 3]*config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*(1 - mu)
-
+        print(acceleration_y)
             #cząsteczki - Ziemia
         wektor_z_cz = [pt.particles[:,1] - ziemia.x, pt.particles[:,2] - ziemia.y, pt.particles[:,3] - ziemia.z] # wektor ziemia cząstka
-        acceleration_x += -wektor_z_cz[0] *config.G*config.M_z/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*2000
-        acceleration_y += -wektor_z_cz[1] *config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*2000
-        acceleration_z += -wektor_z_cz[2] *config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*2000
-
+        acceleration_x += -wektor_z_cz[0] *config.G*config.M_z/(wektor_z_cz[0]**2 + wektor_z_cz[1]**2 + wektor_z_cz[2])**1.5
+        acceleration_y += -wektor_z_cz[1] *config.G*config.M_z/(wektor_z_cz[0]**2 + wektor_z_cz[1]**2 + wektor_z_cz[2])**1.5
+        acceleration_z += -wektor_z_cz[2] *config.G*config.M_z/(wektor_z_cz[0]**2 + wektor_z_cz[1]**2 + wektor_z_cz[2])**1.5
+        print(acceleration_y)
 
         pt.particles[:, 4] += acceleration_x*config.dt
         pt.particles[:, 5] += acceleration_y*config.dt
