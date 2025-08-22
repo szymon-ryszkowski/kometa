@@ -21,20 +21,18 @@ ziemia = (
                      config.long_of_asc_z_m, 1, config.t_m, config.M, config.G,0))
 
 merkury = (
-    cb.Celestial_Body(config.a_mer*config.AU, config.e_mer, config.i_mer, config.t_0_mer, config.arg_of_per_mer,
-                     config.long_of_asc_z_mer, 1, config.t_mer, config.M_mer, config.G,0))
-
+    cb.Celestial_Body(config.a_mer*config.AU, config.e_mer, config.i_m, config.t_0_m, config.arg_of_per_m,
+                     config.long_of_asc_z_m, 1, config.t_m, config.M, config.G,0))
 wenus = (
-    cb.Celestial_Body(config.a_w*config.AU, config.e_w, config.i_w, config.t_0_w, config.arg_of_per_w,
-                     config.long_of_asc_z_w, 1, config.t_w, config.M_w, config.G,0))
-
+    cb.Celestial_Body(config.a_w*config.AU, config.e_w, config.i_m, config.t_0_m, config.arg_of_per_m,
+                     config.long_of_asc_z_m, 1, config.t_m, config.M, config.G,0))
 mars = (
-    cb.Celestial_Body(config.a_ma*config.AU, config.e_ma, config.i_ma, config.t_0_ma, config.arg_of_per_ma,
-                     config.long_of_asc_z_ma, 1, config.t_ma, config.M_ma, config.G,0))
-
+    cb.Celestial_Body(config.a_ma*config.AU, config.e_ma, config.i_m, config.t_0_m, config.arg_of_per_m,
+                     config.long_of_asc_z_m, 1, config.t_m, config.M, config.G,0))
 jowisz = (
-    cb.Celestial_Body(config.a_j*config.AU, config.e_j, config.i_j, config.t_0_j, config.arg_of_per_j,
-                     config.long_of_asc_z_j, 1, config.t_j, config.M_j, config.G,0))
+    cb.Celestial_Body(config.a_j*config.AU, config.e_j, config.i_m, config.t_0_m, config.arg_of_per_m,
+                     config.long_of_asc_z_m, 1, config.t_m, config.M, config.G,0))
+
 
 
 print("podaj rok w zakresie od 1948 do 2024- ")
