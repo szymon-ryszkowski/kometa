@@ -86,8 +86,10 @@ def dissect(aktywnosc, odlegosc, dt):
     mask_oh = particles[:, 0] == 2
     chance = 1 - np.exp(-define_activity(aktywnosc, config.max_OH ,config.min_OH) * dt * au2)
     mask = np.random.rand(particles[mask_oh].shape[0]) <= chance
-    particles[mask_oh][mask, 0] = 1
-    particles[mask_oh][mask, 4:7] = generate_velocity2(particles[mask_oh][mask].shape[0],[7940, 10990, 26300, 22730, 23160, 23610, 21830, 22350, 22080, 21570, 21310, 21070, 17080, 24090, 24570, 25020, 20810, 26770, 26350, 25480], [4.05E-06, 5.00E-07, 4.65E-07, 2.49E-07, 2.21E-07, 1.32E-07, 1.23E-07, 1.18E-07, 1.18E-07, 1.13E-07, 9.62E-08, 6.46E-08, 5.00E-08, 4.70E-08, 3.99E-08, 2.59E-08, 2.25E-08, 2.05E-08, 2.05E-08, 1.88E-08])
+    duplikaty = particles[mask_oh][mask]
+    duplikaty[:, 4:7] += generate_velocity2(duplikaty.shape[0],[7940, 10990, 26300, 22730, 23160, 23610, 21830, 22350, 22080, 21570, 21310, 21070, 17080, 24090, 24570, 25020, 20810, 26770, 26350, 25480], [4.05E-06, 5.00E-07, 4.65E-07, 2.49E-07, 2.21E-07, 1.32E-07, 1.23E-07, 1.18E-07, 1.18E-07, 1.13E-07, 9.62E-08, 6.46E-08, 5.00E-08, 4.70E-08, 3.99E-08, 2.59E-08, 2.25E-08, 2.05E-08, 2.05E-08, 1.88E-08])
+    duplikaty[:,0]= 1
+    particles = np.concatenate([particles[~mask_oh], particles[mask_oh][~mask], duplikaty], axis=0)
 
     # rozpad wody na O, H i H
     mask_h2o = particles[:, 0] == 0
@@ -111,7 +113,6 @@ def dissect(aktywnosc, odlegosc, dt):
     duplikaty[::2, 4:7] += generate_velocity2([duplikaty[::2].shape[0]],[7200,19690,20200,5000,20730,18650,18940,19250,18350,18050,21810,21280,17740,22300,17430,22800,27420,24070,19430,17120],[4.53E-06,8.03E-07,7.24E-07,5.20E-07,5.18E-07,4.84E-07,4.68E-07,4.22E-07,4.00E-07,2.85E-07,2.43E-07,2.22E-07,1.96E-07,1.46E-07,1.46E-07,8.46E-08,7.62E-08,7.56E-08,6.97E-08,6.05E-08])
     duplikaty[1::2, 4:7] += generate_velocity2(duplikaty[1::2].shape[0], [1011.76, 1158.24, 1188.24, 294.12, 1219.41, 1097.06, 1114.12, 1132.35, 1079.41, 1061.76, 1282.94, 1251.76, 1043.53, 1311.76, 1025.29, 1341.18, 1612.94, 1415.88, 1142.94, 1007.06],[4.53E-06,8.03E-07,7.24E-07,5.20E-07,5.18E-07,4.84E-07,4.68E-07,4.22E-07,4.00E-07,2.85E-07,2.43E-07,2.22E-07,1.96E-07,1.46E-07,1.46E-07,8.46E-08,7.62E-08,7.56E-08,6.97E-08,6.05E-08])
     particles = np.concatenate([particles[~mask_h2o], particles[mask_h2o][~mask], duplikaty], axis=0)
-    print(chance)
 
 
     particles[:, 7] = np.array(config.mu)[particles[:, 0].astype(int)]

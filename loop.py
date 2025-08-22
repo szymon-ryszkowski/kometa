@@ -102,7 +102,7 @@ def show_final ():
                     color_map = {
                         1: (0, 1, 1, 0.5),  # aqua z opacity 0.3
                         0: (1, 0, 0, 1.0),  # czerwony, pełna intensywność
-                        2: (0, 1, 0, 1.0),  # zielony, pełna intensywność
+                        2: (0.5, 0, 0, 1.0),  # zielony, pełna intensywność
                     }
                     # przypisanie kolorów
                     colors = np.array([color_map[t] for t in pt.particles[:, 0]])
@@ -142,7 +142,6 @@ def show_final ():
 
         #odległość Ziemi od komety
         distane_zk = sqrt((kometa.x-ziemia.x)**2+(kometa.y-ziemia.y)**2+(kometa.z-ziemia.z)**2)
-        print("odległość",distane_zk)
         wektor_zk = [kometa.x - ziemia.x, kometa.y - ziemia.y, kometa.z - ziemia.z]
 
         # zmien predkosc
