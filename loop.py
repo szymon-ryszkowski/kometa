@@ -195,6 +195,7 @@ def show_final ():
         kometa.v_y += acceleration_y * config.dt
         kometa.v_z += acceleration_z * config.dt
 
+
         acceleration_x_z = -ziemia.x * config.G * config.M / (ziemia.x ** 2 + ziemia.y ** 2 + ziemia.z ** 2) ** 1.5
         acceleration_y_z = -ziemia.y * config.G * config.M / (ziemia.x ** 2 + ziemia.y ** 2 + ziemia.z ** 2) ** 1.5
         acceleration_z_z = -ziemia.z * config.G * config.M / (ziemia.x ** 2 + ziemia.y ** 2 + ziemia.z ** 2) ** 1.5
@@ -216,6 +217,13 @@ def show_final ():
         acceleration_x = -pt.particles[:, 1]*config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*(1 - mu)
         acceleration_y = -pt.particles[:, 2]*config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*(1 - mu)
         acceleration_z = -pt.particles[:, 3]*config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*(1 - mu)
+
+            #cząsteczki - Ziemia
+        wektor_z_cz = [pt.particles[:,1] - ziemia.x, pt.particles[:,2] - ziemia.y, pt.particles[:,3] - ziemia.z] # wektor ziemia cząstka
+        acceleration_x += -wektor_z_cz[0] *config.G*config.M_z/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*2000
+        acceleration_y += -wektor_z_cz[1] *config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*2000
+        acceleration_z += -wektor_z_cz[2] *config.G*config.M/(pt.particles[:, 1]**2 + pt.particles[:, 2]**2 + pt.particles[:, 3])**1.5*2000
+
 
         pt.particles[:, 4] += acceleration_x*config.dt
         pt.particles[:, 5] += acceleration_y*config.dt
