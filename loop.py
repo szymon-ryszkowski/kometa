@@ -152,6 +152,11 @@ def show_final ():
         ziemia.y += ziemia.v_y * config.dt
         ziemia.z += ziemia.v_z * config.dt
 
+        # aktualizacja pozycji Ziemi
+        Ziemia_o._offsets3d = (np.array([ziemia.x]), np.array([ziemia.y]), np.array([ziemia.z]))
+        # aktualizacja pozycji komety
+        Kometa._offsets3d = (np.array([kometa.x]), np.array([kometa.y]), np.array([kometa.z]))
+
         #odległość Ziemi od komety
         distane_zk = sqrt((kometa.x-ziemia.x)**2+(kometa.y-ziemia.y)**2+(kometa.z-ziemia.z)**2)
         wektor_zk = [kometa.x - ziemia.x, kometa.y - ziemia.y, kometa.z - ziemia.z]
