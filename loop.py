@@ -88,7 +88,7 @@ def show_final ():
         aktywnosc = Sun.sun_aktywnosc(int(ile_dni + (liczba_krokow / config.dzien_krok)))
         pt.count_particles()
         # animacja 3d
-        if i % 100 == 0:
+        if i % 50 == 0:
             time_text.set_text(aktualna_data)
             traj_line.set_data(x_traj, y_traj)
             traj_line.set_3d_properties(z_traj)
@@ -100,9 +100,9 @@ def show_final ():
                 if pt.particles.shape[0] > 0:
                     # mapa typów do kolorów
                     color_map = {
-                        1: "aqua",
-                        0: "red",
-                        2: "green",
+                        1: (0, 1, 1, 0.5),  # aqua z opacity 0.3
+                        0: (1, 0, 0, 1.0),  # czerwony, pełna intensywność
+                        2: (0, 1, 0, 1.0),  # zielony, pełna intensywność
                     }
                     # przypisanie kolorów
                     colors = np.array([color_map[t] for t in pt.particles[:, 0]])
@@ -113,9 +113,9 @@ def show_final ():
             distances.append(distance)
             plt.draw()
             plt.pause(0.01)
-            ax.set_xlim([kometa.x - 1.15*distance, kometa.x + 1.15*distance])
-            ax.set_ylim([kometa.y - 1.15*distance, kometa.y + 1.15*distance])
-            ax.set_zlim([kometa.z - 1.15*distance, kometa.z + 1.15*distance])
+            ax.set_xlim([0.2*kometa.x - 0.85*distance, 0.2*kometa.x + 0.85*distance])
+            ax.set_ylim([0.2*kometa.y - 0.85*distance, 0.2*kometa.y + 0.85*distance])
+            ax.set_zlim([0.2*kometa.z - 0.85*distance, 0.2*kometa.z + 0.85*distance])
 
         # dodaj trajektorie do wyswietlenia
         x_traj.append(kometa.x)
