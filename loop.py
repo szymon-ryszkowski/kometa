@@ -19,6 +19,22 @@ ziemia = (
     cb.Celestial_Body(config.a_m*config.AU, config.e_m, config.i_m, config.t_0_m, config.arg_of_per_m,
                      config.long_of_asc_z_m, 1, config.t_m, config.M, config.G,0))
 
+merkury = (
+    cb.Celestial_Body(config.a_mer*config.AU, config.e_mer, config.i_mer, config.t_0_mer, config.arg_of_per_mer,
+                     config.long_of_asc_z_mer, 1, config.t_mer, config.M_mer, config.G,0))
+
+wenus = (
+    cb.Celestial_Body(config.a_w*config.AU, config.e_w, config.i_w, config.t_0_w, config.arg_of_per_w,
+                     config.long_of_asc_z_w, 1, config.t_w, config.M_w, config.G,0))
+
+mars = (
+    cb.Celestial_Body(config.a_ma*config.AU, config.e_ma, config.i_ma, config.t_0_ma, config.arg_of_per_ma,
+                     config.long_of_asc_z_ma, 1, config.t_ma, config.M_ma, config.G,0))
+
+jowisz = (
+    cb.Celestial_Body(config.a_j*config.AU, config.e_j, config.i_j, config.t_0_j, config.arg_of_per_j,
+                     config.long_of_asc_z_j, 1, config.t_j, config.M_j, config.G,0))
+
 
 print("podaj rok w zakresie od 1948 do 2024- ")
 rok = int(input())
@@ -48,7 +64,15 @@ ax = fig.add_subplot(111, projection='3d')
 #elementy wykresu
 ax.scatter(0, 0, 0, color='yellow', s=100, label='Słońce')  # Pozycja Słońca w środku
 Ziemia_o = ax.scatter(ziemia.x, ziemia.y, ziemia.z, color='darkblue', s=10, label='Ziemia')
+Merkury_o = ax.scatter(merkury.x, merkury.y, merkury.z, color='darkgrey', s=3, label='Merkury')
+Wenus_o = ax.scatter(wenus.x, wenus.y, wenus.z, color='orange', s=10, label='Wenus')
+Mars_o = ax.scatter(mars.x, mars.y, mars.z, color='red', s=7, label='Mars')
+Jowisz_o = ax.scatter(jowisz.x, jowisz.y, jowisz.z, color='black', s=20, label='Jowisz')
 traj_Ziemia, = ax.plot([], [],[], color='blue', linewidth=.5)
+traj_Merkury, = ax.plot([], [],[], color='grey', linewidth=.5)
+traj_Wenus, = ax.plot([], [],[], color='grey', linewidth=.5)
+traj_Mars, = ax.plot([], [],[], color='grey', linewidth=.5)
+traj_Jowisz, = ax.plot([], [],[], color='grey', linewidth=.5)
 Kometa = ax.scatter(kometa.x, kometa.y, kometa.z, color='red', s=5, label='Kometa')
 sc = ax.scatter([], [], [], color=config.color_map[1], s=1, label='Cząstki H' )
 sc = ax.scatter([], [], [], color=config.color_map[0], s=1, label='Cząstki H20')
@@ -66,6 +90,8 @@ legend_elements = [
            markerfacecolor='yellow', markersize=15),
     Line2D([0], [0], marker='o', color='w', label='Ziemia',
            markerfacecolor='darkblue', markersize=10),
+    Line2D([0], [0], marker='o', color='w', label='Merkury',
+           markerfacecolor='darkgrey', markersize=7),
     Line2D([0], [0], marker='o', color='w', label='Kometa',
            markerfacecolor='red', markersize=8),
     Line2D([0], [0], marker='o', color='w', label='Cząstki H',
@@ -92,6 +118,22 @@ x_traj_z = []
 y_traj_z = []
 z_traj_z = []
 
+x_traj_mer = []
+y_traj_mer = []
+z_traj_mer = []
+
+x_traj_w = []
+y_traj_w = []
+z_traj_w = []
+
+x_traj_ma = []
+y_traj_ma = []
+z_traj_ma = []
+
+x_traj_j = []
+y_traj_j = []
+z_traj_j = []
+
 # zapis odległości do Słońca komety(do sprawdzania poprawności celestial_body.pu i loop.py)
 distances = []
 
@@ -111,11 +153,25 @@ def show_final ():
         # animacja 3d
         if i % 50 == 0:
             time_text.set_text(aktualna_data)
+
             traj_line.set_data(x_traj, y_traj)
             traj_line.set_3d_properties(z_traj)
+
             traj_Ziemia.set_data(x_traj_z, y_traj_z)
             traj_Ziemia.set_3d_properties(z_traj_z)
-            #Ziemia_o._offsets3d = (ziemia.x, ziemia.y, ziemia.z)
+
+            traj_Merkury.set_data(x_traj_mer, y_traj_mer)
+            traj_Merkury.set_3d_properties(z_traj_mer)
+
+            traj_Wenus.set_data(x_traj_w, y_traj_w)
+            traj_Wenus.set_3d_properties(z_traj_w)
+
+            traj_Mars.set_data(x_traj_ma, y_traj_ma)
+            (traj_Mars.set_3d_properties(z_traj_ma))
+
+            traj_Jowisz.set_data(x_traj_j, y_traj_j)
+            traj_Jowisz.set_3d_properties(z_traj_j)
+
             if pt.particles.shape[0] > 0:
                 sc._offsets3d = (pt.particles[:, 1], pt.particles[:, 2], pt.particles[:, 3])
                 if pt.particles.shape[0] > 0:
@@ -156,12 +212,28 @@ def show_final ():
         y_traj_z.append(ziemia.y)
         z_traj_z.append(ziemia.z)
 
+        x_traj_mer.append(merkury.x)
+        y_traj_mer.append(merkury.y)
+        z_traj_mer.append(merkury.z)
+
+        x_traj_w.append(wenus.x)
+        y_traj_w.append(wenus.y)
+        z_traj_w.append(wenus.z)
+
+        x_traj_ma.append(mars.x)
+        y_traj_ma.append(mars.y)
+        z_traj_ma.append(mars.z)
+
+        x_traj_j.append(jowisz.x)
+        y_traj_j.append(jowisz.y)
+        z_traj_j.append(jowisz.z)
+
         # utwórz cząstki
         ratio = pt.calculate_sim_ratio(config.absolute_ratio_H_2O, sqrt(kometa.x**2 + kometa.y**2 + kometa.z**2), -3)
         pt.queue_H_2O += ratio*config.dt
         pt.add_particles(1000, kometa.x, kometa.y, kometa.z, kometa.v_x, kometa.v_y, kometa.v_z)
 
-        # przesun komete i Ziemie
+        # przesun komete i planety
         kometa.x += kometa.v_x * config.dt
         kometa.y += kometa.v_y * config.dt
         kometa.z += kometa.v_z * config.dt
@@ -170,8 +242,32 @@ def show_final ():
         ziemia.y += ziemia.v_y * config.dt
         ziemia.z += ziemia.v_z * config.dt
 
+        merkury.x += merkury.v_x * config.dt
+        merkury.y += merkury.v_y * config.dt
+        merkury.z += merkury.v_z * config.dt
+
+        wenus.x += wenus.v_x * config.dt
+        wenus.y += wenus.v_y * config.dt
+        wenus.z += wenus.v_z * config.dt
+
+        mars.x += mars.v_x * config.dt
+        mars.y += mars.v_y * config.dt
+        mars.z += mars.v_z * config.dt
+
+        jowisz.x += jowisz.v_x * config.dt
+        jowisz.y += jowisz.v_y * config.dt
+        jowisz.z += jowisz.v_z * config.dt
+
         # aktualizacja pozycji Ziemi
         Ziemia_o._offsets3d = (np.array([ziemia.x]), np.array([ziemia.y]), np.array([ziemia.z]))
+
+        Merkury_o._offsets3d = (np.array([merkury.x]), np.array([merkury.y]), np.array([merkury.z]))
+
+        Wenus_o._offsets3d = (np.array([wenus.x]), np.array([wenus.y]), np.array([wenus.z]))
+
+        Mars_o._offsets3d = (np.array([mars.x]), np.array([mars.y]), np.array([mars.z]))
+
+        Jowisz_o._offsets3d = (np.array([jowisz.x]), np.array([jowisz.y]), np.array([jowisz.z]))
         # aktualizacja pozycji komety
         Kometa._offsets3d = (np.array([kometa.x]), np.array([kometa.y]), np.array([kometa.z]))
 
@@ -184,12 +280,9 @@ def show_final ():
         acceleration_y = - kometa.y * config.G * config.M / (kometa.x ** 2 + kometa.y ** 2 + kometa.z ** 2) ** 1.5
         acceleration_z = - kometa.z * config.G * config.M / (kometa.x ** 2 + kometa.y ** 2 + kometa.z ** 2) ** 1.5
 
-        acceleration_x += wektor_zk[0] * config.G * config.M_z / (
-                    wektor_zk[0] ** 2 + wektor_zk[1] ** 2 + wektor_zk[2] ** 2) ** 1.5
-        acceleration_y += wektor_zk[1] * config.G * config.M_z / (
-                    wektor_zk[0] ** 2 + wektor_zk[1] ** 2 + wektor_zk[2] ** 2) ** 1.5
-        acceleration_z += wektor_zk[2] * config.G * config.M_z / (
-                    wektor_zk[0] ** 2 + wektor_zk[1] ** 2 + wektor_zk[2] ** 2) ** 1.5
+        acceleration_x += wektor_zk[0] * config.G * config.M_z / (wektor_zk[0] ** 2 + wektor_zk[1] ** 2 + wektor_zk[2] ** 2) ** 1.5
+        acceleration_y += wektor_zk[1] * config.G * config.M_z / (wektor_zk[0] ** 2 + wektor_zk[1] ** 2 + wektor_zk[2] ** 2) ** 1.5
+        acceleration_z += wektor_zk[2] * config.G * config.M_z / (wektor_zk[0] ** 2 + wektor_zk[1] ** 2 + wektor_zk[2] ** 2) ** 1.5
 
         kometa.v_x += acceleration_x * config.dt
         kometa.v_y += acceleration_y * config.dt
@@ -203,7 +296,33 @@ def show_final ():
         ziemia.v_y += acceleration_y_z * config.dt
         ziemia.v_z += acceleration_z_z * config.dt
 
+        acceleration_x_me = -merkury.x * config.G * config.M / (merkury.x ** 2 + merkury.y ** 2 + merkury.z ** 2) ** 1.5
+        acceleration_y_me = -merkury.y * config.G * config.M / (merkury.x ** 2 + merkury.y ** 2 + merkury.z ** 2) ** 1.5
+        acceleration_z_me = -merkury.z * config.G * config.M / (merkury.x ** 2 + merkury.y ** 2 + merkury.z ** 2) ** 1.5
+        merkury.v_x += acceleration_x_me * config.dt
+        merkury.v_y += acceleration_y_me * config.dt
+        merkury.v_z += acceleration_z_me * config.dt
 
+        acceleration_x_w = -wenus.x * config.G * config.M / (wenus.x ** 2 + wenus.y ** 2 + wenus.z ** 2) ** 1.5
+        acceleration_y_w = -wenus.y * config.G * config.M / (wenus.x ** 2 + wenus.y ** 2 + wenus.z ** 2) ** 1.5
+        acceleration_z_w = -wenus.z * config.G * config.M / (wenus.x ** 2 + wenus.y ** 2 + wenus.z ** 2) ** 1.5
+        wenus.v_x += acceleration_x_w * config.dt
+        wenus.v_y += acceleration_y_w * config.dt
+        wenus.v_z += acceleration_z_w * config.dt
+
+        acceleration_x_ma = -mars.x * config.G * config.M / (mars.x ** 2 + mars.y ** 2 + mars.z ** 2) ** 1.5
+        acceleration_y_ma = -mars.y * config.G * config.M / (mars.x ** 2 + mars.y ** 2 + mars.z ** 2) ** 1.5
+        acceleration_z_ma = -mars.z * config.G * config.M / (mars.x ** 2 + mars.y ** 2 + mars.z ** 2) ** 1.5
+        mars.v_x += acceleration_x_ma * config.dt
+        mars.v_y += acceleration_y_ma * config.dt
+        mars.v_z += acceleration_z_ma * config.dt
+
+        acceleration_x_j = -jowisz.x * config.G * config.M / (jowisz.x ** 2 + jowisz.y ** 2 + jowisz.z ** 2) ** 1.5
+        acceleration_y_j = -jowisz.y * config.G * config.M / (jowisz.x ** 2 + jowisz.y ** 2 + jowisz.z ** 2) ** 1.5
+        acceleration_z_j = -jowisz.z * config.G * config.M / (jowisz.x ** 2 + jowisz.y ** 2 + jowisz.z ** 2) ** 1.5
+        jowisz.v_x += acceleration_x_j * config.dt
+        jowisz.v_y += acceleration_y_j * config.dt
+        jowisz.v_z += acceleration_z_j * config.dt
 
         #rozpadnij cząstki
         pt.dissect(aktywnosc, distance, config.dt)

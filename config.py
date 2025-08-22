@@ -55,10 +55,50 @@ t_0_m = 0  # czas przejścia przez perycentrum [s]
 arg_of_per_m = 0  # argument perycentrum[stopnie]
 long_of_asc_z_m = 0  # długość węzła wstępującego[stopnie]
 t_m = 0  # czas w momencie początku symulacji [s]
+M_z = 5.9722 * 10 ** 24 # Masa Ziemi
+
+# dane Merkurego
+a_mer = 0.39 # półoś wielka obiektu [AU]
+e_mer = 0.2056  # mimośród oribty
+i_mer = 0 # inklinacja orbity [stopnie]
+t_0_mer = 0  # czas przejścia przez perycentrum [s]
+arg_of_per_mer = 0  # argument perycentrum[stopnie]
+long_of_asc_z_mer = 0  # długość węzła wstępującego[stopnie]
+t_mer = 0  # czas w momencie początku symulacji [s]
+M_mer = 3.3011 * 10 ** 23 # Masa Merkurego
+
+# dane Wenus
+a_w = 0.7233 # półoś wielka obiektu [AU]
+e_w = 0.0068  # mimośród oribty
+i_w = 0 # inklinacja orbity [stopnie]
+t_0_w = 0  # czas przejścia przez perycentrum [s]
+arg_of_per_w = 0  # argument perycentrum[stopnie]
+long_of_asc_z_w = 0  # długość węzła wstępującego[stopnie]
+t_w = 0  # czas w momencie początku symulacji [s]
+M_w = 4.867 * 10 ** 24 # Masa
+
+# dane Marsa
+a_ma = 1.524 # półoś wielka obiektu [AU]
+e_ma = 0.0934  # mimośród oribty
+i_ma = 0 # inklinacja orbity [stopnie]
+t_0_ma = 0  # czas przejścia przez perycentrum [s]
+arg_of_per_ma = 0  # argument perycentrum[stopnie]
+long_of_asc_z_ma = 0  # długość węzła wstępującego[stopnie]
+t_ma = 0  # czas w momencie początku symulacji [s]
+M_ma = 6.4171 * 10 ** 23 # Masa
+
+# dane Jowisza
+a_j = 5.20 # półoś wielka obiektu [AU]
+e_j = 0.04839  # mimośród oribty
+i_j = 0 # inklinacja orbity [stopnie]
+t_0_j = 0  # czas przejścia przez perycentrum [s]
+arg_of_per_j = 0  # argument perycentrum[stopnie]
+long_of_asc_z_j = 0  # długość węzła wstępującego[stopnie]
+t_j = 0  # czas w momencie początku symulacji [s]
+M_j = 1.89819 * 10 ** 27 # Masa
 
 # Stałe
 M = 1.9891 * 10 ** 30  # Masa Słońca
-M_z = 5.9722 * 10 ** 24 # Masa Ziemi
 G = 6.67 * 10 ** -11  # Stała Grawitacyjna
 AU = 1.496*10**11
 I_s = 1361  # Stała Słoneczna
