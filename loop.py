@@ -7,6 +7,8 @@ import Sun
 from datetime import date
 from datetime import timedelta
 from math import *
+from matplotlib.lines import Line2D
+from mpl_toolkits.mplot3d import Axes3D
 import mpl_toolkits.mplot3d.axes3d as p3
 from mpl_toolkits.mplot3d import Axes3D
 # deklaracja komety
@@ -40,28 +42,40 @@ dany_dzien = date(rok, miesiac, dzien)
 
 
 # animacja 3d przygotowanie wykresu (czerwone cząstki - H2O, turkusowe - typu 1)
-fig = plt.figure()
+fig = plt.figure(figsize=(19.2, 10.80), dpi=100)
 ax = fig.add_subplot(111, projection='3d')
 
 ax.scatter(0, 0, 0, color='yellow', s=100, label='Słońce')  # Pozycja Słońca w środku
 Ziemia_o = ax.scatter(ziemia.x, ziemia.y, ziemia.z, color='darkblue', s=10, label='Ziemia')
 traj_Ziemia, = ax.plot([], [],[], color='blue', linewidth=.5)
-Kometa = ax.scatter(kometa.x, kometa.y, kometa.z, color='grey', s=5, label='Kometa')
-sc = ax.scatter([], [], [], color=config.color_map[1], s=1, label='Cząstki H')
+Kometa = ax.scatter(kometa.x, kometa.y, kometa.z, color='red', s=5, label='Kometa')
+sc = ax.scatter([], [], [], color=config.color_map[1], s=1, label='Cząstki H' )
 sc = ax.scatter([], [], [], color=config.color_map[0], s=1, label='Cząstki H20')
 sc = ax.scatter([], [], [], color=config.color_map[2], s=1, label='Cząstki OH')
-traj_line, = ax.plot([], [], [], color='grey')
-
+traj_line, = ax.plot([], [], [], color='red', linewidth = .5)
 
 ax.set_xlabel('X [AU]')
 ax.set_ylabel('Y [AU]')
 ax.set_zlabel('Z [AU]')
 ax.set_title('Trajektoria komety w 3D')
-ax.legend(
-    prop={'size': 8},
-    loc='lower left',
-    bbox_to_anchor=(1, 0)
-)
+legend_elements = [
+    Line2D([0], [0], marker='o', color='w', label='Słońce',
+           markerfacecolor='yellow', markersize=15),
+    Line2D([0], [0], marker='o', color='w', label='Ziemia',
+           markerfacecolor='darkblue', markersize=10),
+    Line2D([0], [0], marker='o', color='w', label='Kometa',
+           markerfacecolor='red', markersize=8),
+    Line2D([0], [0], marker='o', color='w', label='Cząstki H',
+           markerfacecolor='green', markersize=6),
+    Line2D([0], [0], marker='o', color='w', label='Cząstki H2O',
+           markerfacecolor='cyan', markersize=6),
+    Line2D([0], [0], marker='o', color='w', label='Cząstki OH',
+           markerfacecolor='magenta', markersize=6)
+]
+
+# Legendę można dalej pozycjonować i skalować tak jak zwykle
+ax.legend(handles=legend_elements, loc='lower right', bbox_to_anchor=(1.25, 0), fontsize=12, title='Legenda')
+plt.tight_layout()
 plt.subplots_adjust(right=0.8)
 plt.ion()  # Włącza interaktywne rysowanie
 plt.show()
