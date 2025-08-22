@@ -88,6 +88,8 @@ min_H20_O_H_H = 7.54E-07
 max_H20_O_H_H = 1.91E-06
 
 #kolory cząstek
-#0 = red
-#1 = aqua
-#2 = green
+color_map = {
+    1: (0, 1, 1, 0.5),  # aqua z opacity 0.3
+    0: (1, 0, 0, 1.0),  # czerwony, pełna intensywność
+    2: (0.5, 0, 0, 1.0),  # zielony, pełna intensywność
+}

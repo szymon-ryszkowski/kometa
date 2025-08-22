@@ -46,9 +46,9 @@ ax = fig.add_subplot(111, projection='3d')
 ax.scatter(0, 0, 0, color='yellow', s=100, label='Słońce')  # Pozycja Słońca w środku
 Ziemia_o = ax.scatter(ziemia.x, ziemia.y, ziemia.z, color='darkblue', s=10, label='Ziemia')
 traj_Ziemia, = ax.plot([], [],[], color='blue', linewidth=.5)
-sc = ax.scatter([], [], [], color='aqua', s=1, label='Cząstki H')
-sc = ax.scatter([], [], [], color='red', s=1, label='Cząstki H20')
-sc = ax.scatter([], [], [], color='green', s=1, label='Cząstki OH')
+sc = ax.scatter([], [], [], color=config.color_map[1], s=1, label='Cząstki H')
+sc = ax.scatter([], [], [], color=config.color_map[0], s=1, label='Cząstki H20')
+sc = ax.scatter([], [], [], color=config.color_map[2], s=1, label='Cząstki OH')
 traj_line, = ax.plot([], [], [], color='grey', label='Trajektoria komety')
 
 #ax.set_xlim([kometa.x - 3e15, kometa.x + 3e15])
@@ -58,7 +58,12 @@ ax.set_xlabel('X [AU]')
 ax.set_ylabel('Y [AU]')
 ax.set_zlabel('Z [AU]')
 ax.set_title('Trajektoria komety w 3D')
-ax.legend(prop={'size': 8})
+ax.legend(
+    prop={'size': 8},
+    loc='lower left',
+    bbox_to_anchor=(1, 0)
+)
+plt.subplots_adjust(right=0.8)
 plt.ion()  # Włącza interaktywne rysowanie
 plt.show()
 
@@ -99,13 +104,9 @@ def show_final ():
                 sc._offsets3d = (pt.particles[:, 1], pt.particles[:, 2], pt.particles[:, 3])
                 if pt.particles.shape[0] > 0:
                     # mapa typów do kolorów
-                    color_map = {
-                        1: (0, 1, 1, 0.5),  # aqua z opacity 0.3
-                        0: (1, 0, 0, 1.0),  # czerwony, pełna intensywność
-                        2: (0.5, 0, 0, 1.0),  # zielony, pełna intensywność
-                    }
+
                     # przypisanie kolorów
-                    colors = np.array([color_map[t] for t in pt.particles[:, 0]])
+                    colors = np.array([config.color_map[t] for t in pt.particles[:, 0]])
                     sc._offsets3d = (pt.particles[:, 1], pt.particles[:, 2], pt.particles[:, 3])
                     sc.set_color(colors)
             # policz minimalną i maksymalną odległość do komety(do sprawdzania poprawności celestial_body.pu i loop.py)
