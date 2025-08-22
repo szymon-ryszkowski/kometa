@@ -69,7 +69,7 @@ absolute_ratio_H_2O = 1*10**28  # stała mówiąca raz na ile powstaje H2O na ko
 scale = 1*10**33  # ile cząstek w rzeczywistości oznacza jedna cząstka u nas
 
 #stała symulacji
-dt = 10**4 # ile s odpowiada jeden krok
+dt = 10**3 # ile s odpowiada jeden krok
 n_steps = 5*10**4 # ile kroków ma się wykonać
 
 # daty
@@ -89,7 +89,7 @@ max_H20_O_H_H = 1.91E-06
 
 #kolory cząstek
 color_map = {
-    1: (0, 1, 1, 0.5),  # aqua z opacity 0.3
+    1: (0, 1, 1, 0.2),  # aqua z opacity 0.3
     0: (1, 0.64, 0),  # pomarańczowy
     2: (0.5, 0, 0, 1.0),  # ciemnoczerwony
 }
