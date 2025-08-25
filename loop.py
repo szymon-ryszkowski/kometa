@@ -9,9 +9,10 @@ from datetime import timedelta
 from math import *
 from matplotlib.lines import Line2D
 from mpl_toolkits.mplot3d import proj3d
+import matplotlib.ticker as ticker
+from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d import Axes3D
 import mpl_toolkits.mplot3d.axes3d as p3
-from mpl_toolkits.mplot3d import Axes3D
 # deklaracja komety
 kometa = (
     cb.Celestial_Body(config.a_k*config.AU, config.e_k, config.i_k, config.t_0_k, config.arg_of_per_k,
@@ -101,111 +102,114 @@ while True:
 dany_dzien = date(rok, miesiac, dzien)
 print("wybierz rodzaj wykresu: ")
 typ_wykresu = int(input())
-# animacja 3d przygotowanie wykresu (czerwone cząstki - H2O, turkusowe - typu 1)
-fig = plt.figure(figsize=(14.4, 8.1), dpi=100)
-ax = fig.add_subplot(111, projection='3d')
+if typ_wykresu == 1:
+    # animacja 3d przygotowanie wykresu (czerwone cząstki - H2O, turkusowe - typu 1)
+    fig = plt.figure(figsize=(13, 8), dpi=100)
+    ax = fig.add_subplot(111, projection='3d')
 
-#elementy wykresu
-ax.scatter(0, 0, 0, color='yellow', s=100, label='Słońce')  # Pozycja Słońca w środku
-Ziemia_o = ax.scatter(ziemia.x, ziemia.y, ziemia.z, color='darkblue', s=10, label='Ziemia')
-Merkury_o = ax.scatter(merkury.x, merkury.y, merkury.z, color='grey', s=3, label='Merkury')
-Wenus_o = ax.scatter(wenus.x, wenus.y, wenus.z, color='grey', s=10, label='Wenus')
-Mars_o = ax.scatter(mars.x, mars.y, mars.z, color='grey', s=7, label='Mars')
-Jowisz_o = ax.scatter(jowisz.x, jowisz.y, jowisz.z, color='grey', s=20, label='Jowisz')
-traj_Ziemia, = ax.plot([], [],[], color='blue', linewidth=.5)
-traj_Merkury, = ax.plot([], [],[], color='grey', linewidth=.5)
-traj_Wenus, = ax.plot([], [],[], color='grey', linewidth=.5)
-traj_Mars, = ax.plot([], [],[], color='grey', linewidth=.5)
-traj_Jowisz, = ax.plot([], [],[], color='grey', linewidth=.5)
-Kometa = ax.scatter(kometa.x, kometa.y, kometa.z, color='red', s=5, label='Kometa')
-sc = ax.scatter([], [], [], color=config.color_map[1], s=1, label='Cząstki H' )
-sc = ax.scatter([], [], [], color=config.color_map[0], s=1, label='Cząstki H20')
-sc = ax.scatter([], [], [], color=config.color_map[2], s=1, label='Cząstki OH')
-traj_line, = ax.plot([], [], [], color='red', linewidth = .5)
+    #elementy wykresu
+    ax.scatter(0, 0, 0, color='yellow', s=100, label='Słońce')  # Pozycja Słońca w środku
+    Ziemia_o = ax.scatter(ziemia.x, ziemia.y, ziemia.z, color='darkblue', s=10, label='Ziemia')
+    Merkury_o = ax.scatter(merkury.x, merkury.y, merkury.z, color='grey', s=3, label='Merkury')
+    Wenus_o = ax.scatter(wenus.x, wenus.y, wenus.z, color='grey', s=10, label='Wenus')
+    Mars_o = ax.scatter(mars.x, mars.y, mars.z, color='grey', s=7, label='Mars')
+    Jowisz_o = ax.scatter(jowisz.x, jowisz.y, jowisz.z, color='grey', s=20, label='Jowisz')
+    traj_Ziemia, = ax.plot([], [],[], color='blue', linewidth=.5)
+    traj_Merkury, = ax.plot([], [],[], color='grey', linewidth=.5)
+    traj_Wenus, = ax.plot([], [],[], color='grey', linewidth=.5)
+    traj_Mars, = ax.plot([], [],[], color='grey', linewidth=.5)
+    traj_Jowisz, = ax.plot([], [],[], color='grey', linewidth=.5)
+    Kometa = ax.scatter(kometa.x, kometa.y, kometa.z, color='red', s=5, label='Kometa')
+    sc = ax.scatter([], [], [], color=config.color_map[1], s=1, label='Cząstki H' )
+    sc = ax.scatter([], [], [], color=config.color_map[0], s=1, label='Cząstki H20')
+    sc = ax.scatter([], [], [], color=config.color_map[2], s=1, label='Cząstki OH')
+    traj_line, = ax.plot([], [], [], color='red', linewidth = .5)
 
-ax.set_xlabel('X [AU]')
-ax.set_ylabel('Y [AU]')
-ax.set_zlabel('Z [AU]')
-ax.set_title('Trajektoria komety w 3D')
+    ax.set_xlabel('X [m]')
+    ax.set_ylabel('Y [m]')
+    ax.set_zlabel('Z [m]')
+    ax.set_title('Trajektoria komety w 3D')
 
-#elementy legendy, potrzebne do skalowania
-legend_elements = [
-    Line2D([0], [0], marker='o', color='w', label='Kometa',
-           markerfacecolor='red', markersize=8),
-    Line2D([0], [0], marker='o', color='w', label='Cząstki H',
-           markerfacecolor=config.color_map[1], markersize=6),
-    Line2D([0], [0], marker='o', color='w', label='Cząstki H2O',
-           markerfacecolor=config.color_map[0], markersize=6),
-    Line2D([0], [0], marker='o', color='w', label='Cząstki OH',
-           markerfacecolor=config.color_map[2], markersize=6)
-]
+    #elementy legendy, potrzebne do skalowania
+    legend_elements = [
+        Line2D([0], [0], marker='o', color='w', label='Kometa',
+               markerfacecolor='red', markersize=8),
+        Line2D([0], [0], marker='o', color='w', label='Cząstki H',
+               markerfacecolor=config.color_map[1], markersize=6),
+        Line2D([0], [0], marker='o', color='w', label='Cząstki H2O',
+               markerfacecolor=config.color_map[0], markersize=6),
+        Line2D([0], [0], marker='o', color='w', label='Cząstki OH',
+               markerfacecolor=config.color_map[2], markersize=6)
+    ]
 
-# Legenda - skalowanie
-ax.legend(handles=legend_elements, loc='lower right', bbox_to_anchor=(1.25, 0), fontsize=12, title='Legenda')
-plt.tight_layout()
-plt.subplots_adjust(right=0.8)
-plt.ion()  # Włącza interaktywne rysowanie
-plt.show()
-sun_label    = ax.text2D(0, 0, "Słońce", color="orange")
-earth_label  = ax.text2D(0, 0, "Ziemia",fontsize=7, color="blue")
-merkury_label  = ax.text2D(0, 0, "Merkury",fontsize=7, color="darkgrey")
-wenus_label  = ax.text2D(0, 0, "Wenus",fontsize=7, color="darkgrey")
-mars_label  = ax.text2D(0, 0, "Mars",fontsize=7, color="darkgrey")
-jowisz_label  = ax.text2D(0, 0, "Jowisz",fontsize=7, color="darkgrey")
+    # Legenda - skalowanie
+    ax.legend(handles=legend_elements, loc='lower right', bbox_to_anchor=(1.25, 0), fontsize=12, title='Legenda')
+    plt.tight_layout()
+    plt.subplots_adjust(right=0.8)
+    plt.ion()  # Włącza interaktywne rysowanie
+    plt.show()
+    sun_label    = ax.text2D(0, 0, "Słońce", color="orange")
+    earth_label  = ax.text2D(0, 0, "Ziemia",fontsize=7, color="blue")
+    merkury_label  = ax.text2D(0, 0, "Merkury",fontsize=7, color="darkgrey")
+    wenus_label  = ax.text2D(0, 0, "Wenus",fontsize=7, color="darkgrey")
+    mars_label  = ax.text2D(0, 0, "Mars",fontsize=7, color="darkgrey")
+    jowisz_label  = ax.text2D(0, 0, "Jowisz",fontsize=7, color="darkgrey")
 
-def update_labels():
-    # projekcja 3D -> 2D dla Słońca
-    x2, y2, _ = proj3d.proj_transform(0, 0, 0, ax.get_proj())
-    sun_label.set_position((x2 + 0.001, y2 + 0.002))
-    # projekcja 3D -> 2D dla Ziemi
-    x2, y2, _ = proj3d.proj_transform(ziemia.x, ziemia.y, ziemia.z, ax.get_proj())
-    earth_label.set_position((x2 + 0.001, y2 + 0.002))
-    # projekcja 3D -> 2D dla Merkurego
-    x2, y2, _ = proj3d.proj_transform(merkury.x, merkury.y, merkury.z, ax.get_proj())
-    merkury_label.set_position((x2 + 0.001, y2 + 0.002))
-    # projekcja 3D -> 2D dla Wenus
-    x2, y2, _ = proj3d.proj_transform(wenus.x, wenus.y, wenus.z, ax.get_proj())
-    wenus_label.set_position((x2 + 0.001, y2 + 0.002))
-    # projekcja 3D -> 2D dla Marsa
-    x2, y2, _ = proj3d.proj_transform(mars.x, mars.y, mars.z, ax.get_proj())
-    mars_label.set_position((x2 + 0.001, y2 + 0.002))
-    # projekcja 3D -> 2D dla Jowisza
-    x2, y2, _ = proj3d.proj_transform(jowisz.x, jowisz.y, jowisz.z, ax.get_proj())
-    jowisz_label.set_position((x2 + 0.001, y2 + 0.002))
+    def update_labels():
+        # projekcja 3D -> 2D dla Słońca
+        x2, y2, _ = proj3d.proj_transform(0, 0, 0, ax.get_proj())
+        sun_label.set_position((x2 + 0.001, y2 + 0.002))
+        # projekcja 3D -> 2D dla Ziemi
+        x2, y2, _ = proj3d.proj_transform(ziemia.x, ziemia.y, ziemia.z, ax.get_proj())
+        earth_label.set_position((x2 + 0.001, y2 + 0.002))
+        # projekcja 3D -> 2D dla Merkurego
+        x2, y2, _ = proj3d.proj_transform(merkury.x, merkury.y, merkury.z, ax.get_proj())
+        merkury_label.set_position((x2 + 0.001, y2 + 0.002))
+        # projekcja 3D -> 2D dla Wenus
+        x2, y2, _ = proj3d.proj_transform(wenus.x, wenus.y, wenus.z, ax.get_proj())
+        wenus_label.set_position((x2 + 0.001, y2 + 0.002))
+        # projekcja 3D -> 2D dla Marsa
+        x2, y2, _ = proj3d.proj_transform(mars.x, mars.y, mars.z, ax.get_proj())
+        mars_label.set_position((x2 + 0.001, y2 + 0.002))
+        # projekcja 3D -> 2D dla Jowisza
+        x2, y2, _ = proj3d.proj_transform(jowisz.x, jowisz.y, jowisz.z, ax.get_proj())
+        jowisz_label.set_position((x2 + 0.001, y2 + 0.002))
 
 
-# zapis trajektorii komety
-x_traj = []
-y_traj = []
-z_traj = []
+    # zapis trajektorii komety
+    x_traj = []
+    y_traj = []
+    z_traj = []
 
-x_traj_z = []
-y_traj_z = []
-z_traj_z = []
+    x_traj_z = []
+    y_traj_z = []
+    z_traj_z = []
 
-x_traj_mer = []
-y_traj_mer = []
-z_traj_mer = []
+    x_traj_mer = []
+    y_traj_mer = []
+    z_traj_mer = []
 
-x_traj_w = []
-y_traj_w = []
-z_traj_w = []
+    x_traj_w = []
+    y_traj_w = []
+    z_traj_w = []
 
-x_traj_ma = []
-y_traj_ma = []
-z_traj_ma = []
+    x_traj_ma = []
+    y_traj_ma = []
+    z_traj_ma = []
 
-x_traj_j = []
-y_traj_j = []
-z_traj_j = []
+    x_traj_j = []
+    y_traj_j = []
+    z_traj_j = []
 
-# zapis odległości do Słońca komety(do sprawdzania poprawności celestial_body.pu i loop.py)
+    time_text = ax.text2D(.1, .9, dany_dzien, transform=ax.transAxes)
+    # zapis odległości do Słońca komety(do sprawdzania poprawności celestial_body.pu i loop.py)
 distances = []
 
 ile_dni = dany_dzien - config.data_startowa
 ile_dni = int(ile_dni.days)
+if typ_wykresu ==2:
+    _, bx = plt.subplots()
 
-time_text = ax.text2D(.1, .9, dany_dzien,transform=ax.transAxes)
 
 def show_final ():
     liczba_krokow = 0
@@ -267,32 +271,88 @@ def show_final ():
             ax.set_xlim([0.5*kometa.x - distance, 0.5*kometa.x + distance])
             ax.set_ylim([0.5*kometa.y - distance, 0.5*kometa.y + distance])
             ax.set_zlim([0.5*kometa.z - distance, 0.5*kometa.z + distance])
+        #wykres prędkości radialnych
+        if i % 100 == 0 and typ_wykresu == 2:
+            # Maskowanie i pobranie kolumn raz
+            mask_h = pt.particles[:, 0] == 1
+            particles_h = pt.particles[mask_h][:, 1:7]  # kolumny x,y,z,vx,vy,vz
+
+            # Podział na pozycje i prędkości
+            positions = particles_h[:, 0:3]
+            wektor_v = particles_h[:, 3:6].T
+            wektor_h_k = (positions - np.array([kometa.v_x, kometa.v_y, kometa.v_z])).T
+
+            # Obliczenie prędkości radialnych wektoryzowane
+            v_rad = np.abs(np.sum(wektor_v * wektor_h_k, axis=0) / np.maximum(0.1, np.linalg.norm(wektor_h_k, axis=0)))
+
+            # Histogram z wagą (przeliczanie na liczby rzeczywiste)
+            scale_factor = 1e33
+            counts, bins = np.histogram(v_rad, bins=100, weights=np.ones_like(v_rad) * scale_factor)
+            counts_scaled = counts / scale_factor
+
+            # Czyszczenie osi i rysowanie wykresu
+            bx.cla()
+            bx.bar(bins[:-1], counts_scaled, width=np.diff(bins), align='edge')
+
+            # Etykiety i tytuł
+            bx.set_xlabel("v_rad [m/s]")
+            bx.set_ylabel("Liczba cząstek (×10³³)")
+            bx.set_title("Rozkład prędkości radialnych")
+
+            # Formatter (tworzony raz)
+            if not hasattr(bx, "_formatter_set"):
+                formatter = ticker.ScalarFormatter(useMathText=True)
+                formatter.set_scientific(True)
+                formatter.set_useOffset(False)
+                bx.yaxis.set_major_formatter(formatter)
+                bx._formatter_set = True
+
+            # Ustawienie ticków y
+            bx.set_yticks(np.arange(0, counts_scaled.max() + 1, step=max(1, int(counts_scaled.max() // 10))))
+
+            print(v_rad)
+            plt.pause(0.05)
 
 
+        if typ_wykresu ==1:
         # dodaj trajektorie do wyswietlenia
-        x_traj.append(kometa.x)
-        y_traj.append(kometa.y)
-        z_traj.append(kometa.z)
+            x_traj.append(kometa.x)
+            y_traj.append(kometa.y)
+            z_traj.append(kometa.z)
 
-        x_traj_z.append(ziemia.x)
-        y_traj_z.append(ziemia.y)
-        z_traj_z.append(ziemia.z)
+            x_traj_z.append(ziemia.x)
+            y_traj_z.append(ziemia.y)
+            z_traj_z.append(ziemia.z)
 
-        x_traj_mer.append(merkury.x)
-        y_traj_mer.append(merkury.y)
-        z_traj_mer.append(merkury.z)
+            x_traj_mer.append(merkury.x)
+            y_traj_mer.append(merkury.y)
+            z_traj_mer.append(merkury.z)
 
-        x_traj_w.append(wenus.x)
-        y_traj_w.append(wenus.y)
-        z_traj_w.append(wenus.z)
+            x_traj_w.append(wenus.x)
+            y_traj_w.append(wenus.y)
+            z_traj_w.append(wenus.z)
 
-        x_traj_ma.append(mars.x)
-        y_traj_ma.append(mars.y)
-        z_traj_ma.append(mars.z)
+            x_traj_ma.append(mars.x)
+            y_traj_ma.append(mars.y)
+            z_traj_ma.append(mars.z)
 
-        x_traj_j.append(jowisz.x)
-        y_traj_j.append(jowisz.y)
-        z_traj_j.append(jowisz.z)
+            x_traj_j.append(jowisz.x)
+            y_traj_j.append(jowisz.y)
+            z_traj_j.append(jowisz.z)
+
+            # aktualizacja pozycji Ziemi
+            Ziemia_o._offsets3d = (np.array([ziemia.x]), np.array([ziemia.y]), np.array([ziemia.z]))
+
+            Merkury_o._offsets3d = (np.array([merkury.x]), np.array([merkury.y]), np.array([merkury.z]))
+
+            Wenus_o._offsets3d = (np.array([wenus.x]), np.array([wenus.y]), np.array([wenus.z]))
+
+            Mars_o._offsets3d = (np.array([mars.x]), np.array([mars.y]), np.array([mars.z]))
+
+            Jowisz_o._offsets3d = (np.array([jowisz.x]), np.array([jowisz.y]), np.array([jowisz.z]))
+            # aktualizacja pozycji komety
+            Kometa._offsets3d = (np.array([kometa.x]), np.array([kometa.y]), np.array([kometa.z]))
+
 
         # utwórz cząstki
         ratio = pt.calculate_sim_ratio(config.absolute_ratio_H_2O, sqrt(kometa.x**2 + kometa.y**2 + kometa.z**2), -3)
@@ -324,18 +384,7 @@ def show_final ():
         jowisz.y += jowisz.v_y * config.dt
         jowisz.z += jowisz.v_z * config.dt
 
-        # aktualizacja pozycji Ziemi
-        Ziemia_o._offsets3d = (np.array([ziemia.x]), np.array([ziemia.y]), np.array([ziemia.z]))
 
-        Merkury_o._offsets3d = (np.array([merkury.x]), np.array([merkury.y]), np.array([merkury.z]))
-
-        Wenus_o._offsets3d = (np.array([wenus.x]), np.array([wenus.y]), np.array([wenus.z]))
-
-        Mars_o._offsets3d = (np.array([mars.x]), np.array([mars.y]), np.array([mars.z]))
-
-        Jowisz_o._offsets3d = (np.array([jowisz.x]), np.array([jowisz.y]), np.array([jowisz.z]))
-        # aktualizacja pozycji komety
-        Kometa._offsets3d = (np.array([kometa.x]), np.array([kometa.y]), np.array([kometa.z]))
 
         #odległość Ziemi od komety
         #distane_zk = sqrt((kometa.x-ziemia.x)**2+(kometa.y-ziemia.y)**2+(kometa.z-ziemia.z)**2)
@@ -401,7 +450,8 @@ def show_final ():
         pt.dissect(aktywnosc, distance, config.dt)
 
         #zaktualizuj podpisy
-        update_labels()
+        if typ_wykresu ==1:
+            update_labels()
         # przesun czastke
         pt.particles[:, 1] += pt.particles[:, 4] * config.dt
         pt.particles[:, 2] += pt.particles[:, 5] * config.dt
@@ -426,3 +476,5 @@ def show_final ():
         pt.particles[:, 5] += acceleration_y*config.dt
         pt.particles[:, 6] += acceleration_z*config.dt
         print(distance/config.AU)
+if __name__ == '__main__':
+    show_final()
