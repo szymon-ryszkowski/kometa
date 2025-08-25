@@ -183,7 +183,7 @@ if typ_wykresu == 2:
     cz_oh, = ax.plot([],[],  color='orange', linewidth=.5, label='OH')
     cz_h2o, = ax.plot([], [], color='black', linewidth=.5, label='H2O')
     ax.set_xlabel('czas od początku symulacji [dni]')
-    ax.set_ylabel('ilość cząstek')
+    ax.set_ylabel('ilość cząstek (*10**30)')
     ax.set_title("Stosunek cząstek")
     ax.legend()
     #plt.subplots_adjust(right=0.8)
@@ -313,19 +313,19 @@ def show_final ():
             mask_oh = pt.particles[:, 0] == 2
 
             if len(pt.particles[mask_h20]) == 0:
-                ilosc_H20.append(len(pt.particles[mask_h20])*config.scale)
+                ilosc_H20.append(len(pt.particles[mask_h20]))
             else:
-                ilosc_H20.append(log10(len(pt.particles[mask_h20])*config.scale))
+                ilosc_H20.append(log10(len(pt.particles[mask_h20])*10**33))
 
             if len(pt.particles[mask_oh]) == 0:
-                ilosc_OH.append(len(pt.particles[mask_oh])*config.scale)
+                ilosc_OH.append(len(pt.particles[mask_oh]))
             else:
-                ilosc_OH.append(log10(len(pt.particles[mask_oh])*config.scale))
+                ilosc_OH.append(log10(len(pt.particles[mask_oh])*10**33))
 
             if len(pt.particles[mask_h]) == 0:
-                ilosc_H.append(len(pt.particles[mask_h])*config.scale)
+                ilosc_H.append(len(pt.particles[mask_h]))
             else:
-                ilosc_H.append(log10(len(pt.particles[mask_h])*config.scale))
+                ilosc_H.append(log10(len(pt.particles[mask_h])*10**33))
 
             ilosc_dni_2.append(ilosc_dni)
             cz_h.set_data(ilosc_dni_2, ilosc_H)
@@ -334,7 +334,7 @@ def show_final ():
             plt.draw()
             plt.pause(0.01)
             ax.set_xlim(0, ilosc_dni)
-            #ax.set_ylim(0, max(ilosc_H)*10**10*config.scale)
+            ax.set_ylim(0, max(ilosc_H)*10**33)
 
         # dodaj trajektorie do wyswietlenia
         x_traj.append(kometa.x)
