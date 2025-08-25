@@ -47,6 +47,7 @@ if e_k >1:
 
 
 t_k = 1  # czas w momencie początku symulacji [s]
+ecc = 0 #ekcentryczność (uznaje że planety mają kołowe orbity)
 
 # dane Ziemi
 a_m = 1 # półoś wielka obiektu [AU]
@@ -57,6 +58,7 @@ arg_of_per_m = 0  # argument perycentrum[stopnie]
 long_of_asc_z_m = 0  # długość węzła wstępującego[stopnie]
 t_m = 0  # czas w momencie początku symulacji [s]
 M_z = 5.9722 * 10 ** 24 # Masa Ziemi
+M0_z = 357.529 #Mean anomaly 1 stycznia 2000 r. [stopnie]
 
 # dane Merkurego
 a_mer = 0.39 # półoś wielka obiektu [AU]
@@ -67,6 +69,7 @@ arg_of_per_mer = 0  # argument perycentrum[stopnie]
 long_of_asc_z_mer = 0  # długość węzła wstępującego[stopnie]
 t_mer = 0  # czas w momencie początku symulacji [s]
 M_mer = 3.3011 * 10 ** 23 # Masa Merkurego
+M0_mer = 174.795 #Mean anomaly 1 stycznia 2000 r. [stopnie]
 
 # dane Wenus
 a_w = 0.7233 # półoś wielka obiektu [AU]
@@ -77,6 +80,7 @@ arg_of_per_w = 0  # argument perycentrum[stopnie]
 long_of_asc_z_w = 0  # długość węzła wstępującego[stopnie]
 t_w = 0  # czas w momencie początku symulacji [s]
 M_w = 4.867 * 10 ** 24 # Masa
+M0_w = 50.416 #Mean anomaly 1 stycznia 2000 r. [stopnie]
 
 # dane Marsa
 a_ma = 1.524 # półoś wielka obiektu [AU]
@@ -87,6 +91,7 @@ arg_of_per_ma = 0  # argument perycentrum[stopnie]
 long_of_asc_z_ma = 0  # długość węzła wstępującego[stopnie]
 t_ma = 0  # czas w momencie początku symulacji [s]
 M_ma = 6.4171 * 10 ** 23 # Masa
+M0_ma = 19.373 #Mean anomaly 1 stycznia 2000 r. [stopnie]
 
 # dane Jowisza
 a_j = 5.20 # półoś wielka obiektu [AU]
@@ -97,6 +102,7 @@ arg_of_per_j = 0  # argument perycentrum[stopnie]
 long_of_asc_z_j = 0  # długość węzła wstępującego[stopnie]
 t_j = 0  # czas w momencie początku symulacji [s]
 M_j = 1.89819 * 10 ** 27 # Masa
+M0_j = 20.02 #Mean anomaly 1 stycznia 2000 r. [stopnie]
 
 # Stałe
 M = 1.9891 * 10 ** 30  # Masa Słońca

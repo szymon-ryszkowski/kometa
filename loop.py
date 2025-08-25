@@ -10,12 +10,9 @@ from math import *
 import math
 from matplotlib.lines import Line2D
 from mpl_toolkits.mplot3d import proj3d
-import wykresy as wy
 from mpl_toolkits.mplot3d import Axes3D
 import mpl_toolkits.mplot3d.axes3d as p3
-from mpl_toolkits.mplot3d import Axes3D
-
-from particle import ilosc_H20
+import matplotlib.animation as animation
 
 # deklaracja komety
 kometa = (
@@ -181,16 +178,18 @@ if typ_wykresu == 1:
         jowisz_label.set_position((x2 + 0.001, y2 + 0.002))
 
 if typ_wykresu == 2:
-    fig, ax = plt.subplots(figsize=(5, 2.7), layout='constrained')
-    cz_h, = ax.plot(0, 0, color='blue', linewidth=.5, label='H')
-    cz_oh, = ax.plot(0,0,  color='orange', linewidth=.5, label='OH')
-    cz_h2o, = ax.plot(0,0, color='black', linewidth=.5, label='H2O')
-    ax.set_xlabel('czas')
+    fig, ax = plt.subplots()
+    cz_h, = ax.plot([], [], color='blue', linewidth=.5, label='H')
+    cz_oh, = ax.plot([],[],  color='orange', linewidth=.5, label='OH')
+    cz_h2o, = ax.plot([], [], color='black', linewidth=.5, label='H2O')
+    ax.set_xlabel('czas od początku symulacji [dni]')
     ax.set_ylabel('ilość cząstek')
     ax.set_title("Stosunek cząstek")
     ax.legend()
+    #plt.subplots_adjust(right=0.8)
     plt.ion()  # Włącza interaktywne rysowanie
     plt.show()
+
 
 # zapis trajektorii komety
 x_traj = []
@@ -217,6 +216,11 @@ x_traj_j = []
 y_traj_j = []
 z_traj_j = []
 
+ilosc_H20 = []
+ilosc_OH = []
+ilosc_H = []
+ilosc_dni_2 =[]
+
 
 # zapis odległości do Słońca komety(do sprawdzania poprawności celestial_body.pu i loop.py)
 distances = []
@@ -229,16 +233,14 @@ def show_final ():
     for i in range(config.n_steps):
         liczba_krokow += 1
         ilosc_dni = int(liczba_krokow / config.dzien_krok)
-        cz_h.set_xdata(ilosc_dni)
-        cz_oh.set_xdata(ilosc_dni)
-        cz_h2o.set_xdata(ilosc_dni)
+        print (ilosc_dni)
         aktualna_data = dany_dzien + timedelta(days=ilosc_dni)
-        pt.count_particles()
         aktywnosc = Sun.sun_aktywnosc(int(ile_dni + ilosc_dni))
         pt.count_particles()
         distance = sqrt(kometa.x ** 2 + kometa.y ** 2 + kometa.z ** 2)
         distances.append(distance)
         # animacja 3d
+
         if i % 50 == 0 and typ_wykresu==1:
             time_text.set_text(aktualna_data)
 
@@ -305,19 +307,34 @@ def show_final ():
             ax.set_ylim([0.5*kometa.y - distance, 0.5*kometa.y + distance])
             ax.set_zlim([0.5*kometa.z - distance, 0.5*kometa.z + distance])
 
-        if i % 50 == 0 and typ_wykresu == 2 :
-            mask_h20 = [pt.particles[:, 0] == 0]
-            mask_h = [pt.particles[:, 0] == 1]
-            mask_oh = [pt.particles[:, 0] == 2]
-            ilosc_H20 = len(pt.particles[mask_h20])
-            ilosc_OH = len(pt.particles[mask_oh])
-            ilosc_H = len(pt.particles[mask_h])
-            cz_h.set_ydata(math.log(ilosc_H))
-            cz_oh.set_ydata(math.log(ilosc_OH))
-            cz_h2o.set_ydata(math.log(ilosc_H20))
-            cz_h.set_xdata(liczba_krokow)
-            cz_oh.set_xdata(liczba_krokow)
-            cz_h2o.set_xdata(liczba_krokow)
+        if  i % 50 == 0 and typ_wykresu == 2:
+            mask_h20 = pt.particles[:, 0] == 0
+            mask_h = pt.particles[:, 0] == 1
+            mask_oh = pt.particles[:, 0] == 2
+
+            if len(pt.particles[mask_h20]) == 0:
+                ilosc_H20.append(len(pt.particles[mask_h20])*config.scale)
+            else:
+                ilosc_H20.append(log10(len(pt.particles[mask_h20])*config.scale))
+
+            if len(pt.particles[mask_oh]) == 0:
+                ilosc_OH.append(len(pt.particles[mask_oh])*config.scale)
+            else:
+                ilosc_OH.append(log10(len(pt.particles[mask_oh])*config.scale))
+
+            if len(pt.particles[mask_h]) == 0:
+                ilosc_H.append(len(pt.particles[mask_h])*config.scale)
+            else:
+                ilosc_H.append(log10(len(pt.particles[mask_h])*config.scale))
+
+            ilosc_dni_2.append(ilosc_dni)
+            cz_h.set_data(ilosc_dni_2, ilosc_H)
+            cz_oh.set_data(ilosc_dni_2, ilosc_OH)
+            cz_h2o.set_data(ilosc_dni_2, ilosc_H20)
+            plt.draw()
+            plt.pause(0.01)
+            ax.set_xlim(0, ilosc_dni)
+            #ax.set_ylim(0, max(ilosc_H)*10**10*config.scale)
 
         # dodaj trajektorie do wyswietlenia
         x_traj.append(kometa.x)
