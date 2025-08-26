@@ -7,12 +7,16 @@ import Sun
 from datetime import date
 from datetime import timedelta
 from math import *
+import math
 from matplotlib.lines import Line2D
 from mpl_toolkits.mplot3d import proj3d
 import matplotlib.ticker as ticker
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d import Axes3D
 import mpl_toolkits.mplot3d.axes3d as p3
+import mpl_toolkits.mplot3d.axes3d as p3
+import matplotlib.animation as animation
+
 # deklaracja komety
 kometa = (
     cb.Celestial_Body(config.a_k*config.AU, config.e_k, config.i_k, config.t_0_k, config.arg_of_per_k,
@@ -104,7 +108,7 @@ print("wybierz rodzaj wykresu: ")
 typ_wykresu = int(input())
 if typ_wykresu == 1:
     # animacja 3d przygotowanie wykresu (czerwone cząstki - H2O, turkusowe - typu 1)
-    fig = plt.figure(figsize=(13, 8), dpi=100)
+    fig = plt.figure(figsize=(14.4, 8.1), dpi=100)
     ax = fig.add_subplot(111, projection='3d')
 
     #elementy wykresu
@@ -125,9 +129,9 @@ if typ_wykresu == 1:
     sc = ax.scatter([], [], [], color=config.color_map[2], s=1, label='Cząstki OH')
     traj_line, = ax.plot([], [], [], color='red', linewidth = .5)
 
-    ax.set_xlabel('X [m]')
-    ax.set_ylabel('Y [m]')
-    ax.set_zlabel('Z [m]')
+    ax.set_xlabel('X [AU]')
+    ax.set_ylabel('Y [AU]')
+    ax.set_zlabel('Z [AU]')
     ax.set_title('Trajektoria komety w 3D')
 
     #elementy legendy, potrzebne do skalowania
@@ -154,6 +158,7 @@ if typ_wykresu == 1:
     wenus_label  = ax.text2D(0, 0, "Wenus",fontsize=7, color="darkgrey")
     mars_label  = ax.text2D(0, 0, "Mars",fontsize=7, color="darkgrey")
     jowisz_label  = ax.text2D(0, 0, "Jowisz",fontsize=7, color="darkgrey")
+    time_text = ax.text2D(.1, .9, dany_dzien,transform=ax.transAxes)
 
     def update_labels():
         # projekcja 3D -> 2D dla Słońca
@@ -174,6 +179,19 @@ if typ_wykresu == 1:
         # projekcja 3D -> 2D dla Jowisza
         x2, y2, _ = proj3d.proj_transform(jowisz.x, jowisz.y, jowisz.z, ax.get_proj())
         jowisz_label.set_position((x2 + 0.001, y2 + 0.002))
+
+if typ_wykresu == 3:
+    fig, ax = plt.subplots()
+    cz_h, = ax.plot([], [], color='blue', linewidth=.5, label='H')
+    cz_oh, = ax.plot([],[],  color='orange', linewidth=.5, label='OH')
+    cz_h2o, = ax.plot([], [], color='black', linewidth=.5, label='H2O')
+    ax.set_xlabel('czas od początku symulacji [dni]')
+    ax.set_ylabel('ilość cząstek (*10**30)')
+    ax.set_title("Stosunek cząstek")
+    ax.legend()
+    #plt.subplots_adjust(right=0.8)
+    plt.ion()  # Włącza interaktywne rysowanie
+    plt.show()
 
 
     # zapis trajektorii komety
@@ -201,8 +219,13 @@ if typ_wykresu == 1:
     y_traj_j = []
     z_traj_j = []
 
-    time_text = ax.text2D(.1, .9, dany_dzien, transform=ax.transAxes)
-    # zapis odległości do Słońca komety(do sprawdzania poprawności celestial_body.pu i loop.py)
+ilosc_H20 = []
+ilosc_OH = []
+ilosc_H = []
+ilosc_dni_2 =[]
+
+
+# zapis odległości do Słońca komety(do sprawdzania poprawności celestial_body.pu i loop.py)
 distances = []
 
 ile_dni = dany_dzien - config.data_startowa
@@ -210,18 +233,19 @@ ile_dni = int(ile_dni.days)
 if typ_wykresu ==2:
     _, bx = plt.subplots()
 
-
 def show_final ():
     liczba_krokow = 0
     for i in range(config.n_steps):
         liczba_krokow += 1
-        aktualna_data = dany_dzien + timedelta(days=liczba_krokow / config.dzien_krok)
-        pt.count_particles()
-        aktywnosc = Sun.sun_aktywnosc(int(ile_dni + (liczba_krokow / config.dzien_krok)))
+        ilosc_dni = int(liczba_krokow / config.dzien_krok)
+        print (ilosc_dni)
+        aktualna_data = dany_dzien + timedelta(days=ilosc_dni)
+        aktywnosc = Sun.sun_aktywnosc(int(ile_dni + ilosc_dni))
         pt.count_particles()
         distance = sqrt(kometa.x ** 2 + kometa.y ** 2 + kometa.z ** 2)
         distances.append(distance)
         # animacja 3d
+
         if i % 50 == 0 and typ_wykresu==1:
             time_text.set_text(aktualna_data)
 
@@ -312,6 +336,34 @@ def show_final ():
 
             print(v_rad)
             plt.pause(0.05)
+        if  i % 50 == 0 and typ_wykresu == 3:
+            mask_h20 = pt.particles[:, 0] == 0
+            mask_h = pt.particles[:, 0] == 1
+            mask_oh = pt.particles[:, 0] == 2
+
+            if len(pt.particles[mask_h20]) == 0:
+                ilosc_H20.append(len(pt.particles[mask_h20]))
+            else:
+                ilosc_H20.append(log10(len(pt.particles[mask_h20])*10**33))
+
+            if len(pt.particles[mask_oh]) == 0:
+                ilosc_OH.append(len(pt.particles[mask_oh]))
+            else:
+                ilosc_OH.append(log10(len(pt.particles[mask_oh])*10**33))
+
+            if len(pt.particles[mask_h]) == 0:
+                ilosc_H.append(len(pt.particles[mask_h]))
+            else:
+                ilosc_H.append(log10(len(pt.particles[mask_h])*10**33))
+
+            ilosc_dni_2.append(ilosc_dni)
+            cz_h.set_data(ilosc_dni_2, ilosc_H)
+            cz_oh.set_data(ilosc_dni_2, ilosc_OH)
+            cz_h2o.set_data(ilosc_dni_2, ilosc_H20)
+            plt.draw()
+            plt.pause(0.01)
+            ax.set_xlim(0, ilosc_dni)
+            ax.set_ylim(0, max(ilosc_H)*10**33)
 
 
         if typ_wykresu ==1:
@@ -383,8 +435,6 @@ def show_final ():
         jowisz.x += jowisz.v_x * config.dt
         jowisz.y += jowisz.v_y * config.dt
         jowisz.z += jowisz.v_z * config.dt
-
-
 
         #odległość Ziemi od komety
         #distane_zk = sqrt((kometa.x-ziemia.x)**2+(kometa.y-ziemia.y)**2+(kometa.z-ziemia.z)**2)

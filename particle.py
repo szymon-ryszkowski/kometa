@@ -10,6 +10,7 @@ particles = np.zeros((0, 8))
 queue_H_2O = 0
 
 
+
 def generate_velocity(v):
     velocity = [0, 0, 0]
     angle = np.random.uniform(0, 1) * 2*pi  # longnitude
