@@ -194,7 +194,7 @@ if typ_wykresu == 3:
     plt.show()
 
 
-    # zapis trajektorii komety
+# zapis trajektorii komety
 x_traj = []
 y_traj = []
 z_traj = []
@@ -363,8 +363,7 @@ def show_final ():
             plt.draw()
             plt.pause(0.01)
             ax.set_xlim(0, ilosc_dni)
-            if max(ilosc_H) != 0:
-                ax.set_ylim(0, log10(max(ilosc_H)*10**33)*1.2)
+            ax.set_ylim(0, max(ilosc_H)*10**33)
 
 
         if typ_wykresu ==1:
