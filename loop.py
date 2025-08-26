@@ -195,29 +195,29 @@ if typ_wykresu == 3:
 
 
     # zapis trajektorii komety
-    x_traj = []
-    y_traj = []
-    z_traj = []
+x_traj = []
+y_traj = []
+z_traj = []
 
-    x_traj_z = []
-    y_traj_z = []
-    z_traj_z = []
+x_traj_z = []
+y_traj_z = []
+z_traj_z = []
 
-    x_traj_mer = []
-    y_traj_mer = []
-    z_traj_mer = []
+x_traj_mer = []
+y_traj_mer = []
+z_traj_mer = []
 
-    x_traj_w = []
-    y_traj_w = []
-    z_traj_w = []
+x_traj_w = []
+y_traj_w = []
+z_traj_w = []
 
-    x_traj_ma = []
-    y_traj_ma = []
-    z_traj_ma = []
+x_traj_ma = []
+y_traj_ma = []
+z_traj_ma = []
 
-    x_traj_j = []
-    y_traj_j = []
-    z_traj_j = []
+x_traj_j = []
+y_traj_j = []
+z_traj_j = []
 
 ilosc_H20 = []
 ilosc_OH = []

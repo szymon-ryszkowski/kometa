@@ -31,7 +31,7 @@ a_k = 1.5# półoś wielka obiektu [AU]
 #   print(Proszę podać odległość komety od Słońca w peryhelium: )
 #   r_p = input()
 r_p = 1
-e_k =  0.7# mimośród oribty
+e_k =  0.4# mimośród oribty
 i_k = 0  # inklinacja orbity [stopnie]
 t_0_k = 0  # czas przejścia przez perycentrum [s]
 arg_of_per_k = 0 # argument perycentrum[stopnie]
@@ -113,10 +113,10 @@ mu = [0, 1, 0]  # sotsunek siły ciśnienia promieniowania do siły grawitacji
 
 # Stałe do powstawania cząstek
 absolute_ratio_H_2O = 1*10**28  # stała mówiąca raz na ile powstaje H2O na komecie w odlełości 1AU
-scale = 1*10**33  # ile cząstek w rzeczywistości oznacza jedna cząstka u nas
+scale = 1*10**32  # ile cząstek w rzeczywistości oznacza jedna cząstka u nas
 
 #stała symulacji
-dt = 10**3 # ile s odpowiada jeden krok
+dt = 5*10**3 # ile s odpowiada jeden krok
 n_steps = 5*10**4 # ile kroków ma się wykonać
 
 # daty
