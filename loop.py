@@ -182,9 +182,9 @@ if typ_wykresu == 1:
 
 if typ_wykresu == 3:
     fig, ax = plt.subplots()
-    cz_h, = ax.plot([], [], color='blue', linewidth=.5, label='H')
-    cz_oh, = ax.plot([],[],  color='orange', linewidth=.5, label='OH')
-    cz_h2o, = ax.plot([], [], color='black', linewidth=.5, label='H2O')
+    cz_h, = ax.plot([], [], color='blue', linewidth=1, label='H')
+    cz_oh, = ax.plot([],[],  color='orange', linewidth=1, label='OH')
+    cz_h2o, = ax.plot([], [], color='black', linewidth=1, label='H2O')
     ax.set_xlabel('czas od początku symulacji [dni]')
     ax.set_ylabel('ilość cząstek (log)')
     ax.set_title("Stosunek cząstek")
@@ -345,17 +345,17 @@ def show_final ():
             if len(pt.particles[mask_h20]) == 0:
                 ilosc_H20.append(len(pt.particles[mask_h20]))
             else:
-                ilosc_H20.append(log10(len(pt.particles[mask_h20])*10**33))
+                ilosc_H20.append(log10(len(pt.particles[mask_h20])*config.scale))
 
             if len(pt.particles[mask_oh]) == 0:
                 ilosc_OH.append(len(pt.particles[mask_oh]))
             else:
-                ilosc_OH.append(log10(len(pt.particles[mask_oh])*10**33))
+                ilosc_OH.append(log10(len(pt.particles[mask_oh])*config.scale))
 
             if len(pt.particles[mask_h]) == 0:
                 ilosc_H.append(len(pt.particles[mask_h]))
             else:
-                ilosc_H.append(log10(len(pt.particles[mask_h])*10**33))
+                ilosc_H.append(log10(len(pt.particles[mask_h])*config.scale))
 
             ilosc_dni_2.append(ilosc_dni)
             cz_h.set_data(ilosc_dni_2, ilosc_H)
@@ -364,7 +364,8 @@ def show_final ():
             plt.draw()
             plt.pause(0.01)
             ax.set_xlim(0, ilosc_dni)
-            ax.set_ylim(0, max(ilosc_H)*10**33)
+            if max(ilosc_H) != 0:
+                ax.set_ylim(10, log10(max(ilosc_H)*10**33)*1.2)
 
 
         if typ_wykresu ==1:
