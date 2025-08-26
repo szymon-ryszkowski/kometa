@@ -124,4 +124,4 @@ def count_particles():
     mask_h20 = particles[:, 0] == 0
     mask_h = particles[:, 0] == 1
     mask_oh = particles[:, 0] == 2
-    #print("n H_20: ", len(particles[mask_h20]), ", n H: ", len(particles[mask_h]), ", n OH: ", len(particles[mask_oh]))
+    print("n H_20: ", len(particles[mask_h20]), ", n H: ", len(particles[mask_h]), ", n OH: ", len(particles[mask_oh]))
