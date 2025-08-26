@@ -568,7 +568,7 @@ def show_final ():
             bx.set_ylim(0, max_count * 1.2)
             bx.set_yticks(np.linspace(0, max_count, min(6, int(max_count) + 1)))
 
-            plt.pause(0.05)
+            plt.pause(0.04)
 
 
 if __name__ == '__main__':
