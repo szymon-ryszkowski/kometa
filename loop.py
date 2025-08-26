@@ -186,7 +186,7 @@ if typ_wykresu == 3:
     cz_oh, = ax.plot([],[],  color='orange', linewidth=.5, label='OH')
     cz_h2o, = ax.plot([], [], color='black', linewidth=.5, label='H2O')
     ax.set_xlabel('czas od początku symulacji [dni]')
-    ax.set_ylabel('ilość cząstek (*10**30)')
+    ax.set_ylabel('ilość cząstek (log)')
     ax.set_title("Stosunek cząstek")
     ax.legend()
     #plt.subplots_adjust(right=0.8)
@@ -363,7 +363,8 @@ def show_final ():
             plt.draw()
             plt.pause(0.01)
             ax.set_xlim(0, ilosc_dni)
-            ax.set_ylim(0, max(ilosc_H)*10**33)
+            if max(ilosc_H) != 0:
+                ax.set_ylim(0, log10(max(ilosc_H)*10**33)*1.2)
 
 
         if typ_wykresu ==1:
