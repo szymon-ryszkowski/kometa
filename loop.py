@@ -304,8 +304,8 @@ def show_final ():
 
             # Podział na pozycje i prędkości
             positions = particles_h[:, 0:3]
-            wektor_v = particles_h[:, 3:6].T
-            wektor_h_k = (positions - np.array([kometa.v_x, kometa.v_y, kometa.v_z])).T
+            wektor_v = particles_h[:, 3:6].T - np.array([[ziemia.v_x], [ziemia.v_y], [ziemia.v_z]])
+            wektor_h_k = (positions - np.array([ziemia.x, ziemia.y, ziemia.z])).T
 
             # Obliczenie prędkości radialnych wektoryzowane
             v_rad = np.abs(np.sum(wektor_v * wektor_h_k, axis=0) / np.maximum(0.1, np.linalg.norm(wektor_h_k, axis=0)))
@@ -554,7 +554,7 @@ def show_final ():
             # Etykiety i tytuł
             bx.set_xlabel("Odległość r od komety [m]")
             bx.set_ylabel("Liczba cząstek")
-            bx.set_title("Histogram odległości cząstek H od komety")
+            bx.set_title("Histogram odległości cząstek wodoru od komety (dzień %s )" % (ilosc_dni))
 
             bx.set_yscale('linear')
 
