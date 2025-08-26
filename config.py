@@ -12,26 +12,30 @@ from mpl_toolkits.mplot3d import proj3d
 
 
 name_k = ""  # nazwa obiektu
-# print("podaj półoś wielką obiektu, powinna być w przedziale (0.1, 5) ")
-# a_k = input()
-# while a_k < 0.1 or a_k > 5 :
-#     print("podano nieprawidłową wielkość, powinna być w przedziale (0.1, 5)")
-#     a_k= input()
-a_k = 1.5# półoś wielka obiektu [AU]
-# print("podaj ekscentryczność(mimośród) orbity, pamiętaj, że orbita o:
-# e = 0 jest kołowa
-# 0 < e > 1 jest eliptyczna
-# e = 1 jest paraboliczna
-# e > 1 jest hiperboliczna ")
-# e_k = input()
-# while e_k < 0
-#     print("podano niepoprawną(mniejszą od zera) ekscentryczność, proszę poprawić: ")
-#     e_k = input()
-#if e_k == 1:
-#   print(Proszę podać odległość komety od Słońca w peryhelium: )
-#   r_p = input()
-r_p = 1
-e_k =  0.4# mimośród oribty
+print("podaj półoś wielką obiektu, powinna być w przedziale (0.1, 5) ")
+a_k = float(input())
+while a_k < 0.1 or a_k > 5 :
+     print("podano nieprawidłową wielkość, powinna być w przedziale (0.1, 5)")
+     a_k= input()
+#a_k = 1.5# półoś wielka obiektu [AU]
+linijki = [
+    "podaj ekscentryczność (mimośród) orbity, pamiętaj, że orbita o:",
+    "e = 0 jest kołowa",
+    "0 < e < 1 jest eliptyczna",
+    "e = 1 jest paraboliczna",
+    "e > 1 jest hiperboliczna"
+]
+print("\n".join(linijki))
+e_k = float(input())
+while e_k < 0:
+    print("podano niepoprawną(mniejszą od zera) ekscentryczność, proszę poprawić: ")
+    e_k = float(input())
+if e_k == 1:
+    print('Proszę podać odległość komety od Słońca w peryhelium: ')
+    r_p = float(input())
+else:
+    r_p = 1
+#e_k =  0.7# mimośród oribty
 i_k = 0  # inklinacja orbity [stopnie]
 t_0_k = 0  # czas przejścia przez perycentrum [s]
 arg_of_per_k = 0 # argument perycentrum[stopnie]

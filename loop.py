@@ -194,7 +194,7 @@ if typ_wykresu == 3:
     plt.show()
 
 
-    # zapis trajektorii komety
+# zapis trajektorii komety
 x_traj = []
 y_traj = []
 z_traj = []
