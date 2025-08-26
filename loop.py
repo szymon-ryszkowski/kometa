@@ -230,15 +230,16 @@ distances = []
 
 ile_dni = dany_dzien - config.data_startowa
 ile_dni = int(ile_dni.days)
-if typ_wykresu ==2:
+if typ_wykresu == 2 or typ_wykresu == 4:
     _, bx = plt.subplots()
 
 def show_final ():
+    global bins, bars, bx
     liczba_krokow = 0
     for i in range(config.n_steps):
         liczba_krokow += 1
         ilosc_dni = int(liczba_krokow / config.dzien_krok)
-        print (ilosc_dni)
+        #print (ilosc_dni)
         aktualna_data = dany_dzien + timedelta(days=ilosc_dni)
         aktywnosc = Sun.sun_aktywnosc(int(ile_dni + ilosc_dni))
         pt.count_particles()
@@ -334,7 +335,7 @@ def show_final ():
             # Ustawienie ticków y
             bx.set_yticks(np.arange(0, counts_scaled.max() + 1, step=max(1, int(counts_scaled.max() // 10))))
 
-            print(v_rad)
+            #print(v_rad)
             plt.pause(0.05)
         if  i % 50 == 0 and typ_wykresu == 3:
             mask_h20 = pt.particles[:, 0] == 0
@@ -525,6 +526,50 @@ def show_final ():
         pt.particles[:, 4] += acceleration_x*config.dt
         pt.particles[:, 5] += acceleration_y*config.dt
         pt.particles[:, 6] += acceleration_z*config.dt
-        print(distance/config.AU)
+        if i % 500 == 0 and typ_wykresu == 4:  # zostawiamy typ_wykresu==2, jeśli chcesz, zmień na 4
+            r_h = None
+            if pt.particles.shape[0] == 0:
+                r_h = np.array([])
+            else:
+                # obliczenie odległości od komety
+                position_x = pt.particles[:, 1] - kometa.x
+                position_y = pt.particles[:, 2] - kometa.y
+                position_z = pt.particles[:, 3] - kometa.z
+                r = (position_x ** 2 + position_y ** 2 + position_z ** 2)**0.5
+
+                # filtr tylko typ 1 (H)
+                mask_h = pt.particles[:, 0] == 1
+                r_h = r[mask_h]
+
+            # Histogram
+            bins = np.linspace(0, 30 * 1.496e11, 120)  # 3 AU w metrach
+            counts, _ = np.histogram(r_h, bins=bins)
+            counts_scaled = counts * config.scale  # skalowanie osi y
+
+            # Czyszczenie i rysowanie słupków
+            bx.cla()
+            bx.bar(bins[:-1], counts_scaled, width=np.diff(bins), align='edge')
+
+            # Etykiety i tytuł
+            bx.set_xlabel("Odległość r od komety [m]")
+            bx.set_ylabel("Liczba cząstek")
+            bx.set_title("Histogram odległości cząstek H od komety")
+
+            bx.set_yscale('linear')
+
+            # Formatter (tworzony raz)
+            if not hasattr(bx, "_formatter_set"):
+                formatter = ticker.ScalarFormatter(useMathText=True)
+                formatter.set_scientific(False)  # liniowa oś
+                bx.yaxis.set_major_formatter(formatter)
+                bx._formatter_set = True
+            # Ustawienie ticków y
+            max_count = counts_scaled.max() if counts_scaled.size > 0 else 1
+            bx.set_ylim(0, max_count * 1.2)
+            bx.set_yticks(np.linspace(0, max_count, min(6, int(max_count) + 1)))
+
+            plt.pause(0.05)
+
+
 if __name__ == '__main__':
     show_final()
