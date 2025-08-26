@@ -158,7 +158,7 @@ if typ_wykresu == 1:
     wenus_label  = ax.text2D(0, 0, "Wenus",fontsize=7, color="darkgrey")
     mars_label  = ax.text2D(0, 0, "Mars",fontsize=7, color="darkgrey")
     jowisz_label  = ax.text2D(0, 0, "Jowisz",fontsize=7, color="darkgrey")
-    time_text = ax.text2D(.1, .9, dany_dzien,transform=ax.transAxes)
+    time_text = ax.text2D(.1, .9, dany_dzien, transform=ax.transAxes)
 
     def update_labels():
         # projekcja 3D -> 2D dla Słońca
