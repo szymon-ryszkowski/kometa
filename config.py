@@ -29,10 +29,10 @@ print("\n".join(linijki))
 e_k = float(input())
 while e_k < 0:
     print("podano niepoprawną(mniejszą od zera) ekscentryczność, proszę poprawić: ")
-    e_k = input()
+    e_k = float(input())
 if e_k == 1:
     print('Proszę podać odległość komety od Słońca w peryhelium: ')
-    r_p = input()
+    r_p = float(input())
 else:
     r_p = 1
 #e_k =  0.7# mimośród oribty
