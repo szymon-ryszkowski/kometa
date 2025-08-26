@@ -117,7 +117,7 @@ mu = [0, 1, 0]  # sotsunek siły ciśnienia promieniowania do siły grawitacji
 
 # Stałe do powstawania cząstek
 absolute_ratio_H_2O = 1*10**28  # stała mówiąca raz na ile powstaje H2O na komecie w odlełości 1AU
-scale = 1*10**32  # ile cząstek w rzeczywistości oznacza jedna cząstka u nas
+scale = 1*10**31  # ile cząstek w rzeczywistości oznacza jedna cząstka u nas
 
 #stała symulacji
 dt = 5*10**3 # ile s odpowiada jeden krok

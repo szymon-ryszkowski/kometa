@@ -185,7 +185,7 @@ if typ_wykresu == 3:
     cz_h, = ax.plot([], [], color='blue', linewidth=1, label='H')
     cz_oh, = ax.plot([],[],  color='orange', linewidth=1, label='OH')
     cz_h2o, = ax.plot([], [], color='black', linewidth=1, label='H2O')
-    ax.set_xlabel('czas od początku symulacji [dni]')
+    ax.set_xlabel('czas od początku symulacji [dni (log)]')
     ax.set_ylabel('ilość cząstek (log)')
     ax.set_title("Stosunek cząstek")
     ax.legend()
@@ -341,31 +341,30 @@ def show_final ():
             mask_h20 = pt.particles[:, 0] == 0
             mask_h = pt.particles[:, 0] == 1
             mask_oh = pt.particles[:, 0] == 2
+            if ilosc_dni > 0:
+                if len(pt.particles[mask_h20]) == 0:
+                    ilosc_H20.append(len(pt.particles[mask_h20]))
+                else:
+                    ilosc_H20.append(log10(len(pt.particles[mask_h20])*config.scale))
 
-            if len(pt.particles[mask_h20]) == 0:
-                ilosc_H20.append(len(pt.particles[mask_h20]))
-            else:
-                ilosc_H20.append(log10(len(pt.particles[mask_h20])*config.scale))
+                if len(pt.particles[mask_oh]) == 0:
+                    ilosc_OH.append(len(pt.particles[mask_oh]))
+                else:
+                    ilosc_OH.append(log10(len(pt.particles[mask_oh])*config.scale))
 
-            if len(pt.particles[mask_oh]) == 0:
-                ilosc_OH.append(len(pt.particles[mask_oh]))
-            else:
-                ilosc_OH.append(log10(len(pt.particles[mask_oh])*config.scale))
-
-            if len(pt.particles[mask_h]) == 0:
-                ilosc_H.append(len(pt.particles[mask_h]))
-            else:
-                ilosc_H.append(log10(len(pt.particles[mask_h])*config.scale))
-
-            ilosc_dni_2.append(ilosc_dni)
-            cz_h.set_data(ilosc_dni_2, ilosc_H)
-            cz_oh.set_data(ilosc_dni_2, ilosc_OH)
-            cz_h2o.set_data(ilosc_dni_2, ilosc_H20)
-            plt.draw()
-            plt.pause(0.01)
-            ax.set_xlim(0, ilosc_dni)
-            if max(ilosc_H) != 0:
-                ax.set_ylim(10, log10(max(ilosc_H)*10**33)*1.2)
+                if len(pt.particles[mask_h]) == 0:
+                    ilosc_H.append(len(pt.particles[mask_h]))
+                else:
+                    ilosc_H.append(log10(len(pt.particles[mask_h])*config.scale))
+                ilosc_dni_2.append(log10(ilosc_dni))
+                cz_h.set_data(ilosc_dni_2, ilosc_H)
+                cz_oh.set_data(ilosc_dni_2, ilosc_OH)
+                cz_h2o.set_data(ilosc_dni_2, ilosc_H20)
+                plt.draw()
+                plt.pause(0.01)
+                ax.set_xlim(0, log10(ilosc_dni))
+                if max(ilosc_H) != 0:
+                    ax.set_ylim(10, log10(max(ilosc_H)*10**33)*1.2)
 
 
         if typ_wykresu ==1:
